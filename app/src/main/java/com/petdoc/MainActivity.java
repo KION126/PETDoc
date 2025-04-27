@@ -9,8 +9,6 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import com.google.firebase.firestore.FirebaseFirestore;
 import android.util.Log;
-import java.util.HashMap;
-import java.util.Map;
 
 
 
