@@ -7,6 +7,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import com.google.firebase.firestore.FirebaseFirestore;
+import android.util.Log;
+import java.util.HashMap;
+import java.util.Map;
+
+
 
 public class MainActivity extends AppCompatActivity {
 
@@ -20,5 +26,15 @@ public class MainActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+        // Firestore 연동 확인만
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+        if (db != null) {
+            Log.d("Firestore", "Firestore 연동 성공!");
+        } else {
+            Log.w("Firestore", "Firestore 연동 실패...");
+        }
     }
+
+
 }

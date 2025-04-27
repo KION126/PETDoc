@@ -1,5 +1,6 @@
 plugins {
     alias(libs.plugins.android.application)
+    alias(libs.plugins.google.gms.google.services)
 }
 
 android {
@@ -32,12 +33,21 @@ android {
 }
 
 dependencies {
+    // Firebase BOM 버전을 명시
+    implementation(platform("com.google.firebase:firebase-bom:32.7.0"))
 
+    // BOM 덕분에 버전 없이 추가 (동일 버전 자동 적용)
+    implementation("com.google.firebase:firebase-auth")
+    implementation("com.google.firebase:firebase-firestore")
+
+    // 기타 라이브러리
     implementation(libs.appcompat)
     implementation(libs.material)
     implementation(libs.activity)
     implementation(libs.constraintlayout)
+
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
 }
+
