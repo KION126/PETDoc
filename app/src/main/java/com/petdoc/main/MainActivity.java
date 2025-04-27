@@ -1,4 +1,4 @@
-package com.petdoc;
+package com.petdoc.main;
 
 import android.os.Bundle;
 
@@ -8,6 +8,8 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.petdoc.R;
+
 import android.util.Log;
 
 
