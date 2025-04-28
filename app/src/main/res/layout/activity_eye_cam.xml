@@ -47,16 +47,16 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
 
-        <ImageView
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:src="@drawable/ic_eye_black"/>
+<!--        <ImageView-->
+<!--            android:layout_width="24dp"-->
+<!--            android:layout_height="24dp"-->
+<!--            android:src="@drawable/ic_eye_black"/>-->
 
-        <ImageView
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:src="@drawable/ic_eye_gray"
-            android:layout_marginStart="16dp"/>
+<!--        <ImageView-->
+<!--            android:layout_width="24dp"-->
+<!--            android:layout_height="24dp"-->
+<!--            android:src="@drawable/ic_eye_gray"-->
+<!--            android:layout_marginStart="16dp"/>-->
     </LinearLayout>
 
     <!-- 이미지 미리보기 -->
@@ -71,11 +71,11 @@
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginBottom="16dp">
 
-        <ImageView
-            android:layout_width="64dp"
-            android:layout_height="64dp"
-            android:layout_gravity="center"
-            android:src="@drawable/ic_star_gradient"/>
+<!--        <ImageView-->
+<!--            android:layout_width="64dp"-->
+<!--            android:layout_height="64dp"-->
+<!--            android:layout_gravity="center"-->
+<!--            android:src="@drawable/ic_star_gradient"/>-->
     </FrameLayout>
 
     <!-- 앨범 & 카메라 버튼 -->
@@ -97,10 +97,10 @@
             android:gravity="center"
             android:layout_marginEnd="32dp">
 
-            <ImageView
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                android:src="@drawable/ic_album"/>
+<!--            <ImageView-->
+<!--                android:layout_width="48dp"-->
+<!--                android:layout_height="48dp"-->
+<!--                android:src="@drawable/ic_album"/>-->
 
             <TextView
                 android:layout_width="wrap_content"
@@ -116,10 +116,10 @@
             android:orientation="vertical"
             android:gravity="center">
 
-            <ImageView
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                android:src="@drawable/ic_camera"/>
+<!--            <ImageView-->
+<!--                android:layout_width="48dp"-->
+<!--                android:layout_height="48dp"-->
+<!--                android:src="@drawable/ic_camera"/>-->
 
             <TextView
                 android:layout_width="wrap_content"
