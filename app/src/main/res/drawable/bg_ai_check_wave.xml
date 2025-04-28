@@ -1,0 +1,45 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:aapt="http://schemas.android.com/aapt"
+    android:width="360dp"
+    android:height="280dp"
+    android:viewportWidth="360"
+    android:viewportHeight="280">
+
+  <!-- 첫 번째 Path (Gradient 적용) -->
+  <path
+      android:pathData="M90.65,82.23C131.36,56.37 145.75,25.07 169.75,38.39C193.76,51.71 180.21,83.47 139.49,109.33C98.78,135.19 46.31,145.35 22.31,132.04C-1.7,118.72 49.93,108.09 90.65,82.23Z">
+    <aapt:attr name="android:fillColor">
+      <gradient
+          android:type="linear"
+          android:startX="0"
+          android:startY="0"
+          android:endX="360"
+          android:endY="0">
+        <item android:offset="0.0" android:color="#F9D9B7"/>
+        <item android:offset="0.3" android:color="#C4ADEE"/>
+        <item android:offset="0.6" android:color="#9F80FF"/>
+        <item android:offset="1.0" android:color="#4A90E2"/>
+      </gradient>
+    </aapt:attr>
+  </path>
+
+  <!-- 두 번째 Path (Gradient 적용) -->
+  <path
+      android:pathData="M95.81,150.02C237.37,95.63 419.64,-218.6 431.11,267.48C432.17,270.58 432.79,273.04 433,274.92L431.2,279.81C416.1,284.92 312.2,183.7 190.68,230.38C49.12,284.77 -144.47,318.35 -49.98,151.52C-68.73,96.7 -45.74,204.4 95.81,150.02Z"
+      android:fillAlpha="0.8">
+    <aapt:attr name="android:fillColor">
+      <gradient
+          android:type="linear"
+          android:startX="0"
+          android:startY="0"
+          android:endX="360"
+          android:endY="0">
+        <item android:offset="0.0" android:color="#F9D9B7"/>
+        <item android:offset="0.3" android:color="#C4ADEE"/>
+        <item android:offset="0.6" android:color="#9F80FF"/>
+        <item android:offset="1.0" android:color="#4A90E2"/>
+      </gradient>
+    </aapt:attr>
+  </path>
+
+</vector>
