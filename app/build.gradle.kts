@@ -46,8 +46,7 @@ dependencies {
     implementation(libs.activity)
     implementation(libs.constraintlayout)
 
-    // TensorFlow Lite
-    implementation("org.tensorflow:tensorflow-lite:2.15.0")
+    implementation ("org.tensorflow:tensorflow-lite:2.15.0")
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
