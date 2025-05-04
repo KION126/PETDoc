@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "149496433779",
+    "project_id": "petdoc-ab1c1",
+    "storage_bucket": "petdoc-ab1c1.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:149496433779:android:5b044bc7f0f2063e7f2e06",
+        "android_client_info": {
+          "package_name": "com.petdoc"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA9png5Kv4-qWaSaQeMRMHXe0I0xjlDQJM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

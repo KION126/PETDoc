@@ -9,7 +9,7 @@ android {
 
     defaultConfig {
         applicationId = "com.petdoc"
-        minSdk = 24
+        minSdk = 26
         targetSdk = 35
         versionCode = 1
         versionName = "1.0"
@@ -45,6 +45,8 @@ dependencies {
     implementation(libs.material)
     implementation(libs.activity)
     implementation(libs.constraintlayout)
+
+    implementation ("org.tensorflow:tensorflow-lite:2.15.0")
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)

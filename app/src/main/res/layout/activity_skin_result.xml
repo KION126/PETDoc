@@ -1,0 +1,124 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FFFFFF"
+    android:padding="16dp">
+
+    <ImageView
+        android:id="@+id/back_button"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="24dp"
+        android:layout_marginStart="8dp"
+        android:src="@drawable/ic_arrow_back"
+        android:contentDescription="뒤로 가기"
+        />
+
+
+    <!-- 상단 타이틀 -->
+    <TextView
+        android:id="@+id/top_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="AI 스마트 간편 검진"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:textColor="#000000"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp" />
+
+    <!-- 메인 결과 타이틀 -->
+    <TextView
+        android:id="@+id/main_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="스킨 스마트 검진 결과"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:textColor="#000000"
+        android:layout_below="@id/top_title"
+        android:layout_marginTop="12dp"
+        android:layout_centerHorizontal="true" />
+
+    <!-- 날짜 -->
+    <TextView
+        android:id="@+id/result_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="2025.04.21(월) 21:00"
+        android:textColor="#888888"
+        android:textSize="14sp"
+        android:layout_below="@id/main_title"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="4dp" />
+
+    <!-- 종합 건강도 블록 (FrameLayout으로 감쌈) -->
+    <FrameLayout
+        android:id="@+id/summary_block_wrapper"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/result_date"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/rounded_white_background"
+        android:padding="16dp"
+        android:minHeight="180dp"
+        android:elevation="4dp">
+
+        <include
+            layout="@layout/item_eye_result_block"
+            android:id="@+id/summary_block" />
+    </FrameLayout>
+
+    <!-- 상태 색상 안내 -->
+    <LinearLayout
+        android:id="@+id/status_legend"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_below="@id/summary_block_wrapper"
+        android:layout_marginTop="12dp"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:background="@drawable/rounded_white_background"
+        android:padding="4dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="● 안심"
+            android:textColor="#377DFF"
+            android:textSize="12sp"
+            android:layout_marginEnd="12dp" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="● 주의"
+            android:textColor="#4CAF50"
+            android:textSize="12sp"
+            android:layout_marginEnd="12dp" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="● 의심"
+            android:textColor="#D32F2F"
+            android:textSize="12sp" />
+    </LinearLayout>
+
+    <!-- 안검염 결과 (FrameLayout으로 감쌈) -->
+    <FrameLayout
+        android:id="@+id/result_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/status_legend"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/rounded_white_background"
+        android:padding="16dp"
+        android:elevation="4dp">
+
+        <include
+            layout="@layout/item_eye_result_block"
+            android:id="@+id/result_item_1" />
+    </FrameLayout>
+
+</RelativeLayout>

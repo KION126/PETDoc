@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Text.Medium">
+        <item name="android:fontFamily">@font/notosanskr_medium</item>
+    </style>
+
+    <style name="Text.Light">
+        <item name="android:fontFamily">@font/notosanskr_light</item>
+    </style>
+
+    <style name="Text.Bold">
+        <item name="android:fontFamily">@font/notosanskr_bold</item>
+    </style>
+
+</resources>

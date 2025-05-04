@@ -1,22 +1,35 @@
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#FFFFFF">
 
-    <!-- 상단 제목 -->
+    <!-- 🔙 뒤로 가기 버튼 -->
+    <ImageView
+        android:id="@+id/backButton"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="24dp"
+        android:src="@drawable/ic_arrow_back"
+        android:contentDescription="뒤로 가기"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
     <TextView
         android:id="@+id/titleText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="AI 스마트 간편 검진"
-        android:textSize="16sp"
+        android:textSize="18sp"
         android:textStyle="bold"
         android:textColor="#000000"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="24dp"/>
+        android:layout_marginTop="10dp"/>
 
     <!-- 메인 제목 -->
     <TextView
@@ -47,38 +60,38 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
 
-<!--        <ImageView-->
-<!--            android:layout_width="24dp"-->
-<!--            android:layout_height="24dp"-->
-<!--            android:src="@drawable/ic_eye_black"/>-->
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/ic_eye_black"/>
 
-<!--        <ImageView-->
-<!--            android:layout_width="24dp"-->
-<!--            android:layout_height="24dp"-->
-<!--            android:src="@drawable/ic_eye_gray"-->
-<!--            android:layout_marginStart="16dp"/>-->
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/ic_eye_gray"
+            android:layout_marginStart="16dp"/>
     </LinearLayout>
 
     <!-- 이미지 미리보기 -->
+
+    <!-- 앨범 & 카메라 버튼 -->
     <FrameLayout
         android:id="@+id/previewArea"
         android:layout_width="300dp"
         android:layout_height="300dp"
-        android:background="#F0F0F0"
         android:layout_marginTop="16dp"
-        app:layout_constraintTop_toBottomOf="@id/eyeToggle"
-        app:layout_constraintStart_toStartOf="parent"
+        android:background="@drawable/rounded_bg"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginBottom="16dp">
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/eyeToggle">
 
-<!--        <ImageView-->
-<!--            android:layout_width="64dp"-->
-<!--            android:layout_height="64dp"-->
-<!--            android:layout_gravity="center"-->
-<!--            android:src="@drawable/ic_star_gradient"/>-->
+        <ImageView
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:layout_gravity="center"
+            android:src="@drawable/ic_star_gradient" />
     </FrameLayout>
 
-    <!-- 앨범 & 카메라 버튼 -->
     <LinearLayout
         android:id="@+id/cameraOptions"
         android:layout_width="wrap_content"
@@ -97,10 +110,10 @@
             android:gravity="center"
             android:layout_marginEnd="32dp">
 
-<!--            <ImageView-->
-<!--                android:layout_width="48dp"-->
-<!--                android:layout_height="48dp"-->
-<!--                android:src="@drawable/ic_album"/>-->
+            <ImageView
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:src="@drawable/ic_album"/>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -116,10 +129,10 @@
             android:orientation="vertical"
             android:gravity="center">
 
-<!--            <ImageView-->
-<!--                android:layout_width="48dp"-->
-<!--                android:layout_height="48dp"-->
-<!--                android:src="@drawable/ic_camera"/>-->
+            <ImageView
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:src="@drawable/ic_camera"/>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -134,14 +147,16 @@
     <Button
         android:id="@+id/btnCheck"
         android:layout_width="0dp"
-        android:layout_height="48dp"
-        android:text="검진하기"
-        android:enabled="false"
+        android:layout_height="50dp"
+        android:layout_margin="16dp"
         android:backgroundTint="#CCCCCC"
+        android:enabled="false"
+        android:text="검진하기"
         android:textColor="#FFFFFF"
-        app:layout_constraintTop_toBottomOf="@id/cameraOptions"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_margin="16dp"/>
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/cameraOptions"
+        app:layout_constraintVertical_bias="0.702" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
