@@ -22,15 +22,6 @@
             </intent-filter>
         </activity>
 
-        <!-- 추가 화면들 -->
-        <!-- AI 관련 -->
-        <activity android:name=".ai.AiCheckActivity" />
-        <activity android:name=".ai.AiAnalyzeActivity" />
-        <activity android:name=".ai.AiSkinAnalyzeActivity" />
-
-        <!-- Eye -->
-        <activity android:name=".eye.EyeCamActivity" />
-        <activity android:name=".eye.EyeResultActivity" />
 
         <!-- Skin -->
         <activity android:name=".skin.SkinCamActivity" />
