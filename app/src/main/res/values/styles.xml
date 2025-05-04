@@ -12,4 +12,10 @@
         <item name="android:fontFamily">@font/notosanskr_bold</item>
     </style>
 
+    <style name="Text">
+
+        <item name="android:fontFamily">@font/notosanskr_regular</item>
+    </style>
+
+
 </resources>
