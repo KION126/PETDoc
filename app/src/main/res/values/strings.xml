@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">PETDoc</string>
+    <string name="desc_google_login">Google 계정으로 로그인</string>
 </resources>
