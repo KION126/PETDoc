@@ -36,17 +36,50 @@
         app:layout_constraintEnd_toEndOf="parent" />
 
     <!-- 채워진 진행 트랙 -->
+
     <ImageView
         android:id="@+id/filledProgressTrack"
         android:layout_width="99dp"
         android:layout_height="4dp"
         android:layout_marginTop="8dp"
         android:contentDescription="채워진 트랙"
-        android:src="@drawable/ic_progress_filled"
-        app:layout_constraintTop_toTopOf="@+id/progressTrack"
-        app:layout_constraintStart_toStartOf="parent"
+        android:src="@drawable/ic_progress_fiiled3"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.368" />
+        app:layout_constraintHorizontal_bias="0.435"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/progressTrack" />
+
+    <ImageView
+        android:id="@+id/imgPetWeightTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:contentDescription="아이 무게 입력 타이틀"
+        android:src="@drawable/enter_pet_weight_label"
+        app:layout_constraintTop_toBottomOf="@+id/progressTrack"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <ImageView
+        android:id="@+id/hintWeightText"
+        android:layout_width="111dp"
+        android:layout_height="22dp"
+        android:layout_marginTop="64dp"
+        android:src="@drawable/hint_enter_weight"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.73"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imgPetWeightTitle" />
+
+    <ImageView
+        android:id="@+id/underline"
+        android:layout_width="281dp"
+        android:layout_height="4dp"
+        android:layout_marginTop="12dp"
+        android:src="@drawable/bg_input_underline"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/hintWeightText" />
 
     <!-- 이전 버튼 -->
     <ImageButton
