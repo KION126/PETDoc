@@ -2,6 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white">
@@ -36,19 +37,108 @@
         app:layout_constraintEnd_toEndOf="parent" />
 
     <!-- 채워진 진행 트랙 -->
+
+    <!-- 이전 버튼 -->
     <ImageView
         android:id="@+id/filledProgressTrack"
         android:layout_width="99dp"
         android:layout_height="4dp"
         android:layout_marginTop="8dp"
         android:contentDescription="채워진 트랙"
-        android:src="@drawable/ic_progress_filled"
-        app:layout_constraintTop_toTopOf="@+id/progressTrack"
-        app:layout_constraintStart_toStartOf="parent"
+        android:src="@drawable/ic_progress_filled4"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.368" />
+        app:layout_constraintHorizontal_bias="0.464"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/progressTrack" />
 
-    <!-- 이전 버튼 -->
+
+    <ImageView
+        android:id="@+id/imgPetPhotoTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="28dp"
+        android:contentDescription="아이 사진 입력 타이틀"
+        android:src="@drawable/enter_pet_photo_label"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/progressTrack" />
+
+    <!-- 사진 프레임 아이콘 -->
+
+
+    <ImageView
+        android:id="@+id/imgPhotoFrame"
+        android:layout_width="246dp"
+        android:layout_height="256dp"
+        android:layout_marginTop="32dp"
+        android:contentDescription="사진 프레임"
+        android:src="@drawable/ic_enter_photo"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.496"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imgPetPhotoTitle" />
+
+
+    <LinearLayout
+        android:id="@+id/petPhotoOptions"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="316dp"
+        android:gravity="center"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imgPetPhotoTitle">
+
+        <!-- 앨범 아이콘 -->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="32dp"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:background="@drawable/round_background_gray"
+                android:padding="12dp"
+                android:src="@drawable/ic_album_black" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:text="앨범"
+                android:textColor="#000000"
+                android:textSize="12sp" />
+        </LinearLayout>
+
+        <!-- 카메라 아이콘 -->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:background="@drawable/round_background_gray"
+                android:padding="12dp"
+                android:src="@drawable/ic_camera_black" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:text="카메라"
+                android:textColor="#000000"
+                android:textSize="12sp" />
+        </LinearLayout>
+    </LinearLayout>
+
     <ImageButton
         android:id="@+id/btnPrev"
         android:layout_width="wrap_content"

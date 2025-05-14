@@ -2,6 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white">
@@ -51,7 +52,7 @@
 
     <!-- 채워진 진행 트랙 -->
 
-    <!-- 이전 버튼 -->
+
 
     <ImageView
         android:id="@+id/filledProgressTrack"
@@ -90,6 +91,82 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
+    <!-- 검색 아이콘 추가 -->
+
+    <!-- 위치 아이콘 추가 -->
+
+
+    <ImageView
+        android:id="@+id/imgSearch"
+        android:layout_width="105dp"
+        android:layout_height="105dp"
+        android:layout_marginTop="256dp"
+        android:layout_marginEnd="240dp"
+        android:contentDescription="남자 선택"
+        android:src="@drawable/gender_male_on"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/imgLocation"
+        android:layout_width="105dp"
+        android:layout_height="105dp"
+        android:layout_marginStart="240dp"
+        android:layout_marginTop="256dp"
+        android:contentDescription="여자 미선택"
+        android:src="@drawable/gender_female_off"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <!-- 남자 라벨 (선택됨) -->
+    <ImageView
+        android:id="@+id/labelMaleSelected"
+        android:layout_width="16dp"
+        android:layout_height="17dp"
+        android:layout_marginTop="8dp"
+        android:contentDescription="남자 라벨 - 선택됨"
+        android:src="@drawable/ic_male_on_label"
+        app:layout_constraintTop_toBottomOf="@+id/btnMale"
+        app:layout_constraintStart_toStartOf="@+id/btnMale"
+        app:layout_constraintEnd_toEndOf="@+id/btnMale" />
+
+    <!-- 여자 라벨 (미선택) -->
+    <ImageView
+        android:id="@+id/labelFemaleUnselected"
+        android:layout_width="14dp"
+        android:layout_height="17dp"
+        android:layout_marginTop="8dp"
+        android:contentDescription="여자 라벨 - 미선택"
+        android:src="@drawable/ic_female_off_label"
+        app:layout_constraintTop_toBottomOf="@+id/btnFemale"
+        app:layout_constraintStart_toStartOf="@+id/btnFemale"
+        app:layout_constraintEnd_toEndOf="@+id/btnFemale" />
+
+
+    <ImageView
+        android:id="@+id/labelNeutered"
+        android:layout_width="89dp"
+        android:layout_height="19dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="2dp"
+        android:contentDescription="중성화를 했어요 라벨"
+        android:src="@drawable/ic_neutering_off_label"
+        app:layout_constraintBottom_toBottomOf="@+id/btnNeutered"
+        app:layout_constraintStart_toEndOf="@+id/btnNeutered"
+        app:layout_constraintTop_toTopOf="@+id/btnNeutered"
+        app:layout_constraintVertical_bias="0.444" />
+
+    <ImageButton
+        android:id="@+id/btnNeutered"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="128dp"
+        android:layout_marginTop="40dp"
+        android:background="@null"
+        android:contentDescription="중성화 버튼"
+        android:src="@drawable/ic_btn_eclipse"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnFemale" />
 
     <ImageButton
         android:id="@+id/btnPrev"
