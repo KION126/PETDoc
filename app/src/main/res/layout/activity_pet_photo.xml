@@ -5,7 +5,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white">
+    android:background="@color/white"
+    tools:ignore="MissingClass">
 
     <!-- 나중에 등록하기 버튼 -->
     <ImageView
@@ -24,32 +25,31 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <!-- 배경 진행 트랙 -->
-    <ImageView
-        android:id="@+id/progressTrack"
-        android:layout_width="95dp"
-        android:layout_height="22dp"
-        android:layout_marginTop="32dp"
-        android:contentDescription="진행 상태 트랙"
-        android:src="@drawable/ic_step_progress_bar1"
-        app:layout_constraintTop_toBottomOf="@+id/imgRegisterLater"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
-
-    <!-- 채워진 진행 트랙 -->
-
-    <!-- 이전 버튼 -->
-    <ImageView
-        android:id="@+id/filledProgressTrack"
-        android:layout_width="99dp"
+    <FrameLayout
+        android:id="@+id/progressContainer"
+        android:layout_width="100dp"
         android:layout_height="4dp"
-        android:layout_marginTop="8dp"
-        android:contentDescription="채워진 트랙"
-        android:src="@drawable/ic_progress_filled4"
+        android:layout_marginTop="120dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.464"
+        app:layout_constraintHorizontal_bias="0.501"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/progressTrack" />
+        app:layout_constraintTop_toBottomOf="@id/imgRegisterLater">
+
+        <!-- 트랙 배경 -->
+        <ImageView
+            android:id="@+id/progressBg"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/ic_step_progress_bar1" />
+
+        <!-- 채워진 진행 트랙 -->
+        <ImageView
+            android:id="@+id/progressFill"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="start"
+            android:src="@drawable/ic_progress_filled3" />
+    </FrameLayout>
 
 
     <ImageView
@@ -61,7 +61,7 @@
         android:src="@drawable/enter_pet_photo_label"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/progressTrack" />
+        app:layout_constraintTop_toBottomOf="@+id/progressContainer" />
 
     <!-- 사진 프레임 아이콘 -->
 
@@ -146,7 +146,7 @@
         android:layout_marginBottom="24dp"
         android:background="@null"
         android:contentDescription="이전"
-        android:src="@drawable/ic_arrow_back"
+        android:src="@drawable/ic_arrow_back2"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/btnNext" />

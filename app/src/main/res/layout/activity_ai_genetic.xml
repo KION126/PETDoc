@@ -55,7 +55,7 @@
             android:layout_width="340dp"
             android:layout_height="320dp"
             android:layout_gravity="center"
-            android:src="@drawable/ic_ai_star" />
+            android:src="@drawable/ic_star_gradient" />
     </FrameLayout>
 
     <!-- 앨범/카메라 버튼 묶음 -->

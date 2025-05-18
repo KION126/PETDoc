@@ -1,116 +1,113 @@
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/white">
+    <androidx.constraintlayout.widget.ConstraintLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white">
 
-    <!-- 나중에 등록하기 버튼 -->
+        <!-- 나중에 등록하기 버튼 -->
 
-    <!-- 배경 진행 트랙 -->
+        <ImageView
+            android:id="@+id/imgRegisterLater"
+            android:layout_width="100dp"
+            android:layout_height="48dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginEnd="24dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:clickable="true"
+            android:contentDescription="나중에 등록하기"
+            android:focusable="true"
+            android:paddingTop="6dp"
+            android:paddingBottom="6dp"
+            android:src="@drawable/ic_register_later"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    <ImageView
-        android:id="@+id/imgRegisterLater"
-        android:layout_width="100dp"
-        android:layout_height="48dp"
-        android:layout_marginTop="4dp"
-        android:layout_marginEnd="24dp"
-        android:background="?attr/selectableItemBackgroundBorderless"
-        android:clickable="true"
-        android:contentDescription="나중에 등록하기"
-        android:focusable="true"
-        android:paddingTop="6dp"
-        android:paddingBottom="6dp"
-        android:src="@drawable/ic_register_later"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        <!-- 힌트 텍스트 -->
 
-    <ImageView
-        android:id="@+id/progressTrack"
-        android:layout_width="95dp"
-        android:layout_height="22dp"
-        android:layout_marginTop="32dp"
-        android:contentDescription="진행 상태 트랙"
-        android:src="@drawable/ic_step_progress_bar1"
-        app:layout_constraintTop_toBottomOf="@+id/imgRegisterLater"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        <!-- 밑줄 -->
 
-    <!-- 채워진 진행 트랙 -->
+        <ImageView
+            android:id="@+id/imgPetNameTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:contentDescription="아이 이름 입력 타이틀"
+            android:src="@drawable/enter_pet_name_label"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/progressContainer" />
 
-    <!-- 이름 입력 타이틀 -->
+        <ImageView
+            android:id="@+id/underline"
+            android:layout_width="281dp"
+            android:layout_height="4dp"
+            android:layout_marginTop="16dp"
+            android:src="@drawable/bg_input_underline"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/hintText" />
 
-    <ImageView
-        android:id="@+id/filledProgressTrack"
-        android:layout_width="99dp"
-        android:layout_height="4dp"
-        android:layout_marginTop="8dp"
-        android:contentDescription="첫 진행상태 트랙"
-        android:src="@drawable/ic_progress_filled"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.368"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/progressTrack" />
+        <FrameLayout
+            android:id="@+id/progressContainer"
+            android:layout_width="100dp"
+            android:layout_height="4dp"
+            android:layout_marginTop="120dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.501"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/imgRegisterLater">
 
-    <ImageView
-        android:id="@+id/imgPetNameTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:contentDescription="아이 이름 입력 타이틀"
-        android:src="@drawable/enter_pet_name_label"
-        app:layout_constraintTop_toBottomOf="@+id/progressTrack"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+            <!-- 트랙 배경 -->
+            <ImageView
+                android:id="@+id/progressBg"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/ic_step_progress_bar1" />
 
-    <!-- 힌트 텍스트 -->
+            <!-- 채워진 진행 트랙 -->
+            <ImageView
+                android:id="@+id/progressFill"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="start"
+                android:src="@drawable/ic_progress_filled" />
+        </FrameLayout>
 
-    <!-- 밑줄 -->
+        <ImageView
+            android:id="@+id/hintText"
+            android:layout_width="111dp"
+            android:layout_height="22dp"
+            android:layout_marginTop="56dp"
+            android:src="@drawable/hint_enter_name"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/imgPetNameTitle" />
 
-    <ImageView
-        android:id="@+id/hintText"
-        android:layout_width="111dp"
-        android:layout_height="22dp"
-        android:layout_marginTop="60dp"
-        android:src="@drawable/hint_enter_name"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imgPetNameTitle" />
+        <!-- 이전 버튼 -->
+        <ImageButton
+            android:id="@+id/btnPrev"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="24dp"
+            android:background="@null"
+            android:contentDescription="이전"
+            android:src="@drawable/ic_arrow_back2"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/btnNext" />
 
-    <ImageView
-        android:id="@+id/underline"
-        android:layout_width="281dp"
-        android:layout_height="4dp"
-        android:layout_marginTop="12dp"
-        android:src="@drawable/bg_input_underline"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/hintText" />
+        <!-- 다음 버튼 -->
+        <ImageButton
+            android:id="@+id/btnNext"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="24dp"
+            android:background="@null"
+            android:contentDescription="다음"
+            android:src="@drawable/ic_arrow_forward"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/btnPrev"
+            app:layout_constraintEnd_toEndOf="parent" />
 
-    <!-- 이전 버튼 -->
-    <ImageButton
-        android:id="@+id/btnPrev"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="24dp"
-        android:background="@null"
-        android:contentDescription="이전"
-        android:src="@drawable/ic_arrow_back"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/btnNext" />
-
-    <!-- 다음 버튼 -->
-    <ImageButton
-        android:id="@+id/btnNext"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="24dp"
-        android:background="@null"
-        android:contentDescription="다음"
-        android:src="@drawable/ic_arrow_forward"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/btnPrev"
-        app:layout_constraintEnd_toEndOf="parent" />
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
