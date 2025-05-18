@@ -23,7 +23,7 @@
             android:layout_width="56dp"
             android:layout_height="56dp"
             android:layout_marginEnd="12dp"
-            android:background="@drawable/ic_ai_star" />
+            android:background="@drawable/ic_star_gradient" />
 
         <!-- 텍스트 묶음 -->
         <LinearLayout
