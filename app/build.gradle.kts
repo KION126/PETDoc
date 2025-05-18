@@ -51,5 +51,8 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
+
+    // 캘린더 라이브러리
+    implementation ("com.kizitonwose.calendar:view:2.0.3")
 }
 
