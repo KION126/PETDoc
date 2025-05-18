@@ -2,6 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white">
@@ -25,70 +26,160 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+
     <ImageView
         android:id="@+id/imgPetNameTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="44dp"
         android:contentDescription="아이 성별 입력 타이틀"
         android:src="@drawable/enter_pet_gender_label"
-        app:layout_constraintTop_toBottomOf="@+id/progressTrack"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
-
-
-    <!-- 배경 진행 트랙 -->
-    <ImageView
-        android:id="@+id/progressTrack"
-        android:layout_width="95dp"
-        android:layout_height="22dp"
-        android:layout_marginTop="32dp"
-        android:contentDescription="진행 상태 트랙"
-        android:src="@drawable/ic_step_progress_bar1"
-        app:layout_constraintTop_toBottomOf="@+id/imgRegisterLater"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
-
-    <!-- 채워진 진행 트랙 -->
-
-    <!-- 이전 버튼 -->
-
-    <ImageView
-        android:id="@+id/filledProgressTrack"
-        android:layout_width="99dp"
-        android:layout_height="4dp"
-        android:layout_marginTop="8dp"
-        android:contentDescription="채워진 트랙"
-        android:src="@drawable/ic_progress_filled2"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.403"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/progressTrack" />
+        app:layout_constraintTop_toBottomOf="@+id/progressContainer" />
 
-
-    <ImageButton
-        android:id="@+id/btnMale"
+    <LinearLayout
+        android:id="@+id/genderSelectionGroup"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="52dp"
-        android:layout_marginBottom="360dp"
-        android:background="@null"
-        android:contentDescription="성별버튼"
-        android:src="@drawable/ic_gender_background"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        android:layout_marginTop="68dp"
+        android:gravity="center"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.496"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/imgPetNameTitle">
 
-    <ImageButton
-        android:id="@+id/btnFemale"
+        <!-- 남자 묶음 -->
+        <LinearLayout
+            android:id="@+id/layoutMale"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="32dp"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
+
+            <FrameLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <ImageButton
+                    android:id="@+id/btnMale"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@null"
+                    android:contentDescription="성별버튼"
+                    android:src="@drawable/ic_gender_background" />
+
+                <ImageView
+                    android:id="@+id/imgSearch"
+                    android:layout_width="105dp"
+                    android:layout_height="105dp"
+                    android:layout_gravity="center"
+                    android:contentDescription="남자 선택"
+                    android:src="@drawable/gender_male_on" />
+            </FrameLayout>
+
+            <ImageView
+                android:id="@+id/labelMaleSelected"
+                android:layout_width="16dp"
+                android:layout_height="17dp"
+                android:layout_marginTop="8dp"
+                android:contentDescription="남자 라벨 - 선택됨"
+                android:src="@drawable/ic_male_on_label" />
+        </LinearLayout>
+
+        <!-- 여자 묶음 -->
+        <LinearLayout
+            android:id="@+id/layoutFemale"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
+
+            <FrameLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <ImageButton
+                    android:id="@+id/btnFemale"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@null"
+                    android:contentDescription="성별버튼"
+                    android:src="@drawable/ic_gender_background" />
+
+                <ImageView
+                    android:id="@+id/imgLocation"
+                    android:layout_width="105dp"
+                    android:layout_height="105dp"
+                    android:layout_gravity="center"
+                    android:contentDescription="여자 미선택"
+                    android:src="@drawable/gender_female_off" />
+            </FrameLayout>
+
+            <ImageView
+                android:id="@+id/labelFemaleUnselected"
+                android:layout_width="14dp"
+                android:layout_height="17dp"
+                android:layout_marginTop="8dp"
+                android:contentDescription="여자 라벨 - 미선택"
+                android:src="@drawable/ic_female_off_label" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <FrameLayout
+        android:id="@+id/progressContainer"
+        android:layout_width="100dp"
+        android:layout_height="4dp"
+        android:layout_marginTop="120dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.501"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/imgRegisterLater">
+
+        <!-- 트랙 배경 -->
+        <ImageView
+            android:id="@+id/progressBg"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/ic_step_progress_bar1" />
+
+        <!-- 채워진 진행 트랙 -->
+        <ImageView
+            android:id="@+id/progressFill"
+            android:layout_width="40dp"
+            android:layout_height="match_parent"
+            android:src="@drawable/ic_progress_filled2" />
+    </FrameLayout>
+
+    <LinearLayout
+        android:id="@+id/neuteredGroup"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="232dp"
-        android:layout_marginBottom="360dp"
-        android:background="@null"
-        android:contentDescription="성별버튼"
-        android:src="@drawable/ic_gender_background"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        android:layout_marginStart="140dp"
+        android:layout_marginTop="32dp"
+        android:orientation="horizontal"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/genderSelectionGroup">
+
+        <ImageButton
+            android:id="@+id/btnNeutered"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:background="@null"
+            android:contentDescription="중성화 버튼"
+            android:src="@drawable/ic_btn_eclipse" />
+
+        <ImageView
+            android:id="@+id/labelNeutered"
+            android:layout_width="89dp"
+            android:layout_height="39dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="2dp"
+            android:contentDescription="중성화를 했어요 라벨"
+            android:src="@drawable/ic_neutering_off_label" />
+    </LinearLayout>
 
 
     <ImageButton
@@ -98,7 +189,7 @@
         android:layout_marginBottom="24dp"
         android:background="@null"
         android:contentDescription="이전"
-        android:src="@drawable/ic_arrow_back"
+        android:src="@drawable/ic_arrow_back2"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/btnNext" />

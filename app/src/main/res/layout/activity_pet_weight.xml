@@ -23,30 +23,63 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <!-- 배경 진행 트랙 -->
+    <FrameLayout
+        android:id="@+id/progressContainer"
+        android:layout_width="100dp"
+        android:layout_height="4dp"
+        android:layout_marginTop="120dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.501"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/imgRegisterLater">
+
+        <!-- 트랙 배경 -->
+        <ImageView
+            android:id="@+id/progressBg"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/ic_step_progress_bar1" />
+
+        <!-- 채워진 진행 트랙 -->
+        <ImageView
+            android:id="@+id/progressFill"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="start"
+            android:src="@drawable/ic_progress_filled3" />
+    </FrameLayout>
+
     <ImageView
-        android:id="@+id/progressTrack"
-        android:layout_width="95dp"
-        android:layout_height="22dp"
-        android:layout_marginTop="32dp"
-        android:contentDescription="진행 상태 트랙"
-        android:src="@drawable/ic_step_progress_bar1"
-        app:layout_constraintTop_toBottomOf="@+id/imgRegisterLater"
+        android:id="@+id/imgPetWeightTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:contentDescription="아이 무게 입력 타이틀"
+        android:src="@drawable/enter_pet_weight_label"
+        app:layout_constraintTop_toBottomOf="@+id/progressContainer"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
-    <!-- 채워진 진행 트랙 -->
     <ImageView
-        android:id="@+id/filledProgressTrack"
-        android:layout_width="99dp"
-        android:layout_height="4dp"
-        android:layout_marginTop="8dp"
-        android:contentDescription="채워진 트랙"
-        android:src="@drawable/ic_progress_filled"
-        app:layout_constraintTop_toTopOf="@+id/progressTrack"
-        app:layout_constraintStart_toStartOf="parent"
+        android:id="@+id/hintWeightText"
+        android:layout_width="111dp"
+        android:layout_height="22dp"
+        android:layout_marginTop="64dp"
+        android:src="@drawable/hint_enter_weight"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.368" />
+        app:layout_constraintHorizontal_bias="0.73"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imgPetWeightTitle" />
+
+    <ImageView
+        android:id="@+id/underline"
+        android:layout_width="281dp"
+        android:layout_height="4dp"
+        android:layout_marginTop="12dp"
+        android:src="@drawable/bg_input_underline"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/hintWeightText" />
 
     <!-- 이전 버튼 -->
     <ImageButton
@@ -56,7 +89,7 @@
         android:layout_marginBottom="24dp"
         android:background="@null"
         android:contentDescription="이전"
-        android:src="@drawable/ic_arrow_back"
+        android:src="@drawable/ic_arrow_back2"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/btnNext" />

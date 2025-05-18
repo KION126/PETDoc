@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <!-- 동그란 배경 -->
+    <ImageView
+        android:id="@+id/circleBackground"
+        android:layout_width="28dp"
+        android:layout_height="28dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginStart="8dp"
+        android:src="@drawable/ic_circle_border"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <!-- 강아지 아이콘 -->
+    <ImageView
+        android:id="@+id/dogIcon"
+        android:layout_width="16dp"
+        android:layout_height="16dp"
+        android:src="@drawable/ic_dog_icon"
+        app:layout_constraintTop_toTopOf="@id/circleBackground"
+        app:layout_constraintBottom_toBottomOf="@id/circleBackground"
+        app:layout_constraintStart_toStartOf="@id/circleBackground"
+        app:layout_constraintEnd_toEndOf="@id/circleBackground"
+        android:layout_margin="6dp" />
+
+    <!-- 텍스트 이미지 (ex. 멍멍이 이름) -->
+    <ImageView
+        android:id="@+id/nameText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="4dp"
+        android:src="@drawable/ic_name_text"
+        app:layout_constraintStart_toEndOf="@id/circleBackground"
+        app:layout_constraintTop_toTopOf="@id/circleBackground"
+        app:layout_constraintBottom_toBottomOf="@id/circleBackground" />
+
+    <!-- 아래 화살표 -->
+    <ImageView
+        android:id="@+id/arrowDown"
+        android:layout_width="8dp"
+        android:layout_height="6dp"
+        android:layout_marginStart="4dp"
+        android:src="@drawable/ic_arrow_down"
+        app:layout_constraintBottom_toBottomOf="@id/nameText"
+        app:layout_constraintStart_toEndOf="@id/nameText"
+        app:layout_constraintTop_toTopOf="@id/nameText" />
+
+    <!-- 오른쪽 상단 계정 아이콘 -->
+    <ImageView
+        android:id="@+id/accountIcon"
+        android:layout_width="28dp"
+        android:layout_height="28dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:src="@drawable/ic_account_top_right"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <!-- 건강수첩 텍스트 -->
+    <ImageView
+        android:id="@+id/healthLogbook"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="80dp"
+        android:src="@drawable/ic_health_logbook"
+        app:layout_constraintStart_toStartOf="@id/circleBackground"
+        app:layout_constraintTop_toBottomOf="@id/circleBackground" />
+
+    <!-- ✅ 스마트 진단 버튼 전체 -->
+    <FrameLayout
+        android:id="@+id/btnSmartCheck"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginStart="28dp"
+        android:background="@drawable/bg_btn_smart_check"
+        android:clickable="true"
+        android:focusable="true"
+        app:layout_constraintTop_toBottomOf="@id/healthLogbook"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <!-- ✅ 텍스트: 왼쪽 위 -->
+        <ImageView
+            android:id="@+id/smartCheckText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top|start"
+            android:layout_marginTop="12dp"
+            android:layout_marginStart="12dp"
+            android:src="@drawable/ic_smart_check_text" />
+
+        <!-- ✅ 아이콘: 오른쪽 아래 -->
+        <ImageView
+            android:id="@+id/smartCheckIcon"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_gravity="bottom|end"
+            android:layout_marginBottom="12dp"
+            android:layout_marginEnd="12dp"
+            android:src="@drawable/ic_smart_check_icon" />
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/btnGeneticNote"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="24dp"
+        android:background="@drawable/bg_btn_genetic_note"
+        android:clickable="true"
+        android:focusable="true"
+        app:layout_constraintTop_toBottomOf="@id/healthLogbook"
+        app:layout_constraintStart_toEndOf="@id/btnSmartCheck"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <!-- 텍스트: 왼쪽 위 -->
+        <ImageView
+            android:id="@+id/geneticNoteText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top|start"
+            android:layout_marginTop="12dp"
+            android:layout_marginStart="12dp"
+            android:src="@drawable/ic_genetic_note_text" />
+
+        <!-- 아이콘: 오른쪽 아래 -->
+        <ImageView
+            android:id="@+id/geneticNoteIcon"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_gravity="bottom|end"
+            android:layout_marginBottom="12dp"
+            android:layout_marginEnd="12dp"
+            android:src="@drawable/ic_genetic_note_icon" />
+
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/btnWalkLog"
+        android:layout_width="match_parent"
+        android:layout_height="120dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginTop="24dp"
+        android:background="@drawable/bg_btn_walk_log"
+        android:clickable="true"
+        android:focusable="true"
+        app:layout_constraintTop_toBottomOf="@id/btnSmartCheck"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <!-- 텍스트: 왼쪽 위 -->
+        <ImageView
+            android:id="@+id/walkLogText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top|start"
+            android:layout_marginTop="16dp"
+            android:layout_marginStart="16dp"
+            android:src="@drawable/ic_walk_log_text" />
+
+        <!-- 아이콘: 오른쪽 아래 -->
+        <ImageView
+            android:id="@+id/walkLogIcon"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:layout_gravity="bottom|end"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="16dp"
+            android:src="@drawable/ic_walk_log_icon" />
+
+    </FrameLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
