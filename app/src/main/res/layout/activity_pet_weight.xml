@@ -60,26 +60,58 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
-    <ImageView
-        android:id="@+id/hintWeightText"
-        android:layout_width="111dp"
-        android:layout_height="22dp"
+    <LinearLayout
+        android:id="@+id/weightInputGroup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginTop="64dp"
-        android:src="@drawable/hint_enter_weight"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.73"
+        android:orientation="vertical"
+        app:layout_constraintTop_toBottomOf="@+id/imgPetWeightTitle"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imgPetWeightTitle" />
+        app:layout_constraintEnd_toEndOf="parent"
+        android:gravity="center">
 
-    <ImageView
-        android:id="@+id/underline"
-        android:layout_width="281dp"
-        android:layout_height="4dp"
-        android:layout_marginTop="12dp"
-        android:src="@drawable/bg_input_underline"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/hintWeightText" />
+        <!-- 무게 입력 + 단위 -->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+
+            <!-- 입력 EditText -->
+            <EditText
+                android:id="@+id/edtWeight"
+                android:layout_width="80dp"
+                android:layout_height="wrap_content"
+                android:hint="예: 5.3"
+                android:background="@null"
+                android:inputType="numberDecimal"
+                android:textColor="#000000"
+                android:textSize="16sp"
+                android:maxLines="1"
+                android:gravity="end"
+                android:paddingBottom="4dp" />
+
+            <!-- kg 라벨 -->
+            <TextView
+                android:id="@+id/labelKg"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="kg"
+                android:textSize="16sp"
+                android:textColor="#000000"
+                android:layout_marginStart="4dp" />
+        </LinearLayout>
+
+        <!-- 밑줄 -->
+        <ImageView
+            android:id="@+id/underline"
+            android:layout_width="281dp"
+            android:layout_height="4dp"
+            android:layout_marginTop="8dp"
+            android:src="@drawable/bg_input_underline" />
+    </LinearLayout>
+
 
     <!-- 이전 버튼 -->
     <ImageButton
