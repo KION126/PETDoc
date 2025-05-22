@@ -48,7 +48,7 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_gravity="start"
-            android:src="@drawable/ic_progress_filled3" />
+            android:src="@drawable/ic_progress_filled4" />
     </FrameLayout>
 
 
@@ -93,6 +93,7 @@
 
         <!-- 앨범 아이콘 -->
         <LinearLayout
+            android:id="@+id/layoutAlbum"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="32dp"
@@ -117,6 +118,7 @@
 
         <!-- 카메라 아이콘 -->
         <LinearLayout
+            android:id="@+id/layoutCamera"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center"

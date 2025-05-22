@@ -54,5 +54,16 @@ dependencies {
 
     // 캘린더 라이브러리
     implementation ("com.kizitonwose.calendar:view:2.0.3")
+
+    // Google 로그인용 Play 서비스
+    implementation("com.google.android.gms:play-services-auth:21.3.0")
+    // 파이어베이스 리얼타임 데이터베이스
+    implementation("com.google.firebase:firebase-database")
+    // 파이어베이스 스토리지 (이미지 저장)
+    implementation("com.google.firebase:firebase-storage")
+    // Glide (이미지 미리보기용)
+    implementation("com.github.bumptech.glide:glide:4.16.0")
+    annotationProcessor("com.github.bumptech.glide:compiler:4.16.0")
 }
 
+apply(plugin = "com.google.gms.google-services")

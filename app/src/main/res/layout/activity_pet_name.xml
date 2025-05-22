@@ -38,15 +38,52 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/progressContainer" />
 
-        <ImageView
-            android:id="@+id/underline"
+        <FrameLayout
+            android:id="@+id/nameInputContainer"
             android:layout_width="281dp"
-            android:layout_height="4dp"
-            android:layout_marginTop="16dp"
-            android:src="@drawable/bg_input_underline"
-            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="56dp"
+            app:layout_constraintTop_toBottomOf="@+id/imgPetNameTitle"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/hintText" />
+            app:layout_constraintEnd_toEndOf="parent">
+
+            <!-- 힌트 이미지 (처음 보이는 라벨) -->
+            <ImageView
+                android:id="@+id/hintText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:src="@drawable/hint_enter_name"
+                android:contentDescription="아이 이름 힌트"
+                android:layout_gravity="center"
+                android:visibility="visible"/>
+
+            <!-- 이름 입력창 (EditText) -->
+            <EditText
+                android:id="@+id/edtPetName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="이름을 입력하세요"
+                android:background="@null"
+                android:paddingTop="2dp"
+                android:paddingBottom="2dp"
+                android:textColor="#000000"
+                android:textSize="16sp"
+                android:gravity="center"
+                android:maxLines="1"
+                android:inputType="textPersonName"
+                android:layout_gravity="center"
+                android:visibility="invisible"/>
+
+            <!-- 밑줄 -->
+            <ImageView
+                android:id="@+id/underline"
+                android:layout_width="match_parent"
+                android:layout_height="4dp"
+                android:layout_marginTop="32dp"
+                android:layout_gravity="bottom"
+                android:src="@drawable/bg_input_underline"/>
+        </FrameLayout>
+
 
         <FrameLayout
             android:id="@+id/progressContainer"
@@ -74,15 +111,7 @@
                 android:src="@drawable/ic_progress_filled" />
         </FrameLayout>
 
-        <ImageView
-            android:id="@+id/hintText"
-            android:layout_width="111dp"
-            android:layout_height="22dp"
-            android:layout_marginTop="56dp"
-            android:src="@drawable/hint_enter_name"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/imgPetNameTitle" />
+
 
         <!-- 이전 버튼 -->
         <ImageButton
