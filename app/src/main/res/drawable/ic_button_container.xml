@@ -6,8 +6,7 @@
     android:viewportHeight="355">
 
   <path
-      android:pathData="M0,0h321.99v354.38h-321.99z"
-      android:fillColor="#ffffff" />
+      android:pathData="M0,0h321.99v354.38h-321.99z"/>
 
   <!-- Top Left Corner Gradient -->
   <path

@@ -1,13 +1,26 @@
 package com.petdoc.genetic;
 
+import android.app.Activity;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
-import androidx.appcompat.app.AppCompatActivity;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.FileProvider;
+
+import com.bumptech.glide.Glide;
 import com.petdoc.R;
+
+import java.io.File;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class GeneticNoteActivity extends AppCompatActivity {
 
@@ -15,6 +28,9 @@ public class GeneticNoteActivity extends AppCompatActivity {
     private Button btnBack;
     private ImageView btnAlbem;
     private ImageView btnCamera;
+    private Uri selectedImageUri = null;
+    private ImageView ivPhotoFrame;
+    private String currentPhotoPath;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,6 +42,25 @@ public class GeneticNoteActivity extends AppCompatActivity {
         btnBack = findViewById(R.id.btn_back);
         btnAlbem = findViewById(R.id.btn_album);
         btnCamera = findViewById(R.id.btn_carmera);
+        ivPhotoFrame = findViewById(R.id.iv_photo_frame);
+
+        // 앨범 버튼
+        btnAlbem.setOnClickListener(v -> {
+            Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+            albumLauncher.launch(intent);
+        });
+
+        // 카메라 버튼
+        btnCamera.setOnClickListener(v -> {
+            Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+            File photoFile = createImageFile();
+            if (photoFile != null) {
+                Uri photoURI = FileProvider.getUriForFile(this,
+                        getPackageName() + ".fileprovider", photoFile);
+                intent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
+                cameraLauncher.launch(intent);
+            }
+        });
 
         // 다음 페이지 (로딩 페이지)
         btnNext.setOnClickListener(new View.OnClickListener() {
@@ -45,7 +80,47 @@ public class GeneticNoteActivity extends AppCompatActivity {
         });
 
         // 다음 버튼 초기 설정
-        btnNext.setEnabled(true);
-        btnNext.setText("우리 아이의 과거로!");
+        btnNext.setEnabled(false);
     }
+
+    // 촬영한 이미지 저장
+    private File createImageFile() {
+        try {
+            String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+            File storageDir = getExternalFilesDir(null);
+            File image = File.createTempFile("JPEG_" + timeStamp, ".jpg", storageDir);
+            currentPhotoPath = image.getAbsolutePath();
+            return image;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    // 앨범 접근 및 이미지 로드
+    private final ActivityResultLauncher<Intent> albumLauncher =
+            registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
+                if (result.getResultCode() == Activity.RESULT_OK && result.getData() != null) {
+                    selectedImageUri = result.getData().getData();
+                    Glide.with(this)
+                            .load(selectedImageUri)
+                            .centerCrop()
+                            .into(ivPhotoFrame);
+                    btnNext.setEnabled(true);
+                }
+            });
+
+    // 카메라 접근 및 이미지 로드
+    private final ActivityResultLauncher<Intent> cameraLauncher =
+            registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
+                if (result.getResultCode() == Activity.RESULT_OK) {
+                    File file = new File(currentPhotoPath);
+                    selectedImageUri = Uri.fromFile(file);
+                    Glide.with(this)
+                            .load(selectedImageUri)
+                            .centerCrop()
+                            .into(ivPhotoFrame);
+                    btnNext.setEnabled(true);
+                }
+            });
 }

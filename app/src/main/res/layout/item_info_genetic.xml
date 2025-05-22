@@ -46,7 +46,6 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="유전병 설명이 들어갑니다 줄이 길어지면 자동으로 크기에ㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁ"
-                android:maxLines="4"
                 android:textSize="14sp"
                 android:textColor="#333333"
                 android:includeFontPadding="false"

@@ -54,5 +54,9 @@ dependencies {
 
     // 캘린더 라이브러리
     implementation ("com.kizitonwose.calendar:view:2.0.3")
+
+    // Glide (이미지 미리보기용)
+    implementation("com.github.bumptech.glide:glide:4.16.0")
+    annotationProcessor("com.github.bumptech.glide:compiler:4.16.0")
 }
 

@@ -77,12 +77,21 @@
             android:scaleType="fitCenter"
             android:src="@drawable/ic_button_container" />
 
-        <ImageView
+        <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_gravity="center"
-            android:layout_margin="20dp"
-            android:src="@drawable/img_shadow" />
+            app:cardCornerRadius="30dp"
+            app:cardElevation="0dp"
+            android:layout_margin="14dp"
+            app:cardPreventCornerOverlap="false"
+            app:cardUseCompatPadding="true">
+            <ImageView
+                android:id="@+id/iv_photo_frame"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/img_shadow" />
+        </androidx.cardview.widget.CardView>
+
     </FrameLayout>
 
     <LinearLayout
@@ -151,7 +160,7 @@
         android:layout_width="match_parent"
         android:layout_height="74dp"
         android:layout_marginBottom="16dp"
-        android:text="다음"
+        android:text="우리 아이의 과거로!"
         android:textSize="20dp"
         android:textColor="@color/btn_next_text_selector"
         android:background="@drawable/btn_next"
