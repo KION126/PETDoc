@@ -19,7 +19,7 @@
         tools:targetApi="31">
 
         <activity
-            android:name=".login.SplashActivity"
+            android:name=".main.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -31,14 +31,34 @@
         <activity android:name=".login.GenderInputActivity" />
         <activity android:name=".login.WeightInputActivity" />
         <activity android:name=".login.PhotoInputActivity" />
-        <activity android:name=".main.MainActivity" />
-<!--        &lt;!&ndash; Skin &ndash;&gt;-->
-<!--        <activity android:name=".skin.SkinCamActivity" />-->
-<!--        <activity android:name=".skin.SkinResultActivity" />-->
+
+<!--        <activity android:name=".main.MainActivity" />-->
+
+        <!--유전병 예측-->
+        <activity android:name=".genetic.GeneticNoteActivity" />
+        <activity android:name=".genetic.GeneticLoadingActivity" />
+        <activity android:name=".genetic.GeneticInfoActivity" />
+        <activity android:name=".genetic.GeneticAllInfoActivity" />
+
+        <!--&lt;!&ndash; Skin &ndash;&gt;-->
+        <!--<activity android:name=".skin.SkinCamActivity" />-->
+        <!--<activity android:name=".skin.SkinResultActivity" />-->
+
         <!--구글 로그인 설정 -->
         <meta-data
             android:name="com.google.android.gms.auth.api.credentials.CREDENTIAL_PICKER_PRESENT"
             android:value="true" />
+
+        <!--카메라 provider 설정-->
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="com.petdoc.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
     </application>
 
 </manifest>

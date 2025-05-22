@@ -1,172 +1,341 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white">
+    android:background="@color/white"
+    android:padding="20dp">
 
-    <LinearLayout
+    <!-- 상단 내비게이션 -->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/layout_top_nav"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="20dp">
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
 
-        <!-- 1. 상단 타이틀 -->
+        <Button
+            android:id="@+id/btn_back"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:padding="8dp"
+            android:drawableStart="@drawable/ic_arrow_back"
+            android:text=""
+            android:contentDescription="뒤로 가기"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent" />
+
         <TextView
+            android:id="@+id/tv_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="유전병 예측 결과"
-            android:textSize="20sp"
+            android:text="유전병 검진노트"
+            android:textSize="16sp"
             android:textStyle="bold"
-            android:layout_gravity="center" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="2025.04.21(월) 21:00"
-            android:textSize="12sp"
-            android:textColor="#888888"
-            android:layout_marginTop="4dp"
-            android:layout_gravity="center" />
+    <!-- 설명 텍스트 -->
+    <TextView
+        android:id="@+id/tv_dec"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:gravity="center"
+        android:text="유전병 예측 결과"
+        android:textSize="28sp"
+        android:includeFontPadding="false"
+        android:paddingVertical="10dp"
+        app:layout_constraintTop_toBottomOf="@id/layout_top_nav"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
-        <!-- 2. 그래프 카드 -->
-        <androidx.cardview.widget.CardView
+    <!-- 날짜 텍스트 -->
+    <TextView
+        android:id="@+id/tv_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="2025.05.20(화)21:00"
+        android:textSize="12sp"
+        android:textColor="#A3A3A3"
+        android:includeFontPadding="false"
+        app:layout_constraintTop_toBottomOf="@id/tv_dec"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <!-- 스크롤 콘텐츠 -->
+    <ScrollView
+        android:id="@+id/view_scroll"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        app:layout_constraintTop_toBottomOf="@id/tv_date"
+        app:layout_constraintBottom_toTopOf="@+id/layout_fixed_bottom"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            app:cardCornerRadius="16dp"
-            app:cardElevation="4dp"
-            android:layout_marginHorizontal="19dp">
+            android:orientation="vertical">
 
-            <LinearLayout
+            <!-- 2. 그래프 카드 -->
+            <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="16dp">
+                android:layout_marginVertical="16dp"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="4dp"
+                android:layout_marginHorizontal="19dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:padding="16dp"
-                    android:background="@android:color/white">
+                    android:padding="20dp">
 
-                    <!-- 견종 1 -->
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:gravity="center_vertical">
+                        android:orientation="vertical"
+                        android:background="@android:color/white">
 
-                        <TextView
-                            android:layout_width="0dp"
-                            android:layout_weight="1"
+                        <!-- 견종 1 -->
+                        <LinearLayout
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="견종 1" />
+                            android:orientation="vertical"
+                            android:gravity="center_vertical"
+                            android:layout_marginVertical="6dp">
 
-                        <ProgressBar
-                            style="@android:style/Widget.ProgressBar.Horizontal"
-                            android:layout_width="0dp"
-                            android:layout_weight="5"
-                            android:layout_height="10dp"
-                            android:progress="87"
-                            android:progressTint="#A77AF0"
-                            android:layout_marginHorizontal="8dp" />
+                            <TextView
+                                android:id="@+id/tv_breed_1"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:includeFontPadding="false"
+                                android:text="견종 1"
+                                android:textSize="18dp"/>
 
-                        <TextView
-                            android:layout_width="wrap_content"
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal"
+                                android:gravity="center_horizontal">
+
+                                <ProgressBar
+                                    android:id="@+id/pb_breed_1"
+                                    style="@android:style/Widget.ProgressBar.Horizontal"
+                                    android:layout_width="0dp"
+                                    android:layout_weight="5"
+                                    android:layout_height="24dp"
+                                    android:progress="87"
+                                    android:progressDrawable="@drawable/custom_progressbar"
+                                    android:progressTint="#B391F2"
+                                    android:layout_marginTop="1dp"
+                                    android:layout_marginStart="0dp"
+                                    android:layout_marginEnd="14dp"
+                                    android:layout_gravity="center"
+                                    android:layout_marginHorizontal="8dp" />
+
+                                <TextView
+                                    android:id="@+id/tv_breed_score_1"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="87"
+                                    android:textSize="20dp"
+                                    android:includeFontPadding="false"
+                                    android:layout_gravity="center"
+                                    android:textStyle="bold"
+                                    android:textColor="#B391F2" />
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="%"
+                                    android:textSize="12dp"
+                                    android:includeFontPadding="false"
+                                    android:layout_gravity="end|bottom"
+                                    android:layout_marginBottom="1dp"
+                                    android:textStyle="bold"
+                                    android:textColor="#B391F2" />
+                            </LinearLayout>
+                        </LinearLayout>
+
+                        <!-- 견종 2 -->
+                        <LinearLayout
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="87%"
-                            android:textColor="#A77AF0" />
-                    </LinearLayout>
+                            android:orientation="vertical"
+                            android:gravity="center_vertical"
+                            android:layout_marginVertical="6dp">
 
-                    <!-- 견종 2 -->
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:gravity="center_vertical"
-                        android:layout_marginTop="8dp">
+                            <TextView
+                                android:id="@+id/tv_breed_2"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:includeFontPadding="false"
+                                android:text="견종 2"
+                                android:textSize="18dp"/>
 
-                        <TextView
-                            android:layout_width="0dp"
-                            android:layout_weight="1"
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal"
+                                android:gravity="center_horizontal">
+
+                                <ProgressBar
+                                    android:id="@+id/pb_breed_2"
+                                    style="@android:style/Widget.ProgressBar.Horizontal"
+                                    android:layout_width="0dp"
+                                    android:layout_weight="5"
+                                    android:layout_height="24dp"
+                                    android:progress="50"
+                                    android:progressDrawable="@drawable/custom_progressbar"
+                                    android:progressTint="#577FD5"
+                                    android:layout_marginTop="1dp"
+                                    android:layout_marginStart="0dp"
+                                    android:layout_marginEnd="14dp"
+                                    android:layout_gravity="center"
+                                    android:layout_marginHorizontal="8dp" />
+
+                                <TextView
+                                    android:id="@+id/tv_breed_score_2"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="50"
+                                    android:textSize="20dp"
+                                    android:includeFontPadding="false"
+                                    android:layout_gravity="center"
+                                    android:textStyle="bold"
+                                    android:textColor="#577FD5" />
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="%"
+                                    android:textSize="12dp"
+                                    android:includeFontPadding="false"
+                                    android:layout_gravity="end|bottom"
+                                    android:layout_marginBottom="1dp"
+                                    android:textStyle="bold"
+                                    android:textColor="#577FD5" />
+                            </LinearLayout>
+                        </LinearLayout>
+
+                        <!-- 견종 3 -->
+                        <LinearLayout
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="견종 2" />
+                            android:orientation="vertical"
+                            android:gravity="center_vertical"
+                            android:layout_marginVertical="6dp">
 
-                        <ProgressBar
-                            style="@android:style/Widget.ProgressBar.Horizontal"
-                            android:layout_width="0dp"
-                            android:layout_weight="5"
-                            android:layout_height="10dp"
-                            android:progress="50"
-                            android:progressTint="#5C6BC0"
-                            android:layout_marginHorizontal="8dp" />
+                            <TextView
+                                android:id="@+id/tv_breed_3"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:includeFontPadding="false"
+                                android:text="견종 3"
+                                android:textSize="18dp"/>
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="50%"
-                            android:textColor="#5C6BC0" />
-                    </LinearLayout>
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal"
+                                android:gravity="center_horizontal">
 
-                    <!-- 견종 3 -->
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:gravity="center_vertical"
-                        android:layout_marginTop="8dp">
+                                <ProgressBar
+                                    android:id="@+id/pb_breed_3"
+                                    style="@android:style/Widget.ProgressBar.Horizontal"
+                                    android:layout_width="0dp"
+                                    android:layout_weight="5"
+                                    android:layout_height="24dp"
+                                    android:progress="25"
+                                    android:progressDrawable="@drawable/custom_progressbar"
+                                    android:progressTint="#EDCDCB"
+                                    android:layout_marginTop="1dp"
+                                    android:layout_marginStart="0dp"
+                                    android:layout_marginEnd="14dp"
+                                    android:layout_gravity="center"
+                                    android:layout_marginHorizontal="8dp" />
 
-                        <TextView
-                            android:layout_width="0dp"
-                            android:layout_weight="1"
-                            android:layout_height="wrap_content"
-                            android:text="견종 3" />
+                                <TextView
+                                    android:id="@+id/tv_breed_score_3"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="25"
+                                    android:textSize="20dp"
+                                    android:includeFontPadding="false"
+                                    android:layout_gravity="center"
+                                    android:textStyle="bold"
+                                    android:textColor="#EDCDCB" />
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="%"
+                                    android:textSize="12dp"
+                                    android:includeFontPadding="false"
+                                    android:layout_gravity="end|bottom"
+                                    android:layout_marginBottom="1dp"
+                                    android:textStyle="bold"
+                                    android:textColor="#EDCDCB" />
+                            </LinearLayout>
+                        </LinearLayout>
 
-                        <ProgressBar
-                            style="@android:style/Widget.ProgressBar.Horizontal"
-                            android:layout_width="0dp"
-                            android:layout_weight="5"
-                            android:layout_height="10dp"
-                            android:progress="25"
-                            android:progressTint="#E5B3AD"
-                            android:layout_marginHorizontal="8dp" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="25%"
-                            android:textColor="#E5B3AD" />
                     </LinearLayout>
 
                 </LinearLayout>
+            </androidx.cardview.widget.CardView>
 
+            <LinearLayout
+                android:id="@+id/layout_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <!-- 3. 유전병 카드 리스트 -->
             </LinearLayout>
-        </androidx.cardview.widget.CardView>
+        </LinearLayout>
+    </ScrollView>
 
-        <!-- 3. 유전병 카드 리스트 -->
-        <include layout="@layout/item_info_genetic" />
-        <include layout="@layout/item_info_genetic" />
-        <include layout="@layout/item_info_genetic" />
-        <!-- 4. 하단 텍스트 -->
+    <!-- 하단 고정 버튼 -->
+    <LinearLayout
+        android:id="@+id/layout_fixed_bottom"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="@color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
         <TextView
+            android:id="@+id/tv_all_info"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="end"
             android:text="다른 견종의 유전병 정보 확인하기 →"
-            android:textSize="12sp"
             android:textColor="#888888"
-            android:layout_gravity="right"
-            android:layout_marginTop="24dp" />
+            android:textSize="12sp" />
 
-        <!-- 5. 하단 버튼 (배경 이미지 또는 그라디언트 사용) -->
-        <ImageButton
+        <Button
+            android:id="@+id/btn_next"
             android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:src="@drawable/btn_go_fast"
-            android:background="@null"
-            android:layout_marginTop="8dp"
-            android:contentDescription="다시 한 번 과거로 떠나기" />
-
+            android:layout_height="74dp"
+            android:layout_marginBottom="16dp"
+            android:text="다시 한 번 과거로 떠나기"
+            android:textSize="20dp"
+            android:textColor="@color/btn_next_text_selector"
+            android:background="@drawable/btn_next" />
     </LinearLayout>
-</ScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
