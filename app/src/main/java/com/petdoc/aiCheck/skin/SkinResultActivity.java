@@ -1,4 +1,4 @@
-package com.petdoc.aicheck;
+package com.petdoc.aiCheck.skin;
 
 import android.os.Bundle;
 
@@ -8,15 +8,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.petdoc.R;
 
 /**
- * AI 스마트 간편 검진 메인 페이지
+ * 안구 검진 결과 페이지
  */
-public class AICheckActivity extends AppCompatActivity {
-
+public class SkinResultActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_ai_check);
+        setContentView(R.layout.activity_skin_result);
     }
-
 }
