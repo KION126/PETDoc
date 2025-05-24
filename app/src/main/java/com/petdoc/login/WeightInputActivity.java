@@ -16,13 +16,15 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.petdoc.R;
+import com.petdoc.main.MainActivity;
 
 public class WeightInputActivity extends AppCompatActivity {
 
     private EditText edtWeight;
-    private ImageButton btnNext;
-    private TextView tvPetName, tvPetNameTitle;
 
+    private ImageButton btnNext, btnPrev;
+
+    private TextView tvPetName, tvPetNameTitle;
     private DatabaseReference dbRef;
     private String uid, petKey, petName;
 
@@ -33,8 +35,13 @@ public class WeightInputActivity extends AppCompatActivity {
 
         edtWeight = findViewById(R.id.edtWeight);
         btnNext = findViewById(R.id.btnNext);
+      
+
+        btnPrev = findViewById(R.id.btnPrev);
+
         tvPetName = findViewById(R.id.tvPetName);
         tvPetNameTitle = findViewById(R.id.tvPetNameTitle);
+
 
         // Firebase 초기화
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
@@ -68,6 +75,14 @@ public class WeightInputActivity extends AppCompatActivity {
         btnNext.setEnabled(false);
         btnNext.setImageResource(R.drawable.ic_arrow_forward);
 
+        //나중에 등록하기 버튼 클릭시
+        findViewById(R.id.imgRegisterLater).setOnClickListener(v -> {
+            Intent intent = new Intent(WeightInputActivity.this, MainActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
+            finish();
+        });
+
         // 입력 감지 → 버튼 상태 갱신
         edtWeight.addTextChangedListener(new TextWatcher() {
             @Override public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
@@ -99,8 +114,8 @@ public class WeightInputActivity extends AppCompatActivity {
             dbRef.child("Users")
                     .child(uid)
                     .child(petKey)
-                    .child("기본정보")
-                    .child("체중")
+                    .child("BasicInfo")
+                    .child("Weight")
                     .setValue(weight)
                     .addOnSuccessListener(unused -> {
                         Intent intent = new Intent(WeightInputActivity.this, PhotoInputActivity.class);

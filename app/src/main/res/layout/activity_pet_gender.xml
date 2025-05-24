@@ -21,6 +21,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+
     <!-- 🔘 나중에 등록하기 버튼 (상단 오른쪽) -->
     <ImageView
         android:id="@+id/imgRegisterLater"
@@ -31,8 +32,6 @@
         android:background="?attr/selectableItemBackgroundBorderless"
         android:clickable="true"
         android:focusable="true"
-        android:paddingTop="6dp"
-        android:paddingBottom="6dp"
         android:src="@drawable/ic_register_later"
         android:contentDescription="나중에 등록하기"
         app:layout_constraintTop_toTopOf="parent"
@@ -58,6 +57,7 @@
             android:layout_height="match_parent"
             android:src="@drawable/ic_progress_filled2" />
     </FrameLayout>
+
 
     <!-- 🧾 입력 타이틀 (TextView로 변경, 반려견 이름 포함) -->
     <TextView

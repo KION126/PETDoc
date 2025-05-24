@@ -22,7 +22,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <!-- 나중에 등록하기 버튼 -->
-    <ImageView
+    <ImageButton
         android:id="@+id/imgRegisterLater"
         android:layout_width="100dp"
         android:layout_height="48dp"
@@ -31,14 +31,12 @@
         android:background="?attr/selectableItemBackgroundBorderless"
         android:clickable="true"
         android:focusable="true"
-        android:paddingTop="6dp"
-        android:paddingBottom="6dp"
         android:src="@drawable/ic_register_later"
         android:contentDescription="나중에 등록하기"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
-    <!-- 진행 바 -->
+
     <FrameLayout
         android:id="@+id/progressContainer"
         android:layout_width="100dp"

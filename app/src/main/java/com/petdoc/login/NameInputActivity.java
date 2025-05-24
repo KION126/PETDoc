@@ -24,6 +24,9 @@ public class NameInputActivity extends AppCompatActivity {
     private EditText edtPetName;
     private ImageView hintText;
     private ImageButton btnNext;
+    private ImageButton btnPrev;
+
+
 
     private DatabaseReference dbRef;
     private String uid;
@@ -36,6 +39,19 @@ public class NameInputActivity extends AppCompatActivity {
         edtPetName = findViewById(R.id.edtPetName);
         hintText = findViewById(R.id.hintText);
         btnNext = findViewById(R.id.btnNext);
+        btnPrev = findViewById(R.id.btnPrev);
+
+        // 인텐트로부터 값 복원
+        String petKeyFromBack = getIntent().getStringExtra("petKey");
+        String petNameFromBack = getIntent().getStringExtra("petName");
+
+        if (petNameFromBack != null) {
+            hintText.setVisibility(ImageView.GONE);
+            edtPetName.setVisibility(EditText.VISIBLE);
+            edtPetName.setText(petNameFromBack);
+            btnNext.setEnabled(true);
+            btnNext.setImageResource(R.drawable.ic_arrow_forward2);
+        }
 
         // Firebase 초기화
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
@@ -83,11 +99,11 @@ public class NameInputActivity extends AppCompatActivity {
             // 현재 반려견 수를 가져와서 자동 키 생성
             userRef.get().addOnSuccessListener(snapshot -> {
                 int petCount = (int) snapshot.getChildrenCount();
-                String newPetKey = "반려견" + (petCount + 1);
+                String newPetKey = "Dog" + (petCount + 1);
 
                 userRef.child(newPetKey)
-                        .child("기본정보")
-                        .child("이름")
+                        .child("BasicInfo")
+                        .child("Name")
                         .setValue(petName)
                         .addOnSuccessListener(unused -> {
                             // 다음 액티비티로 이동하면서 petKey도 같이 전달
@@ -102,5 +118,14 @@ public class NameInputActivity extends AppCompatActivity {
                         );
             });
         });
+
+        btnPrev.setOnClickListener(v -> {
+            FirebaseAuth.getInstance().signOut();  // 로그아웃 처리
+            Intent intent = new Intent(NameInputActivity.this, LoginActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
+            finish();
+        });
+
     }
 }

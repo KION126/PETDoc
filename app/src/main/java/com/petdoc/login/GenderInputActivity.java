@@ -14,10 +14,9 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.petdoc.R;
+import com.petdoc.main.MainActivity;
 
 public class GenderInputActivity extends AppCompatActivity {
-
-    // 뷰 변수 선언
     private ImageButton btnMale, btnFemale, btnNeutered, btnNext, btnPrev;
     private ImageView imgMale, imgFemale, labelMale, labelFemale, labelNeutered;
     private TextView tvPetName, tvPetNameTitle;
@@ -82,9 +81,16 @@ public class GenderInputActivity extends AppCompatActivity {
         btnNext.setEnabled(false);
         btnNext.setImageResource(R.drawable.ic_arrow_forward);
 
-        // 성별 선택 버튼
+        //나중에 등록하기 버튼 클릭시
+        findViewById(R.id.imgRegisterLater).setOnClickListener(v -> {
+            Intent intent = new Intent(GenderInputActivity.this, MainActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
+            finish();
+        });
+
         btnMale.setOnClickListener(v -> {
-            selectedGender = "수컷";
+            selectedGender = "Male";
             imgMale.setImageResource(R.drawable.gender_male_on);
             labelMale.setImageResource(R.drawable.ic_male_on_label);
             imgFemale.setImageResource(R.drawable.gender_female_off);
@@ -93,7 +99,7 @@ public class GenderInputActivity extends AppCompatActivity {
         });
 
         btnFemale.setOnClickListener(v -> {
-            selectedGender = "암컷";
+            selectedGender = "Female";
             imgMale.setImageResource(R.drawable.gender_male_off);
             labelMale.setImageResource(R.drawable.ic_male_off_label);
             imgFemale.setImageResource(R.drawable.gender_female_on);
@@ -120,10 +126,10 @@ public class GenderInputActivity extends AppCompatActivity {
             DatabaseReference infoRef = dbRef.child("Users")
                     .child(uid)
                     .child(petKey)
-                    .child("기본정보");
+                    .child("BasicInfo");
 
-            infoRef.child("성별").setValue(selectedGender);
-            infoRef.child("중성화여부").setValue(isNeutered)
+            infoRef.child("Gender").setValue(selectedGender);
+            infoRef.child("Neutered status").setValue(isNeutered)
                     .addOnSuccessListener(unused -> {
                         Intent intent = new Intent(GenderInputActivity.this, WeightInputActivity.class);
                         intent.putExtra("petKey", petKey);
@@ -135,6 +141,7 @@ public class GenderInputActivity extends AppCompatActivity {
                             Toast.makeText(this, "저장 실패: " + e.getMessage(), Toast.LENGTH_SHORT).show()
                     );
         });
+
 
         // [이전] 버튼 - 이름 입력 화면으로 (petKey, petName 전달)
         btnPrev.setOnClickListener(v -> {

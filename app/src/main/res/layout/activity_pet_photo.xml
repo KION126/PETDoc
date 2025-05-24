@@ -23,7 +23,7 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <!-- 나중에 등록하기 버튼 -->
-    <ImageView
+    <ImageButton
         android:id="@+id/imgRegisterLater"
         android:layout_width="wrap_content"
         android:layout_height="48dp"
