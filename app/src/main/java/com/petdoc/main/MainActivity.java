@@ -9,6 +9,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.petdoc.R;
 import com.petdoc.genetic.GeneticLoadingActivity;
 import com.petdoc.genetic.GeneticNoteActivity;
+import com.petdoc.aicheck.AICheckActivity;
 
 import android.util.Log;
 import android.view.View;
@@ -26,14 +27,11 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main_page);
 
         btnGeneticNote = findViewById(R.id.btnGeneticNote);
-
-        // Firestore 연동 확인
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
-        if (db != null) {
-            Log.d("Firestore", "Firestore 연동 성공!");
-        } else {
-            Log.w("Firestore", "Firestore 연동 실패...");
-        }
+        FrameLayout btnSmartCheck = findViewById(R.id.btnSmartCheck);
+        btnSmartCheck.setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this, com.petdoc.aicheck.AICheckActivity.class);
+            startActivity(intent);
+        });
 
         btnGeneticNote.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -44,3 +42,4 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 }
+
