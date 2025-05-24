@@ -1,4 +1,4 @@
-package com.petdoc.aicheck.utils;
+package com.petdoc.aiCheck.utils;
 
 import android.content.res.AssetManager;
 import android.graphics.Bitmap;

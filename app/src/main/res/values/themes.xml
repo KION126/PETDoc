@@ -1,10 +1,11 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme. -->
-    <style name="Base.Theme.PETDoc" parent="Theme.Material3.DayNight.NoActionBar">
+    <style name="Base.Theme.PETDoc" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <!-- 전체 앱 폰트 적용 -->
         <item name="android:fontFamily">@font/notosanskr_medium</item>
-        <item name="fontFamily">@font/notosanskr_medium</item> <!-- MaterialComponent 호환용 -->
+        <item name="fontFamily">@font/notosanskr_medium</item>
+        <item name="android:textColor">@color/black</item>
     </style>
 
     <style name="Theme.PETDoc" parent="Base.Theme.PETDoc" />
+
 </resources>

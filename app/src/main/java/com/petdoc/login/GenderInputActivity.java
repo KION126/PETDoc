@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -16,10 +17,11 @@ import com.petdoc.R;
 import com.petdoc.main.MainActivity;
 
 public class GenderInputActivity extends AppCompatActivity {
-
     private ImageButton btnMale, btnFemale, btnNeutered, btnNext, btnPrev;
     private ImageView imgMale, imgFemale, labelMale, labelFemale, labelNeutered;
+    private TextView tvPetName, tvPetNameTitle;
 
+    // 데이터 변수
     private String selectedGender = null; // "수컷" or "암컷"
     private boolean isNeutered = false;
 
@@ -31,7 +33,7 @@ public class GenderInputActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pet_gender);
 
-        // Firebase 사용자 정보
+        // 파이어베이스 인증 체크
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if (user == null) {
             Toast.makeText(this, "로그인이 필요합니다", Toast.LENGTH_SHORT).show();
@@ -41,8 +43,9 @@ public class GenderInputActivity extends AppCompatActivity {
         uid = user.getUid();
         dbRef = FirebaseDatabase.getInstance().getReference();
 
-        // 이전 액티비티에서 전달된 반려견 키
+        // 인텐트에서 반려견 키와 이름 받아오기
         petKey = getIntent().getStringExtra("petKey");
+        String petName = getIntent().getStringExtra("petName");
         if (petKey == null) {
             Toast.makeText(this, "반려견 정보 없음", Toast.LENGTH_SHORT).show();
             finish();
@@ -63,6 +66,18 @@ public class GenderInputActivity extends AppCompatActivity {
         labelFemale = findViewById(R.id.labelFemaleUnselected);
         labelNeutered = findViewById(R.id.labelNeutered);
 
+        tvPetName = findViewById(R.id.tvPetName);
+        tvPetNameTitle = findViewById(R.id.tvPetNameTitle);
+
+        // 상단 이름 표시
+        if (petName != null && !petName.isEmpty()) {
+            tvPetName.setText(petName);
+            tvPetNameTitle.setText(petName + "의 성별을 선택해 주세요");
+        } else {
+            tvPetName.setText("멍멍이 이름");
+            tvPetNameTitle.setText("멍멍이의 성별을 선택해 주세요");
+        }
+
         btnNext.setEnabled(false);
         btnNext.setImageResource(R.drawable.ic_arrow_forward);
 
@@ -74,16 +89,12 @@ public class GenderInputActivity extends AppCompatActivity {
             finish();
         });
 
-
-        // 성별 선택
         btnMale.setOnClickListener(v -> {
             selectedGender = "Male";
             imgMale.setImageResource(R.drawable.gender_male_on);
             labelMale.setImageResource(R.drawable.ic_male_on_label);
-
             imgFemale.setImageResource(R.drawable.gender_female_off);
             labelFemale.setImageResource(R.drawable.ic_female_off_label);
-
             activateNextButton();
         });
 
@@ -91,10 +102,8 @@ public class GenderInputActivity extends AppCompatActivity {
             selectedGender = "Female";
             imgMale.setImageResource(R.drawable.gender_male_off);
             labelMale.setImageResource(R.drawable.ic_male_off_label);
-
             imgFemale.setImageResource(R.drawable.gender_female_on);
             labelFemale.setImageResource(R.drawable.ic_female_on_label);
-
             activateNextButton();
         });
 
@@ -110,7 +119,7 @@ public class GenderInputActivity extends AppCompatActivity {
             }
         });
 
-        // 다음 버튼 → Firebase 저장 → 다음 화면
+        // [다음] 버튼 - Firebase 저장 후 체중 입력으로 이동
         btnNext.setOnClickListener(v -> {
             if (selectedGender == null) return;
 
@@ -124,6 +133,7 @@ public class GenderInputActivity extends AppCompatActivity {
                     .addOnSuccessListener(unused -> {
                         Intent intent = new Intent(GenderInputActivity.this, WeightInputActivity.class);
                         intent.putExtra("petKey", petKey);
+                        intent.putExtra("petName", petName); // 이름도 계속 전달
                         startActivity(intent);
                         finish();
                     })
@@ -132,15 +142,20 @@ public class GenderInputActivity extends AppCompatActivity {
                     );
         });
 
+
+        // [이전] 버튼 - 이름 입력 화면으로 (petKey, petName 전달)
         btnPrev.setOnClickListener(v -> {
             Intent intent = new Intent(GenderInputActivity.this, NameInputActivity.class);
             intent.putExtra("petKey", petKey);
-            intent.putExtra("petName", getIntent().getStringExtra("petName")); // 이전에 받은 이름도 같이 전달
+            if (petName != null) {
+                intent.putExtra("petName", petName);
+            }
             startActivity(intent);
-            finish();  // 현재 페이지 종료
+            finish();
         });
     }
 
+    // 다음 버튼 활성화
     private void activateNextButton() {
         btnNext.setEnabled(true);
         btnNext.setImageResource(R.drawable.ic_arrow_forward2);

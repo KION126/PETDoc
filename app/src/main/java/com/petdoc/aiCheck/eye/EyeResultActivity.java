@@ -1,4 +1,4 @@
-package com.petdoc.aicheck.eye;
+package com.petdoc.aiCheck.eye;
 
 import android.os.Bundle;
 
@@ -16,7 +16,7 @@ public class EyeResultActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
-        //setContentView(R.layout.);
+        setContentView(R.layout.activity_eye_result);
     }
 
 }

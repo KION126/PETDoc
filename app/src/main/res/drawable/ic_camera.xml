@@ -13,7 +13,7 @@
           android:startX="0"
           android:startY="0"
           android:endX="29"
-          android:endY="0">
+          android:endY="29">
         <item android:offset="0.0" android:color="#FDEBD0"/>
         <item android:offset="0.25" android:color="#E4D2F4"/>
         <item android:offset="0.5" android:color="#C0C9F8"/>
