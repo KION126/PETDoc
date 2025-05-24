@@ -1,4 +1,4 @@
-package com.petdoc.aicheck.skin;
+package com.petdoc.aiCheck.skin;
 
 import android.os.Bundle;
 
@@ -8,15 +8,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.petdoc.R;
 
 /**
- * 피부 이미지 입력 페이지
+ * 안구 검진 결과 페이지
  */
-public class SkinCamActivity extends AppCompatActivity {
+public class SkinResultActivity extends AppCompatActivity {
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
-        //setContentView(R.layout.);
+        setContentView(R.layout.activity_skin_result);
     }
-
 }

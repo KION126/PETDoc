@@ -40,6 +40,11 @@
         <activity android:name=".genetic.GeneticInfoActivity" />
         <activity android:name=".genetic.GeneticAllInfoActivity" />
 
+        <activity android:name=".aiCheck.AICheckActivity"/>
+        <activity android:name=".aiCheck.eye.EyeCamActivity" />
+        <activity android:name=".aiCheck.skin.SkinCamActivity" />
+
+
         <!--&lt;!&ndash; Skin &ndash;&gt;-->
         <!--<activity android:name=".skin.SkinCamActivity" />-->
         <!--<activity android:name=".skin.SkinResultActivity" />-->
