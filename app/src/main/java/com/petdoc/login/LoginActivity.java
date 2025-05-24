@@ -6,33 +6,38 @@ import android.util.Log;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
-import androidx.annotation.Nullable;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.gms.tasks.Task;
 import com.petdoc.R;
 import com.google.android.gms.auth.api.signin.*;
 import com.google.android.gms.common.api.ApiException;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.*;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.*;
+
+import com.petdoc.main.MainActivity;
 
 public class LoginActivity extends AppCompatActivity {
-
-    private static final int RC_SIGN_IN = 1000;
 
     private FirebaseAuth mAuth;
     private GoogleSignInClient mGoogleSignInClient;
     private DatabaseReference dbRef;
+
+    private ActivityResultLauncher<Intent> googleSignInLauncher;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
+        // FirebaseAuth, Database 초기화
         mAuth = FirebaseAuth.getInstance();
         dbRef = FirebaseDatabase.getInstance().getReference();
 
+        // 구글 로그인 옵션
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(getString(R.string.default_web_client_id))
                 .requestEmail()
@@ -40,36 +45,52 @@ public class LoginActivity extends AppCompatActivity {
 
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
 
+        // 버튼 리스너
         ImageButton btnLogin = findViewById(R.id.btn_google_login);
         btnLogin.setOnClickListener(v -> signInWithGoogle());
+
+        // 구글 로그인 결과 launcher
+        googleSignInLauncher = registerForActivityResult(
+                new ActivityResultContracts.StartActivityForResult(),
+                result -> {
+                    if (result.getResultCode() == RESULT_OK && result.getData() != null) {
+                        handleGoogleSignInResult(result.getData());
+                    } else {
+                        Toast.makeText(this, "로그인이 취소되었습니다.", Toast.LENGTH_SHORT).show();
+                    }
+                });
     }
 
+    /**
+     * 구글 로그인 인텐트 실행
+     */
     private void signInWithGoogle() {
-        mGoogleSignInClient.signOut().addOnCompleteListener(this, task -> {
-            Intent signInIntent = mGoogleSignInClient.getSignInIntent();
-            startActivityForResult(signInIntent, RC_SIGN_IN);
-        });
+        Intent signInIntent = mGoogleSignInClient.getSignInIntent();
+        googleSignInLauncher.launch(signInIntent);
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        if (requestCode == RC_SIGN_IN) {
-            Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
-            try {
-                GoogleSignInAccount account = task.getResult(ApiException.class);
-                if (account != null) {
-                    firebaseAuthWithGoogle(account.getIdToken());
-                }
-            } catch (ApiException e) {
-                Toast.makeText(this, "로그인 실패", Toast.LENGTH_SHORT).show();
-                Log.e("Login", "Google sign-in failed", e);
+    /**
+     * 구글 로그인 결과 처리
+     */
+    private void handleGoogleSignInResult(Intent data) {
+        Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
+        try {
+            GoogleSignInAccount account = task.getResult(ApiException.class);
+            if (account != null) {
+                firebaseAuthWithGoogle(account.getIdToken());
+            } else {
+                Toast.makeText(this, "구글 로그인 실패: 계정 정보 없음", Toast.LENGTH_SHORT).show();
             }
+        } catch (ApiException e) {
+            Toast.makeText(this, "구글 로그인 실패", Toast.LENGTH_SHORT).show();
+            Log.e("LoginActivity", "Google sign-in failed", e);
         }
     }
 
-    private void firebaseAuthWithGoogle(String idToken) {
+    /**
+     * Firebase 인증 처리
+     */
+    private void firebaseAuthWithGoogle(@NonNull String idToken) {
         AuthCredential credential = GoogleAuthProvider.getCredential(idToken, null);
 
         mAuth.signInWithCredential(credential)
@@ -77,27 +98,49 @@ public class LoginActivity extends AppCompatActivity {
                     if (task.isSuccessful()) {
                         FirebaseUser firebaseUser = mAuth.getCurrentUser();
                         if (firebaseUser != null) {
-                            saveUidKeyOnly(firebaseUser);
+                            // **수정: 사용자 이름 유무 체크 → 메인/이름입력 분기**
+                            moveToNextByName(firebaseUser);
                         }
                     } else {
                         Toast.makeText(this, "Firebase 인증 실패", Toast.LENGTH_SHORT).show();
+                        Log.e("LoginActivity", "Firebase auth failed", task.getException());
                     }
                 });
     }
 
-    private void saveUidKeyOnly(FirebaseUser firebaseUser) {
+    /**
+     * 이름 등록 여부에 따라 MainActivity 또는 NameInputActivity로 이동
+     */
+    private void moveToNextByName(FirebaseUser firebaseUser) {
         String uid = firebaseUser.getUid();
+        DatabaseReference userRef = dbRef.child("Users").child(uid);
 
-        dbRef.child("Users")
-                .child(uid)
-                .setValue("") // UID를 키로 저장
-                .addOnSuccessListener(unused -> {
-                    Toast.makeText(this, "유저 키 생성 완료", Toast.LENGTH_SHORT).show();
+        userRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                boolean hasName = false;
+                for (DataSnapshot pet : snapshot.getChildren()) {
+                    if (pet.child("기본정보").child("이름").exists()) {
+                        hasName = true;
+                        break;
+                    }
+                }
+                if (hasName) {
+                    // 이름 있으면 바로 메인
+                    startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                } else {
+                    // 이름 없으면 이름입력
                     startActivity(new Intent(LoginActivity.this, NameInputActivity.class));
-                    finish();
-                })
-                .addOnFailureListener(e -> {
-                    Toast.makeText(this, "유저 키 저장 실패", Toast.LENGTH_SHORT).show();
-                });
+                }
+                finish();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                // 실패 시 이름입력 화면으로 fallback
+                startActivity(new Intent(LoginActivity.this, NameInputActivity.class));
+                finish();
+            }
+        });
     }
 }

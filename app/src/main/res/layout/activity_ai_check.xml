@@ -76,7 +76,7 @@
         android:layout_marginTop="4dp"
         android:fontFamily="@font/notosanskr_medium"
         android:gravity="center"
-        android:text="지금까지 ______ 명의 반려가족이\n펫닥 AI 카메라를 이용했어요."
+        android:text=""
         android:textColor="#888888"
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"

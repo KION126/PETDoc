@@ -42,12 +42,13 @@
 
         <activity android:name=".aiCheck.AICheckActivity"/>
         <activity android:name=".aiCheck.eye.EyeCamActivity" />
+        <activity android:name=".aiCheck.eye.EyeLoadingActivity" />
+        <activity android:name=".aiCheck.eye.EyeResultActivity" />
+
         <activity android:name=".aiCheck.skin.SkinCamActivity" />
+        <activity android:name=".aiCheck.skin.SkinLoadingActivity" />
+        <activity android:name=".aiCheck.skin.SkinResultActivity" />
 
-
-        <!--&lt;!&ndash; Skin &ndash;&gt;-->
-        <!--<activity android:name=".skin.SkinCamActivity" />-->
-        <!--<activity android:name=".skin.SkinResultActivity" />-->
 
         <!--구글 로그인 설정 -->
         <meta-data

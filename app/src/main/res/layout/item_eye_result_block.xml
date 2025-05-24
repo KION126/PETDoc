@@ -4,8 +4,8 @@
     android:layout_height="wrap_content"
     android:layout_marginBottom="16dp">
 
-    <!-- 예: 종합 안구 건강도 -->
     <TextView
+        android:id="@+id/eye_result_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="종합 안구 건강도"
@@ -30,16 +30,21 @@
             android:gravity="center">
 
             <View
+                android:id="@+id/left_eye_indicator"
                 android:layout_width="48dp"
                 android:layout_height="48dp"
-                android:background="#DDDDDD" />
+                android:background="@drawable/circle_bg"
+                android:contentDescription="왼쪽 눈 상태 표시" />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="왼쪽"
                 android:textSize="12sp"
                 android:textColor="#666666" />
+
             <TextView
+                android:id="@+id/left_eye_score"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="50%"
@@ -57,16 +62,21 @@
             android:gravity="center">
 
             <View
+                android:id="@+id/right_eye_indicator"
                 android:layout_width="48dp"
                 android:layout_height="48dp"
-                android:background="#DDDDDD" />
+                android:background="@drawable/circle_bg"
+                android:contentDescription="오른쪽 눈 상태 표시" />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="오른쪽"
                 android:textSize="12sp"
                 android:textColor="#666666" />
+
             <TextView
+                android:id="@+id/right_eye_score"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="선택안함"

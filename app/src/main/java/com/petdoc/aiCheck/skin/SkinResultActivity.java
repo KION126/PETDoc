@@ -11,8 +11,6 @@ import com.petdoc.R;
  * 안구 검진 결과 페이지
  */
 public class SkinResultActivity extends AppCompatActivity {
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
