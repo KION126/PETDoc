@@ -35,7 +35,7 @@ public class PhotoInputActivity extends AppCompatActivity {
 
     private ImageView imgPhotoFrame;
     private LinearLayout albumBtn, cameraBtn;
-    private ImageButton btnNext;
+    private ImageButton btnNext, btnPrev;
 
     private Uri selectedImageUri = null;
     private String currentPhotoPath;
@@ -70,11 +70,20 @@ public class PhotoInputActivity extends AppCompatActivity {
 
         imgPhotoFrame = findViewById(R.id.imgPhotoFrame);
         btnNext = findViewById(R.id.btnNext);
+        btnPrev = findViewById(R.id.btnPrev);
         albumBtn = findViewById(R.id.layoutAlbum);
         cameraBtn = findViewById(R.id.layoutCamera);
 
         btnNext.setEnabled(false);
         btnNext.setImageResource(R.drawable.ic_arrow_forward);
+
+        //나중에 등록하기 버튼 클릭시
+        findViewById(R.id.imgRegisterLater).setOnClickListener(v -> {
+            Intent intent = new Intent(PhotoInputActivity.this, MainActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
+            finish();
+        });
 
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if (user == null) {
@@ -119,7 +128,7 @@ public class PhotoInputActivity extends AppCompatActivity {
                     .addOnSuccessListener(taskSnapshot -> imgRef.getDownloadUrl().addOnSuccessListener(uri -> {
                         String imageUrl = uri.toString();
                         dbRef.child("Users").child(uid).child(petKey)
-                                .child("기본정보").child("이미지파일경로로")
+                                .child("BasicInfo").child("ImageFilePath")
                                 .setValue(imageUrl)
                                 .addOnSuccessListener(unused -> {
                                     Intent intent = new Intent(PhotoInputActivity.this, MainActivity.class);
@@ -130,6 +139,14 @@ public class PhotoInputActivity extends AppCompatActivity {
                     .addOnFailureListener(e ->
                             Toast.makeText(this, "사진 업로드 실패: " + e.getMessage(), Toast.LENGTH_SHORT).show());
         });
+
+        btnPrev.setOnClickListener(v -> {
+            Intent intent = new Intent(PhotoInputActivity.this, WeightInputActivity.class);
+            intent.putExtra("petKey", petKey); // 반려견 정보 전달
+            startActivity(intent);
+            finish();  // 현재 페이지 종료
+        });
+
     }
 
     private void enableNextButton() {

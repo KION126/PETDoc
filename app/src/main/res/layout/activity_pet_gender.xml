@@ -10,21 +10,21 @@
     <!-- 나중에 등록하기 버튼 -->
 
 
-    <ImageView
+    <ImageButton
         android:id="@+id/imgRegisterLater"
         android:layout_width="100dp"
         android:layout_height="48dp"
         android:layout_marginTop="4dp"
         android:layout_marginEnd="24dp"
-        android:background="?attr/selectableItemBackgroundBorderless"
+        android:background="@null"
         android:clickable="true"
-        android:contentDescription="나중에 등록하기"
         android:focusable="true"
-        android:paddingTop="6dp"
-        android:paddingBottom="6dp"
         android:src="@drawable/ic_register_later"
+        android:elevation="10dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+
 
 
     <ImageView
