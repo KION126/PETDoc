@@ -1,4 +1,4 @@
-package com.petdoc.aicheck.eye.model;
+package com.petdoc.aiCheck.eye.model;
 
 import android.content.res.AssetFileDescriptor;
 import android.content.res.AssetManager;

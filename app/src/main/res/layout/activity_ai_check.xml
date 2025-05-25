@@ -1,23 +1,29 @@
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FFFFFF">
+    android:background="#FFFFFF"
+    tools:context=".aiCheck.AICheckActivity">
 
-    <!-- 🔙 뒤로 가기 버튼 -->
+    <!-- 🔙 뒤로 가기 버튼 (타이틀과 baseline 정렬) -->
+
+    <!-- 상단 배경 -->
+
     <ImageView
         android:id="@+id/backButton"
         android:layout_width="24dp"
         android:layout_height="24dp"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="24dp"
-        android:src="@drawable/ic_arrow_back"
+        android:layout_marginTop="64dp"
         android:contentDescription="뒤로 가기"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        android:src="@drawable/ic_arrow_back"
+        app:layout_constraintEnd_toStartOf="@+id/titleText"
+        app:layout_constraintHorizontal_bias="0.106"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
+    <!-- 메인 타이틀 -->
     <View
         android:id="@+id/vectorBg"
         android:layout_width="0dp"
@@ -28,69 +34,78 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.287" />
+        app:layout_constraintVertical_bias="0.358" />
 
     <TextView
         android:id="@+id/titleText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="AI 스마트 간편 검진"
-        android:fontFamily="@font/notosanskr_medium"
-        android:textSize="18sp"
-        android:textStyle="bold"
         android:textColor="#000000"
+        android:textStyle="bold"
+        android:textSize="20sp"
+        android:fontFamily="@font/notosanskr_medium"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="10dp" />
+        android:layout_marginTop="48dp" />
 
+    <!-- 설명 -->
     <TextView
         android:id="@+id/descriptionText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="AI 카메라로 내 아이를\n직접 체크해보세요!"
-        android:fontFamily="@font/notosanskr_medium"
-        android:textSize="20sp"
-        android:textStyle="bold"
         android:textColor="#000000"
+        android:textStyle="bold"
+        android:textSize="22sp"
         android:gravity="center"
+        android:fontFamily="@font/notosanskr_medium"
         app:layout_constraintTop_toBottomOf="@id/titleText"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        />
+        android:layout_marginTop="8dp" />
 
+    <!-- 누적 사용자 설명 -->
+
+    <!-- 피부 카메라 버튼 -->
     <TextView
         android:id="@+id/subText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="지금까지 ______ 명의 반려가족이\n펫닥 AI 카메라를 이용했어요."
+        android:layout_marginTop="4dp"
         android:fontFamily="@font/notosanskr_medium"
-        android:textSize="14sp"
-        android:textColor="#888888"
         android:gravity="center"
-        app:layout_constraintTop_toBottomOf="@id/descriptionText"
-        app:layout_constraintStart_toStartOf="parent"
+        android:text=""
+        android:textColor="#888888"
+        android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="16dp"/>
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/descriptionText" />
 
-    <!-- 전체 기록 박스 -->
+    <!-- 안구 카메라 버튼 -->
+
+    <!-- 기록 섹션 -->
+
     <FrameLayout
         android:id="@+id/skin_button"
-        android:layout_width="158dp"
-        android:layout_height="158dp"
-        android:layout_marginStart="244dp"
-        android:layout_marginTop="304dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="40dp"
         android:background="@drawable/ai_check_button"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintDimensionRatio="1:1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/eye_button"
+        app:layout_constraintTop_toBottomOf="@id/subText"
+        app:layout_constraintWidth_percent="0.4">
 
-        <!-- 텍스트 묶음 -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="top|center_horizontal"
             android:layout_marginTop="12dp"
-            android:gravity="center_horizontal"
+            android:gravity="center"
             android:orientation="vertical">
 
             <TextView
@@ -98,7 +113,7 @@
                 android:layout_height="wrap_content"
                 android:text="피부 AI 카메라"
                 android:textColor="#FFFFFF"
-                android:textSize="14sp"
+                android:textSize="16sp"
                 android:textStyle="bold" />
 
             <TextView
@@ -106,10 +121,9 @@
                 android:layout_height="wrap_content"
                 android:text="7가지의 질병 검진"
                 android:textColor="#FFFFFF"
-                android:textSize="12sp" />
+                android:textSize="14sp" />
         </LinearLayout>
 
-        <!-- 아이콘 -->
         <ImageView
             android:layout_width="48dp"
             android:layout_height="48dp"
@@ -120,22 +134,23 @@
 
     <FrameLayout
         android:id="@+id/eye_button"
-        android:layout_width="158dp"
-        android:layout_height="158dp"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="304dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="40dp"
+        android:layout_marginEnd="16dp"
         android:background="@drawable/ai_check_button"
-        app:layout_constraintEnd_toStartOf="@+id/skin_button"
+        app:layout_constraintDimensionRatio="1:1"
+        app:layout_constraintEnd_toStartOf="@id/skin_button"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toBottomOf="@id/subText"
+        app:layout_constraintWidth_percent="0.4">
 
-        <!-- 텍스트 2줄을 LinearLayout으로 묶기 -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="top|center_horizontal"
             android:layout_marginTop="12dp"
-            android:gravity="center_horizontal"
+            android:gravity="center"
             android:orientation="vertical">
 
             <TextView
@@ -143,7 +158,7 @@
                 android:layout_height="wrap_content"
                 android:text="안구 AI 카메라"
                 android:textColor="#FFFFFF"
-                android:textSize="14sp"
+                android:textSize="16sp"
                 android:textStyle="bold" />
 
             <TextView
@@ -151,55 +166,50 @@
                 android:layout_height="wrap_content"
                 android:text="10가지의 질병 검진"
                 android:textColor="#FFFFFF"
-                android:textSize="12sp" />
+                android:textSize="14sp" />
         </LinearLayout>
 
-        <!-- 아이콘 -->
         <ImageView
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:layout_gravity="bottom|center_horizontal"
             android:layout_marginBottom="12dp"
             android:src="@drawable/ic_eye" />
-
     </FrameLayout>
 
     <LinearLayout
         android:id="@+id/historySection"
-        android:layout_width="400dp"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
+        android:layout_margin="16dp"
         android:orientation="vertical"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/skin_button"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/subText"
-        app:layout_constraintVertical_bias="0.557">
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent">
 
-        <!-- 전체 기록 제목 -->
         <TextView
             android:id="@+id/historyTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
             android:text="전체 기록"
             android:textColor="#000000"
-            android:textSize="18sp"
-            android:textStyle="bold" />
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="8dp" />
 
-        <!-- 항목 구분 -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:gravity="center">
 
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:gravity="center"
                 android:text="안구"
+                android:gravity="center"
                 android:textSize="16sp"
                 android:textStyle="bold" />
 
@@ -207,32 +217,27 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:gravity="center"
                 android:text="피부"
+                android:gravity="center"
                 android:textSize="16sp"
                 android:textStyle="bold" />
         </LinearLayout>
 
-        <!-- Divider -->
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:layout_marginTop="4dp"
-            android:layout_marginBottom="8dp"
+            android:layout_marginVertical="8dp"
             android:background="#CCCCCC" />
 
-        <!-- 반복되는 기록 카드 -->
+        <!-- 기록 카드 샘플 -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
-            android:layout_marginBottom="8dp"
             android:background="#F0F0F0"
-            android:backgroundTint="#F0F0F0"
-            android:clipToOutline="true"
-            android:gravity="center_vertical"
             android:orientation="horizontal"
-            android:padding="12dp">
+            android:gravity="center_vertical"
+            android:padding="12dp"
+            android:layout_marginBottom="8dp">
 
             <LinearLayout
                 android:layout_width="0dp"
@@ -264,9 +269,5 @@
                 android:textSize="16sp"
                 android:textStyle="bold" />
         </LinearLayout>
-
-        <!-- 두 번째, 세 번째 기록도 같은 형태로 추가 가능 -->
     </LinearLayout>
-
-
 </androidx.constraintlayout.widget.ConstraintLayout>

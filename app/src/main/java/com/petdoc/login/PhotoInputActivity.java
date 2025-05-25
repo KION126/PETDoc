@@ -1,14 +1,13 @@
 package com.petdoc.login;
 
-import android.app.Activity;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultLauncher;
@@ -33,32 +32,34 @@ import java.util.Date;
 
 public class PhotoInputActivity extends AppCompatActivity {
 
-    private ImageView imgPhotoFrame;
+    private ImageView imgPhotoFrame, placeholderIcon, previewImage;
     private LinearLayout albumBtn, cameraBtn;
-    private ImageButton btnNext;
+    private ImageButton btnNext, btnPrev;
+    private TextView tvPetName, tvPetPhotoTitle;
+
 
     private Uri selectedImageUri = null;
     private String currentPhotoPath;
 
-    private String uid, petKey;
+    private String uid, petKey, petName;
     private DatabaseReference dbRef;
     private StorageReference storageRef;
 
     private final ActivityResultLauncher<Intent> albumLauncher =
             registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
-                if (result.getResultCode() == Activity.RESULT_OK && result.getData() != null) {
+                if (result.getResultCode() == RESULT_OK && result.getData() != null) {
                     selectedImageUri = result.getData().getData();
-                    Glide.with(this).load(selectedImageUri).into(imgPhotoFrame);
+                    showPreview(selectedImageUri);
                     enableNextButton();
                 }
             });
 
     private final ActivityResultLauncher<Intent> cameraLauncher =
             registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
-                if (result.getResultCode() == Activity.RESULT_OK) {
+                if (result.getResultCode() == RESULT_OK) {
                     File file = new File(currentPhotoPath);
                     selectedImageUri = Uri.fromFile(file);
-                    Glide.with(this).load(selectedImageUri).into(imgPhotoFrame);
+                    showPreview(selectedImageUri);
                     enableNextButton();
                 }
             });
@@ -68,13 +69,28 @@ public class PhotoInputActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pet_photo);
 
-        imgPhotoFrame = findViewById(R.id.imgPhotoFrame);
+        // 뷰 연결
+        tvPetName = findViewById(R.id.tvPetName);
+        tvPetPhotoTitle = findViewById(R.id.tvPetPhotoTitle);
+        previewImage = findViewById(R.id.previewImage);
+        placeholderIcon = findViewById(R.id.placeholderIcon);
         btnNext = findViewById(R.id.btnNext);
-        albumBtn = findViewById(R.id.layoutAlbum);
-        cameraBtn = findViewById(R.id.layoutCamera);
+        btnPrev = findViewById(R.id.btnPrev);
 
+        albumBtn = findViewById(R.id.albumButton);
+        cameraBtn = findViewById(R.id.cameraButton);
         btnNext.setEnabled(false);
         btnNext.setImageResource(R.drawable.ic_arrow_forward);
+
+
+        //나중에 등록하기 버튼 클릭시
+        findViewById(R.id.imgRegisterLater).setOnClickListener(v -> {
+            Intent intent = new Intent(PhotoInputActivity.this, MainActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
+            finish();
+        });
+
 
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if (user == null) {
@@ -87,17 +103,42 @@ public class PhotoInputActivity extends AppCompatActivity {
         storageRef = FirebaseStorage.getInstance().getReference();
 
         petKey = getIntent().getStringExtra("petKey");
+        petName = getIntent().getStringExtra("petName");
         if (petKey == null) {
             Toast.makeText(this, "반려견 정보 없음", Toast.LENGTH_SHORT).show();
             finish();
             return;
         }
 
+        // 이름 표시
+        if (petName != null && !petName.isEmpty()) {
+            tvPetName.setText(petName);
+            tvPetPhotoTitle.setText(petName + "의 사진을 올려주세요");
+        } else {
+            tvPetName.setText("멍멍이 이름");
+            tvPetPhotoTitle.setText("반려견의 사진을 올려주세요");
+        }
+
+        // 처음에는 미리보기 invisible, 플레이스홀더 visible
+        previewImage.setVisibility(ImageView.INVISIBLE);
+        placeholderIcon.setVisibility(ImageView.VISIBLE);
+
+        // 이전 버튼: WeightInputActivity로
+        btnPrev.setOnClickListener(v -> {
+            Intent intent = new Intent(PhotoInputActivity.this, WeightInputActivity.class);
+            intent.putExtra("petKey", petKey);
+            intent.putExtra("petName", petName);
+            startActivity(intent);
+            finish();
+        });
+
+        // 앨범에서 선택
         albumBtn.setOnClickListener(v -> {
             Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
             albumLauncher.launch(intent);
         });
 
+        // 카메라 촬영
         cameraBtn.setOnClickListener(v -> {
             Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
             File photoFile = createImageFile();
@@ -109,6 +150,7 @@ public class PhotoInputActivity extends AppCompatActivity {
             }
         });
 
+        // 다음 버튼 → 사진 업로드 및 메인으로 이동
         btnNext.setOnClickListener(v -> {
             if (selectedImageUri == null) return;
 
@@ -119,7 +161,7 @@ public class PhotoInputActivity extends AppCompatActivity {
                     .addOnSuccessListener(taskSnapshot -> imgRef.getDownloadUrl().addOnSuccessListener(uri -> {
                         String imageUrl = uri.toString();
                         dbRef.child("Users").child(uid).child(petKey)
-                                .child("기본정보").child("이미지파일경로로")
+                                .child("BasicInfo").child("ImageFilePath")
                                 .setValue(imageUrl)
                                 .addOnSuccessListener(unused -> {
                                     Intent intent = new Intent(PhotoInputActivity.this, MainActivity.class);
@@ -130,6 +172,23 @@ public class PhotoInputActivity extends AppCompatActivity {
                     .addOnFailureListener(e ->
                             Toast.makeText(this, "사진 업로드 실패: " + e.getMessage(), Toast.LENGTH_SHORT).show());
         });
+
+        btnPrev.setOnClickListener(v -> {
+            Intent intent = new Intent(PhotoInputActivity.this, WeightInputActivity.class);
+            intent.putExtra("petKey", petKey); // 반려견 정보 전달
+            startActivity(intent);
+            finish();  // 현재 페이지 종료
+        });
+
+    }
+
+    // 이미지 미리보기 처리
+    private void showPreview(Uri uri) {
+        if (uri != null) {
+            Glide.with(this).load(uri).into(previewImage);
+            previewImage.setVisibility(ImageView.VISIBLE);
+            placeholderIcon.setVisibility(ImageView.INVISIBLE);
+        }
     }
 
     private void enableNextButton() {

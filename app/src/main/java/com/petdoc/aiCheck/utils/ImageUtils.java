@@ -1,4 +1,4 @@
-package com.petdoc.aicheck.utils;
+package com.petdoc.aiCheck.utils;
 
 import android.graphics.Bitmap;
 
@@ -26,4 +26,6 @@ public class ImageUtils {
 
         return inputData;
     }
+
+
 }

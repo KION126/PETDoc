@@ -8,147 +8,174 @@
     android:background="@color/white"
     tools:ignore="MissingClass">
 
+    <!-- 반려견 이름 -->
+    <TextView
+        android:id="@+id/tvPetName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="멍멍이 이름"
+        android:textSize="22sp"
+        android:textStyle="bold"
+        android:textColor="#000000"
+        android:layout_marginTop="24dp"
+        android:layout_marginStart="16dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
     <!-- 나중에 등록하기 버튼 -->
-    <ImageView
+    <ImageButton
         android:id="@+id/imgRegisterLater"
-        android:layout_width="100dp"
+        android:layout_width="wrap_content"
         android:layout_height="48dp"
-        android:layout_marginTop="4dp"
-        android:layout_marginEnd="24dp"
+        android:src="@drawable/ic_register_later"
+        android:contentDescription="나중에 등록하기"
         android:background="?attr/selectableItemBackgroundBorderless"
         android:clickable="true"
-        android:contentDescription="나중에 등록하기"
         android:focusable="true"
         android:paddingTop="6dp"
         android:paddingBottom="6dp"
-        android:src="@drawable/ic_register_later"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
+    <!-- 진행 바 -->
     <FrameLayout
         android:id="@+id/progressContainer"
         android:layout_width="100dp"
         android:layout_height="4dp"
-        android:layout_marginTop="120dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.501"
+        android:layout_marginTop="24dp"
+        app:layout_constraintTop_toBottomOf="@id/imgRegisterLater"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/imgRegisterLater">
+        app:layout_constraintEnd_toEndOf="parent">
 
-        <!-- 트랙 배경 -->
         <ImageView
-            android:id="@+id/progressBg"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:src="@drawable/ic_step_progress_bar1" />
 
-        <!-- 채워진 진행 트랙 -->
         <ImageView
             android:id="@+id/progressFill"
-            android:layout_width="wrap_content"
+            android:layout_width="40dp"
             android:layout_height="match_parent"
-            android:layout_gravity="start"
-            android:src="@drawable/ic_progress_filled4" />
+            android:src="@drawable/ic_progress_filled3" />
     </FrameLayout>
 
-
-    <ImageView
-        android:id="@+id/imgPetPhotoTitle"
+    <!-- 사진 입력 타이틀 (TextView로 대체, 이름 포함) -->
+    <TextView
+        android:id="@+id/tvPetPhotoTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="28dp"
-        android:contentDescription="아이 사진 입력 타이틀"
-        android:src="@drawable/enter_pet_photo_label"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/progressContainer" />
-
-    <!-- 사진 프레임 아이콘 -->
-
-
-    <ImageView
-        android:id="@+id/imgPhotoFrame"
-        android:layout_width="246dp"
-        android:layout_height="256dp"
         android:layout_marginTop="32dp"
-        android:contentDescription="사진 프레임"
-        android:src="@drawable/ic_enter_photo"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.496"
+        android:text="멍멍이 이름의 사진을 올려주세요"
+        android:textColor="#000000"
+        android:textSize="27sp"
+        android:textStyle="bold"
+        android:gravity="center"
+        app:layout_constraintTop_toBottomOf="@id/progressContainer"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imgPetPhotoTitle" />
+        app:layout_constraintEnd_toEndOf="parent" />
 
+    <!-- 사진 프레임 -->
+    <FrameLayout
+        android:id="@+id/previewArea"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"
+        android:background="@drawable/rounded_bg"
+        android:elevation="6dp"
+        app:layout_constraintTop_toBottomOf="@id/tvPetPhotoTitle"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/petPhotoOptions"
+        app:layout_constraintDimensionRatio="1:1">
 
+        <!-- 빈 상태용 아이콘 -->
+        <ImageView
+            android:id="@+id/placeholderIcon"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:layout_gravity="center"
+            android:src="@drawable/ic_star_gradient"
+            android:contentDescription="플레이스홀더 아이콘" />
+
+        <ImageView
+            android:id="@+id/previewImage"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            android:contentDescription="미리보기 이미지"
+            android:visibility="invisible" />
+    </FrameLayout>
+
+    <!-- 앨범 / 카메라 선택 옵션 -->
     <LinearLayout
         android:id="@+id/petPhotoOptions"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="316dp"
+        android:layout_marginTop="24dp"
         android:gravity="center"
         android:orientation="horizontal"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintTop_toBottomOf="@id/previewArea"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imgPetPhotoTitle">
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/btnPrev">
 
-        <!-- 앨범 아이콘 -->
         <LinearLayout
-            android:id="@+id/layoutAlbum"
+            android:id="@+id/albumButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="32dp"
+            android:orientation="vertical"
             android:gravity="center"
-            android:orientation="vertical">
+            android:layout_marginEnd="32dp">
 
             <ImageView
-                android:layout_width="60dp"
-                android:layout_height="60dp"
-                android:background="@drawable/round_background_gray"
-                android:padding="12dp"
-                android:src="@drawable/ic_album_black" />
+                android:layout_width="56dp"
+                android:layout_height="56dp"
+                android:src="@drawable/ic_album"
+                android:contentDescription="앨범에서 이미지 선택" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="6dp"
                 android:text="앨범"
                 android:textColor="#000000"
-                android:textSize="12sp" />
+                android:textSize="14sp" />
         </LinearLayout>
 
-        <!-- 카메라 아이콘 -->
         <LinearLayout
-            android:id="@+id/layoutCamera"
+            android:id="@+id/cameraButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:gravity="center">
 
             <ImageView
-                android:layout_width="60dp"
-                android:layout_height="60dp"
-                android:background="@drawable/round_background_gray"
-                android:padding="12dp"
-                android:src="@drawable/ic_camera_black" />
+                android:layout_width="56dp"
+                android:layout_height="56dp"
+                android:src="@drawable/ic_camera"
+                android:contentDescription="카메라로 사진 촬영" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="6dp"
                 android:text="카메라"
                 android:textColor="#000000"
-                android:textSize="12sp" />
+                android:textSize="14sp" />
         </LinearLayout>
     </LinearLayout>
 
+    <!-- 이전 버튼 -->
     <ImageButton
         android:id="@+id/btnPrev"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="24dp"
+        android:src="@drawable/ic_arrow_back2"
         android:background="@null"
         android:contentDescription="이전"
-        android:src="@drawable/ic_arrow_back2"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/btnNext" />
@@ -159,9 +186,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="24dp"
+        android:src="@drawable/ic_arrow_forward"
         android:background="@null"
         android:contentDescription="다음"
-        android:src="@drawable/ic_arrow_forward"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@+id/btnPrev"
         app:layout_constraintEnd_toEndOf="parent" />
