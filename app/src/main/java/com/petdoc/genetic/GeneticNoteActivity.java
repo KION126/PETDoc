@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 
 import androidx.activity.result.ActivityResultLauncher;
@@ -26,7 +27,7 @@ import java.util.Date;
 public class GeneticNoteActivity extends AppCompatActivity {
 
     private Button btnNext;
-    private Button btnBack;
+    private ImageButton btnBack;
     private ImageView btnAlbem;
     private ImageView btnCamera;
     private Uri selectedImageUri = null;
