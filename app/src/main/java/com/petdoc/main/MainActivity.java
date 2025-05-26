@@ -2,6 +2,7 @@ package com.petdoc.main;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -16,7 +17,9 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.*;
 import com.petdoc.R;
 import com.petdoc.aiCheck.AICheckActivity;
+import com.petdoc.genetic.GeneticInfoActivity;
 import com.petdoc.genetic.GeneticNoteActivity;
+import com.petdoc.login.CurrentPetManager;
 import com.petdoc.login.LoginActivity;
 
 public class MainActivity extends AppCompatActivity {
@@ -105,7 +108,7 @@ public class MainActivity extends AppCompatActivity {
 
         // [1] 유전병 진단 노트 버튼
         btnGeneticNote.setOnClickListener(v -> {
-            startActivity(new Intent(MainActivity.this, GeneticNoteActivity.class));
+            navigateToGeneticScreen();
         });
 
         // [2] AI 스마트 간편 검진 버튼
@@ -113,4 +116,34 @@ public class MainActivity extends AppCompatActivity {
             startActivity(new Intent(MainActivity.this, AICheckActivity.class));
         });
     }
+
+    // [1] 유전병 진단 노트 버튼 이전 유전병 예측 데이터 존재 확인 및 페이지 이동 메서드
+    private void navigateToGeneticScreen() {
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        String currentPetId = CurrentPetManager.getInstance().getCurrentPetId();
+
+        if (user == null || currentPetId == null) {
+            Log.e("MainActivity", "사용자 또는 반려견 ID 없음");
+            return;
+        }
+
+        String uid = user.getUid();
+
+        FirebaseDatabase.getInstance()
+                .getReference("Users")
+                .child(uid)
+                .child(currentPetId)
+                .child("Genetic")
+                .get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful() && task.getResult().exists()) {
+                        // 예측 결과 존재 → GeneticInfoActivity로 이동
+                        startActivity(new Intent(MainActivity.this, GeneticInfoActivity.class));
+                    } else {
+                        // 결과 없음 → GeneticNoteActivity로 이동
+                        startActivity(new Intent(MainActivity.this, GeneticNoteActivity.class));
+                    }
+                });
+    }
+
 }
