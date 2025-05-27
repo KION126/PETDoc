@@ -2,6 +2,7 @@ package com.petdoc.login;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.widget.ImageButton;
 import android.widget.Toast;
@@ -10,6 +11,7 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.viewpager2.widget.ViewPager2;
 
 import com.google.android.gms.tasks.Task;
 import com.petdoc.R;
@@ -32,6 +34,32 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+        ViewPager2 viewPager = findViewById(R.id.iconSlider);
+        int[] icons = {
+                R.drawable.ic_walk_log,
+                R.drawable.ic_genetic_note,
+                R.drawable.ic_smart_check
+        };
+        IconSliderAdapter adapter = new IconSliderAdapter(icons);
+        viewPager.setAdapter(adapter);
+
+        // 사용자 터치 막기 (스크롤 비활성)
+        viewPager.setUserInputEnabled(false);
+
+        // 자동 슬라이드 (3초 간격)
+        final Handler sliderHandler = new Handler();
+        Runnable sliderRunnable = new Runnable() {
+            int currentPage = 0;
+            @Override
+            public void run() {
+                currentPage = (currentPage + 1) % icons.length;
+                viewPager.setCurrentItem(currentPage, true);
+                sliderHandler.postDelayed(this, 3000);
+            }
+        };
+        sliderHandler.postDelayed(sliderRunnable, 3000);
+
 
         // FirebaseAuth, Database 초기화
         mAuth = FirebaseAuth.getInstance();
@@ -143,4 +171,5 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
     }
+
 }
