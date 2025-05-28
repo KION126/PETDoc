@@ -32,30 +32,38 @@
         app:layout_constraintEnd_toEndOf="@id/circleBackground" />
 
 
-    <!-- 이름 텍스트 -->
-    <TextView
-        android:id="@+id/nameText"
+    <LinearLayout
+        android:id="@+id/nameWithArrow"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="12dp"
-        android:text="멍멍이 이름"
-        android:textColor="@android:color/black"
-        android:textSize="16sp"
-        android:textStyle="bold"
+        android:minHeight="48dp"
+        android:minWidth="48dp"
+        android:padding="8dp"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:clickable="true"
+        android:focusable="true"
         app:layout_constraintStart_toEndOf="@id/circleBackground"
         app:layout_constraintTop_toTopOf="@id/circleBackground"
-        app:layout_constraintBottom_toBottomOf="@id/circleBackground" />
+        app:layout_constraintBottom_toBottomOf="@id/circleBackground">
 
-    <!-- 아래 화살표 -->
-    <ImageView
-        android:id="@+id/arrowDown"
-        android:layout_width="12dp"
-        android:layout_height="8dp"
-        android:layout_marginStart="6dp"
-        android:src="@drawable/ic_arrow_down"
-        app:layout_constraintTop_toTopOf="@id/nameText"
-        app:layout_constraintBottom_toBottomOf="@id/nameText"
-        app:layout_constraintStart_toEndOf="@id/nameText" />
+        <TextView
+            android:id="@+id/nameText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="멍멍이 이름"
+            android:textColor="@android:color/black"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <ImageView
+            android:id="@+id/arrowDown"
+            android:layout_width="12dp"
+            android:layout_height="8dp"
+            android:layout_marginStart="6dp"
+            android:src="@drawable/ic_arrow_down" />
+    </LinearLayout>
+
 
 
     <!-- 오른쪽 상단 계정 아이콘 -->

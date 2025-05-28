@@ -126,10 +126,10 @@ public class GenderInputActivity extends AppCompatActivity {
             DatabaseReference infoRef = dbRef.child("Users")
                     .child(uid)
                     .child(petKey)
-                    .child("BasicInfo");
+                    .child("basicInfo");
 
-            infoRef.child("Gender").setValue(selectedGender);
-            infoRef.child("Neutered status").setValue(isNeutered)
+            infoRef.child("gender").setValue(selectedGender);
+            infoRef.child("neutered").setValue(isNeutered)
                     .addOnSuccessListener(unused -> {
                         Intent intent = new Intent(GenderInputActivity.this, WeightInputActivity.class);
                         intent.putExtra("petKey", petKey);

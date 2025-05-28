@@ -161,7 +161,7 @@ public class PhotoInputActivity extends AppCompatActivity {
                     .addOnSuccessListener(taskSnapshot -> imgRef.getDownloadUrl().addOnSuccessListener(uri -> {
                         String imageUrl = uri.toString();
                         dbRef.child("Users").child(uid).child(petKey)
-                                .child("BasicInfo").child("ImageFilePath")
+                                .child("basicInfo").child("imagePath")
                                 .setValue(imageUrl)
                                 .addOnSuccessListener(unused -> {
                                     Intent intent = new Intent(PhotoInputActivity.this, MainActivity.class);

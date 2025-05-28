@@ -114,8 +114,8 @@ public class WeightInputActivity extends AppCompatActivity {
             dbRef.child("Users")
                     .child(uid)
                     .child(petKey)
-                    .child("BasicInfo")
-                    .child("Weight")
+                    .child("basicInfo")
+                    .child("weight")
                     .setValue(weight)
                     .addOnSuccessListener(unused -> {
                         Intent intent = new Intent(WeightInputActivity.this, PhotoInputActivity.class);
