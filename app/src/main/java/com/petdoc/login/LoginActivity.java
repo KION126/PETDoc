@@ -148,7 +148,7 @@ public class LoginActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 boolean hasName = false;
                 for (DataSnapshot pet : snapshot.getChildren()) {
-                    if (pet.child("기본정보").child("이름").exists()) {
+                    if (pet.child("BasicInfo").child("Name").exists()) {
                         hasName = true;
                         break;
                     }

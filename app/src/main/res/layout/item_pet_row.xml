@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/itemPetRow"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:gravity="center_vertical"
+    android:paddingVertical="12dp"
+    android:paddingHorizontal="8dp">
+
+    <!-- 프로필 이미지 -->
+    <ImageView
+        android:id="@+id/petProfileImage"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginEnd="12dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/ic_dog_icon" />
+
+    <!-- 이름 텍스트 -->
+    <TextView
+        android:id="@+id/petName"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="강아지 이름"
+        android:textSize="16sp"
+        android:textColor="#000000" />
+
+    <!-- 체크 표시 -->
+    <ImageView
+        android:id="@+id/checkIcon"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:src="@drawable/ic_check_mark"
+        android:visibility="gone" />
+</LinearLayout>

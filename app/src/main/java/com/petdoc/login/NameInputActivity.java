@@ -102,8 +102,8 @@ public class NameInputActivity extends AppCompatActivity {
                 String newPetKey = "Dog" + (petCount + 1);
 
                 userRef.child(newPetKey)
-                        .child("BasicInfo")
-                        .child("Name")
+                        .child("basicInfo")
+                        .child("name")
                         .setValue(petName)
                         .addOnSuccessListener(unused -> {
                             // 다음 액티비티로 이동하면서 petKey도 같이 전달
