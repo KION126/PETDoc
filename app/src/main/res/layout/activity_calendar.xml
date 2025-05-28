@@ -38,7 +38,7 @@
             android:id="@+id/monthText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="04월"
+            android:text="05월"
             android:textSize="16sp"
             android:textStyle="bold"
             android:layout_marginHorizontal="12dp" />

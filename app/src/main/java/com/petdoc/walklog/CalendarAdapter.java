@@ -47,9 +47,13 @@ public class CalendarAdapter extends BaseAdapter {
         TextView dayText = convertView.findViewById(R.id.dayText);
         TextView walkTimeText = convertView.findViewById(R.id.walkTimeText);
 
-        dayText.setText(String.valueOf(day.day));
-        walkTimeText.setText(day.walkTime);
-
+        if (day.day == 0) {
+            dayText.setText("");
+            walkTimeText.setText("");
+        } else {
+            dayText.setText(String.valueOf(day.day));
+            walkTimeText.setText(day.walkTime);
+        }
         return convertView;
     }
 }
