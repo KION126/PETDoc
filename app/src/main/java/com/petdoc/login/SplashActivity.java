@@ -38,18 +38,23 @@ public class SplashActivity extends AppCompatActivity {
             userRef.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
-                    boolean hasName = false;
-                    for (DataSnapshot pet : snapshot.getChildren()) {
-                        if (pet.child("기본정보").child("이름").exists()) {
-                            hasName = true;
+                    if (snapshot.getChildrenCount() > 0) {
+                        // 반려견 노드 중 첫 번째 key를 기본 반려견 ID로 사용
+                        String firstPetId = null;
+                        for (DataSnapshot petSnapshot : snapshot.getChildren()) {
+                            firstPetId = petSnapshot.getKey();
                             break;
                         }
-                    }
-                    if (hasName) {
-                        // 기존 반려견 이름 있으면 메인
+
+                        if (firstPetId != null) {
+                            // CurrentPetManager에 기본 반려견 ID 저장
+                            CurrentPetManager.getInstance().setCurrentPetId(firstPetId);
+                        }
+
+                        // 메인 화면으로 이동
                         startActivity(new Intent(SplashActivity.this, MainActivity.class));
                     } else {
-                        // 이름 입력해야 함
+                        // 반려견 노드 없으면 이름 입력 화면
                         startActivity(new Intent(SplashActivity.this, NameInputActivity.class));
                     }
                     finish();

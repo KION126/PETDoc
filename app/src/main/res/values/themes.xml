@@ -4,8 +4,19 @@
         <item name="android:fontFamily">@font/notosanskr_medium</item>
         <item name="fontFamily">@font/notosanskr_medium</item>
         <item name="android:textColor">@color/black</item>
+
+        <!-- 버튼 기본 배경 색 제거-->
+        <item name="materialButtonStyle">@style/CustomButton</item>
     </style>
 
     <style name="Theme.PETDoc" parent="Base.Theme.PETDoc" />
+
+    <!-- 기본 배경 제거 -->
+    <style name="CustomButton" parent="Widget.MaterialComponents.Button">
+        <item name="backgroundTint">@null</item>
+        <item name="android:background">?attr/selectableItemBackground</item>
+        <item name="android:minHeight">0dp</item>
+        <item name="android:minWidth">0dp</item>
+    </style>
 
 </resources>
