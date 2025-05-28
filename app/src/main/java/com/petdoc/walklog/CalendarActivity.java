@@ -1,7 +1,11 @@
 package com.petdoc.walklog;
 
+import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.widget.Button;
 import android.widget.GridView;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -21,6 +25,7 @@ public class CalendarActivity extends AppCompatActivity {
     private TextView monthText;
     private ImageView prevMonth, nextMonth;
     private YearMonth currentMonth;
+    private Button startWalkingBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,12 +36,16 @@ public class CalendarActivity extends AppCompatActivity {
         monthText = findViewById(R.id.monthText);
         prevMonth = findViewById(R.id.prevMonth);
         nextMonth = findViewById(R.id.nextMonth);
+        startWalkingBtn = findViewById(R.id.startWalkingBtn);
+        ImageButton btnBack = findViewById(R.id.btn_back);
+
+        startWalkingBtn.setBackgroundColor(Color.BLUE); // 얘가 있어야 버튼이 보임 왜 그런지 모르겠음
 
         // 현재 월 초기화
         currentMonth = YearMonth.now();
         updateCalendar(); // 처음 화면 세팅
 
-// 이전/다음 버튼 클릭 리스너
+        // 이전/다음 버튼 클릭 리스너
         prevMonth.setOnClickListener(v -> {
             currentMonth = currentMonth.minusMonths(1);
             updateCalendar();
@@ -51,6 +60,14 @@ public class CalendarActivity extends AppCompatActivity {
 
         CalendarAdapter adapter = new CalendarAdapter(this, days);
         calendarGridView.setAdapter(adapter);
+
+        startWalkingBtn.setOnClickListener(v -> {
+            Intent intent = new Intent(CalendarActivity.this, WalkRecordActivity.class);
+            startActivity(intent);
+        });
+
+        //뒤로가기
+        btnBack.setOnClickListener(v -> finish());
     }
 
     private List<CalendarDayData> generateCalendarDays(int year, int month) {
