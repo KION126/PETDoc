@@ -1,10 +1,15 @@
 package com.petdoc.main;
 
 import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.content.pm.Signature;
 import android.os.Bundle;
+import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -32,7 +37,9 @@ import com.petdoc.login.NameInputActivity;
 import com.petdoc.login.PetListAdapter;
 import com.petdoc.login.model.DogBasicInfo;
 import com.petdoc.login.model.Pet;
+import com.petdoc.map.MapActivity;
 
+import java.security.MessageDigest;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -47,6 +54,8 @@ public class MainActivity extends AppCompatActivity {
     private String uid;
     private DatabaseReference dbRef;
     private LinearLayout nameWithArrow; // 멍멍이 이름 드롭
+    private Button btnFindHospital;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,10 +82,17 @@ public class MainActivity extends AppCompatActivity {
         accountIcon = findViewById(R.id.accountIcon);
         dogIcon = findViewById(R.id.dogIcon);
         nameWithArrow = findViewById(R.id.nameWithArrow);
+        btnFindHospital = findViewById(R.id.btnFindHospital);
 
         //멍멍이 이름 클릭시 리스트 드롭
         nameWithArrow.setOnClickListener(v -> {
             showPetSelectorDialog(); // 우리가 만든 메서드 호출
+        });
+
+        //병원찾기버튼
+        btnFindHospital.setOnClickListener(v -> {
+            Intent intent = new Intent(this, MapActivity.class);
+            startActivity(intent);
         });
 
         // 오른쪽 계정(프로필) 아이콘 클릭 시 로그아웃
@@ -226,5 +242,6 @@ public class MainActivity extends AppCompatActivity {
         dialog.setContentView(view);
         dialog.show();
     }
+
 
 }
