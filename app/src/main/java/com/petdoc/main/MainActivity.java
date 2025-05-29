@@ -21,13 +21,11 @@ import com.petdoc.genetic.GeneticInfoActivity;
 import com.petdoc.genetic.GeneticNoteActivity;
 import com.petdoc.login.CurrentPetManager;
 import com.petdoc.login.LoginActivity;
-import com.petdoc.walklog.CalendarActivity;
 
 public class MainActivity extends AppCompatActivity {
 
     private FrameLayout btnGeneticNote;
     private FrameLayout btnSmartCheck;
-    private FrameLayout btnWalkLog;
     private TextView nameText;
     private TextView walkLogText;
     private ImageView accountIcon;    // 오른쪽 상단 계정(로그아웃) 아이콘
@@ -59,7 +57,6 @@ public class MainActivity extends AppCompatActivity {
         btnSmartCheck = findViewById(R.id.btnSmartCheck);
         accountIcon = findViewById(R.id.accountIcon);
         dogIcon = findViewById(R.id.dogIcon);
-        btnWalkLog = findViewById(R.id.btnWalkLog);
 
         // 오른쪽 계정(프로필) 아이콘 클릭 시 로그아웃
         accountIcon.setOnClickListener(v -> {
@@ -117,11 +114,6 @@ public class MainActivity extends AppCompatActivity {
         // [2] AI 스마트 간편 검진 버튼
         btnSmartCheck.setOnClickListener(v -> {
             startActivity(new Intent(MainActivity.this, AICheckActivity.class));
-        });
-
-        // [3] 산책 일지 버튼
-        btnWalkLog.setOnClickListener(v -> {
-            startActivity(new Intent(MainActivity.this, CalendarActivity.class));
         });
     }
 
