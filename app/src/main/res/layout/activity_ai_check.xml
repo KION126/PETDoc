@@ -6,10 +6,7 @@
     android:background="#FFFFFF"
     tools:context=".aiCheck.AICheckActivity">
 
-    <!-- 🔙 뒤로 가기 버튼 (타이틀과 baseline 정렬) -->
-
-    <!-- 상단 배경 -->
-
+    <!-- 뒤로 가기 버튼 -->
     <ImageView
         android:id="@+id/backButton"
         android:layout_width="24dp"
@@ -23,7 +20,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <!-- 메인 타이틀 -->
+    <!-- 상단 배경 -->
     <View
         android:id="@+id/vectorBg"
         android:layout_width="0dp"
@@ -31,7 +28,6 @@
         android:background="@drawable/bg_ai_check_wave"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.358" />
@@ -66,9 +62,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginTop="8dp" />
 
-    <!-- 누적 사용자 설명 -->
-
-    <!-- 피부 카메라 버튼 -->
     <TextView
         android:id="@+id/subText"
         android:layout_width="wrap_content"
@@ -83,10 +76,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/descriptionText" />
 
-    <!-- 안구 카메라 버튼 -->
-
-    <!-- 기록 섹션 -->
-
+    <!-- 버튼 영역 -->
     <FrameLayout
         android:id="@+id/skin_button"
         android:layout_width="0dp"
@@ -177,97 +167,74 @@
             android:src="@drawable/ic_eye" />
     </FrameLayout>
 
-    <LinearLayout
-        android:id="@+id/historySection"
+    <!-- 🔥 전체 기록 영역: 스크롤 가능 -->
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/historyScrollView"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
+        android:fillViewport="true"
         android:layout_margin="16dp"
-        android:orientation="vertical"
         app:layout_constraintTop_toBottomOf="@id/skin_button"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent">
-
-        <TextView
-            android:id="@+id/historyTitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="전체 기록"
-            android:textColor="#000000"
-            android:textSize="20sp"
-            android:textStyle="bold"
-            android:layout_marginBottom="8dp" />
+        app:layout_constraintEnd_toEndOf="parent">
 
         <LinearLayout
+            android:id="@+id/historySection"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center">
+            android:orientation="vertical">
 
             <TextView
-                android:layout_width="0dp"
+                android:id="@+id/historyTitle"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="안구"
-                android:gravity="center"
-                android:textSize="16sp"
+                android:layout_marginBottom="8dp"
+                android:text="전체 기록"
+                android:textColor="#000000"
+                android:textSize="20sp"
                 android:textStyle="bold" />
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="피부"
-                android:gravity="center"
-                android:textSize="16sp"
-                android:textStyle="bold" />
-        </LinearLayout>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginVertical="8dp"
-            android:background="#CCCCCC" />
-
-        <!-- 기록 카드 샘플 -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="#F0F0F0"
-            android:orientation="horizontal"
-            android:gravity="center_vertical"
-            android:padding="12dp"
-            android:layout_marginBottom="8dp">
 
             <LinearLayout
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:orientation="vertical">
+                android:layout_marginBottom="4dp"
+                android:gravity="center"
+                android:orientation="horizontal">
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:id="@+id/tabEye"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:text="2025.04.21(월) 21:00"
-                    android:textColor="#000000"
-                    android:textSize="14sp"
+                    android:layout_weight="1"
+                    android:background="@drawable/tab_selected_bg"
+                    android:gravity="center"
+                    android:text="안구"
+                    android:textColor="#222222"
+                    android:textSize="16sp"
                     android:textStyle="bold" />
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:id="@+id/tabSkin"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:text="종합 건강도"
+                    android:layout_weight="1"
+                    android:background="@drawable/tab_unselected_bg"
+                    android:gravity="center"
+                    android:text="피부"
                     android:textColor="#888888"
-                    android:textSize="12sp" />
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
             </LinearLayout>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="50%"
-                android:textColor="#4CAF50"
-                android:textSize="16sp"
-                android:textStyle="bold" />
+            <View
+                android:id="@+id/divider"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginVertical="8dp"
+                android:background="#CCCCCC" />
+
         </LinearLayout>
-    </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

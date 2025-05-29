@@ -1,3 +1,5 @@
+// ✅ EyeLoadingActivity.java (종합 건강도 평균 계산 및 로그 포함)
+
 package com.petdoc.aiCheck.eye;
 
 import android.content.Intent;
@@ -10,6 +12,7 @@ import android.os.Looper;
 import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -28,13 +31,7 @@ import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * Eye analysis loading page
- * - Analyzes selected eye images with EyeDiseasePredictor model
- * - Saves analysis results to Firebase
- */
 public class EyeLoadingActivity extends AppCompatActivity {
-
     private EyeDiseasePredictor eyeDiseasePredictor;
     private Handler handler;
     private Runnable dotAnimator;
@@ -46,12 +43,9 @@ public class EyeLoadingActivity extends AppCompatActivity {
         setContentView(R.layout.activity_eye_loading);
 
         TextView processingText = findViewById(R.id.text_processing);
-
-        // 🔙 Back button
         ImageView backButton = findViewById(R.id.backButton);
         backButton.setOnClickListener(v -> finish());
 
-        // "Analyzing..." animation
         handler = new Handler(Looper.getMainLooper());
         dotAnimator = new Runnable() {
             int dotCount = 0;
@@ -60,73 +54,178 @@ public class EyeLoadingActivity extends AppCompatActivity {
                 dotCount = (dotCount + 1) % 4;
                 String dots = new String(new char[dotCount]).replace("\0", ".");
                 processingText.setText("안구 분석 중" + dots);
-                handler.postDelayed(this, 500);
+                handler.postDelayed(this, 100);
             }
         };
         handler.post(dotAnimator);
 
-        // 모델 로드
-        String modelPath = "eye-010-0.7412.tflite";
         try {
-            eyeDiseasePredictor = new EyeDiseasePredictor(getAssets(), modelPath);
+            eyeDiseasePredictor = new EyeDiseasePredictor(getAssets(), "eye-010-0.7412.tflite");
         } catch (IOException e) {
-            Log.e("EyeLoadingActivity", "모델 초기화 실패", e);
+            showErrorAndFinish("AI 모델 로드 실패");
             return;
         }
 
-        // 인텐트 데이터 수신
-        String uriString = getIntent().getStringExtra("image_uri");
-        String eyeSide = getIntent().getStringExtra("eye_side"); // "left" or "right"
-        String petKey = getIntent().getStringExtra("pet_id");    // 선택된 반려견 ID
-
-        if (uriString == null || eyeSide == null) {
-            Log.e("EyeLoadingActivity", "image_uri 또는 eye_side 누락");
-            return;
-        }
-
-        // petKey가 없으면 매니저에서 가져옴
-        final String finalPetKey;
+        String leftUriStr = getIntent().getStringExtra("left_image_uri");
+        String rightUriStr = getIntent().getStringExtra("right_image_uri");
+        String petKey = getIntent().getStringExtra("pet_id");
+        if (petKey == null) petKey = CurrentPetManager.getInstance().getCurrentPetId();
         if (petKey == null) {
-            finalPetKey = CurrentPetManager.getInstance().getCurrentPetId();
-        } else {
-            finalPetKey = petKey;
-        }
-        if (finalPetKey == null) {
-            Log.e("Firebase", "현재 선택된 반려견 ID 없음");
+            showErrorAndFinish("반려동물을 선택해 주세요.");
             return;
         }
 
-        Uri imageUri = Uri.parse(uriString);
-        Bitmap bitmap = null;
-        try (InputStream inputStream = getContentResolver().openInputStream(imageUri)) {
-            bitmap = BitmapFactory.decodeStream(inputStream);
+        Bitmap leftBitmap = loadBitmap(leftUriStr);
+        Bitmap rightBitmap = loadBitmap(rightUriStr);
+        processAndSaveBothEyes(leftBitmap, leftUriStr, rightBitmap, rightUriStr, petKey);
+    }
+
+    private void showErrorAndFinish(String msg) {
+        handler.removeCallbacks(dotAnimator);
+        runOnUiThread(() -> {
+            Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
+            finish();
+        });
+    }
+
+    private Bitmap loadBitmap(String uriStr) {
+        if (uriStr == null) return null;
+        try (InputStream is = getContentResolver().openInputStream(Uri.parse(uriStr))) {
+            return BitmapFactory.decodeStream(is);
         } catch (IOException e) {
-            Log.e("EyeLoadingActivity", "이미지 로딩 실패", e);
+            return null;
+        }
+    }
+
+    private void processAndSaveBothEyes(Bitmap leftBitmap, String leftUriStr,
+                                        Bitmap rightBitmap, String rightUriStr, String petKey) {
+        final float[][] leftResultHolder = {null};
+        final float[][] rightResultHolder = {null};
+        final int[] completed = {0};
+
+        boolean hasLeft = leftBitmap != null;
+        boolean hasRight = rightBitmap != null;
+        int total = (hasLeft ? 1 : 0) + (hasRight ? 1 : 0);
+        if (total == 0) {
+            showErrorAndFinish("이미지를 선택해 주세요.");
+            return;
         }
 
-        if (bitmap != null) {
-            float[] inputData = ImageUtils.preprocess(bitmap, 224);
-            float[] result = eyeDiseasePredictor.predict(inputData);
+        if (hasLeft) {
+            new Thread(() -> {
+                float[] result = eyeDiseasePredictor.predict(ImageUtils.preprocess(leftBitmap, 224));
+                logPrediction("왼쪽", result);
+                saveToFirebase(Uri.parse(leftUriStr), result, "left", petKey);
+                leftResultHolder[0] = result;
+                checkDone(completed, total, leftResultHolder[0], rightResultHolder[0]);
+            }).start();
+        }
+        if (hasRight) {
+            new Thread(() -> {
+                float[] result = eyeDiseasePredictor.predict(ImageUtils.preprocess(rightBitmap, 224));
+                logPrediction("오른쪽", result);
+                saveToFirebase(Uri.parse(rightUriStr), result, "right", petKey);
+                rightResultHolder[0] = result;
+                checkDone(completed, total, leftResultHolder[0], rightResultHolder[0]);
+            }).start();
+        }
+    }
 
-            Log.d("EyeLoadingActivity", "예측 결과: " + formatResult(result));
-
-            // 애니메이션 2초 유지 후 결과 화면 이동
-            handler.postDelayed(() -> {
+    private void checkDone(int[] completed, int total, float[] left, float[] right) {
+        completed[0]++;
+        if (completed[0] == total) {
+            runOnUiThread(() -> {
                 handler.removeCallbacks(dotAnimator);
+                Intent intent = new Intent(this, EyeResultActivity.class);
 
-                // 결과 저장
-                saveToFirebase(imageUri, result, eyeSide, finalPetKey);
+                if (left != null) {
+                    intent.putExtra("left_result", left);
+                    intent.putExtra("left_image_uri", getIntent().getStringExtra("left_image_uri"));
+                }
+                if (right != null) {
+                    intent.putExtra("right_result", right);
+                    intent.putExtra("right_image_uri", getIntent().getStringExtra("right_image_uri"));
+                }
 
-                // 결과 화면으로 이동
-                Intent intent = new Intent(EyeLoadingActivity.this, EyeResultActivity.class);
-                intent.putExtra("eye_side", eyeSide);
-                intent.putExtra("result", result);
+                float[] avg = computeAverage(left, right);
+                intent.putExtra("result", avg);
+                float avgScore = calculateAverageScore(avg);
+                int maxIdx = getMaxIndex(avg);
+                EyeHistoryItem summary = new EyeHistoryItem(
+                        getNow("yyyy.MM.dd(E) HH:mm"), avgScore, (left != null && right != null) ? "both" : (left != null ? "left" : "right"), getLabelKo(maxIdx));
+                intent.putExtra("summary_item", summary);
+
+                Log.d("EyePrediction", "✅ 종합 평균 점수: " + avgScore);
                 startActivity(intent);
                 finish();
-            }, 2000);
-        } else {
-            Log.e("EyeLoadingActivity", "Bitmap 복원 실패");
+            });
         }
+    }
+
+    private float[] computeAverage(float[] left, float[] right) {
+        if (left != null && right != null) {
+            float[] avg = new float[left.length];
+            for (int i = 0; i < left.length; i++) avg[i] = (left[i] + right[i]) / 2f;
+            return avg;
+        }
+        return (left != null) ? left : right;
+    }
+
+    private float calculateAverageScore(float[] scores) {
+        float sum = 0;
+        for (float v : scores) sum += v;
+        return sum / scores.length;
+    }
+
+    private void saveToFirebase(Uri uri, float[] result, String side, String petKey) {
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if (user == null) return;
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference()
+                .child("Users").child(user.getUid()).child(petKey).child("eyeAnalysis").push();
+
+        Map<String, Object> data = new HashMap<>();
+        data.put("imagePath", uri.toString());
+        data.put("side", side);
+        data.put("timestamp", System.currentTimeMillis());
+
+        String[] keys = {"blepharitis", "eyelid_tumor", "entropion", "epiphora",
+                "pigmentary_keratitis", "corneal_disease", "nuclear_sclerosis",
+                "conjunctivitis", "nonulcerative_keratitis", "other"};
+        Map<String, Object> prediction = new HashMap<>();
+        for (int i = 0; i < result.length; i++) {
+            int percent = Math.round(result[i] * 100);
+            prediction.put(keys[i], percent);
+        }
+        data.put("prediction", prediction);
+        ref.setValue(data);
+    }
+
+    private void logPrediction(String label, float[] result) {
+        Log.d("EyePrediction", "==== " + label + " 원본 예측 결과 ====");
+        String[] keys = {"blepharitis", "eyelid_tumor", "entropion", "epiphora",
+                "pigmentary_keratitis", "corneal_disease", "nuclear_sclerosis",
+                "conjunctivitis", "nonulcerative_keratitis", "other"};
+        for (int i = 0; i < result.length; i++) {
+            Log.d("EyePrediction", keys[i] + " = " + Math.round(result[i] * 100) + "%");
+        }
+    }
+
+    private int getMaxIndex(float[] arr) {
+        int idx = 0;
+        for (int i = 1; i < arr.length; i++) {
+            if (arr[i] > arr[idx]) idx = i;
+        }
+        return idx;
+    }
+
+    private String getLabelKo(int index) {
+        String[] ko = {"안검염", "안검종양", "안검내반증", "유루증", "색소침착성각막염",
+                "각막질환", "핵경화", "결막염", "비궤양성각막질환", "기타"};
+        return ko[index];
+    }
+
+    private String getNow(String format) {
+        return new java.text.SimpleDateFormat(format, java.util.Locale.KOREAN).format(new java.util.Date());
     }
 
     @Override
@@ -136,54 +235,7 @@ public class EyeLoadingActivity extends AppCompatActivity {
         if (handler != null && dotAnimator != null) handler.removeCallbacks(dotAnimator);
     }
 
-    /**
-     * Save result to Firebase
-     */
-    private void saveToFirebase(Uri imageUri, float[] result, String eyeSide, String petKey) {
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        if (user == null) {
-            Log.e("Firebase", "로그인된 사용자 없음");
-            return;
-        }
-
-        String uid = user.getUid();
-        DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference();
-
-        Map<String, Object> data = new HashMap<>();
-        data.put("imagePath", imageUri.toString());
-
-        // 영어(한글)로 필드 저장
-        Map<String, Object> predictions = new HashMap<>();
-        predictions.put("blepharitis", result[0]);            // 안검염
-        predictions.put("eyelid_tumor", result[1]);           // 안검종양
-        predictions.put("entropion", result[2]);              // 안검내반증
-        predictions.put("epiphora", result[3]);               // 유루증
-        predictions.put("pigmentary_keratitis", result[4]);   // 색소침착성각막염
-        predictions.put("corneal_disease", result[5]);        // 각막질환
-        predictions.put("nuclear_sclerosis", result[6]);      // 핵경화
-        predictions.put("conjunctivitis", result[7]);         // 결막염
-        predictions.put("nonulcerative_keratitis", result[8]);// 비궤양성 각막질환
-        predictions.put("other", result[9]);                  // 기타
-
-        data.put("prediction", predictions);
-
-        dbRef.child("Users").child(uid)
-                .child(petKey)
-                .child("eyeAnalysis")
-                .child(eyeSide)
-                .setValue(data)
-                .addOnSuccessListener(aVoid -> Log.d("Firebase", "분석 결과 저장 성공"))
-                .addOnFailureListener(e -> Log.e("Firebase", "저장 실패", e));
-    }
-
-    /**
-     * 예측 결과 배열을 문자열로 변환
-     */
-    private String formatResult(float[] result) {
-        StringBuilder sb = new StringBuilder();
-        for (float v : result) {
-            sb.append(String.format("[%.4f] ", v));
-        }
-        return sb.toString();
+    private interface HistorySaveCallback {
+        void onSaved(String historyId);
     }
 }
