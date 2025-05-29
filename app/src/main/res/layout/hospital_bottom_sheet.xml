@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/tvHospitalName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="병원명"
+        android:textStyle="bold"
+        android:textSize="18sp"
+        android:textColor="#000000" />
+
+    <TextView
+        android:id="@+id/tvHospitalPhone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="전화번호"
+        android:layout_marginTop="8dp" />
+
+    <TextView
+        android:id="@+id/tvHospitalAddress"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="주소"
+        android:layout_marginTop="4dp" />
+
+    <TextView
+        android:id="@+id/tvHospitalDistance"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="거리"
+        android:layout_marginTop="4dp" />
+
+    <TextView
+        android:id="@+id/tvHospitalLink"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="자세히 보기"
+        android:textColor="@android:color/holo_blue_dark"
+        android:layout_marginTop="12dp" />
+</LinearLayout>
