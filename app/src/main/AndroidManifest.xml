@@ -55,6 +55,8 @@
         <activity android:name=".aiCheck.skin.SkinLoadingActivity" />
         <activity android:name=".aiCheck.skin.SkinResultActivity" />
 
+        <activity android:name=".walklog.CalendarActivity" />
+        <activity android:name=".walklog.WalkRecordActivity" />
 
         <!--구글 로그인 설정 -->
         <meta-data
