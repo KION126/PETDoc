@@ -64,6 +64,13 @@ dependencies {
     // Glide (이미지 미리보기용)
     implementation("com.github.bumptech.glide:glide:4.16.0")
     annotationProcessor("com.github.bumptech.glide:compiler:4.16.0")
+
+    // 네이버 지도 SDK
+    implementation("com.naver.maps:map-sdk:3.21.0")
+    //Google Play 서비스의 Location API 라이브러리
+    implementation("com.google.android.gms:play-services-location:21.0.1")
+    //OkHttp 라이브러리 추가
+    implementation("com.squareup.okhttp3:okhttp:4.12.0")
 }
 
 apply(plugin = "com.google.gms.google-services")

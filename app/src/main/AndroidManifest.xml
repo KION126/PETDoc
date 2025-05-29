@@ -5,6 +5,10 @@
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-feature android:name="android.hardware.camera" android:required="false" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+
+
 
 
     <application
@@ -31,6 +35,8 @@
         <activity android:name=".login.GenderInputActivity" />
         <activity android:name=".login.WeightInputActivity" />
         <activity android:name=".login.PhotoInputActivity" />
+
+        <activity android:name=".map.MapActivity" />
 
         <activity android:name=".main.MainActivity" />
 
@@ -67,6 +73,13 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths" />
         </provider>
+
+        <!-- Naver Map Client ID -->
+        <meta-data
+            android:name="com.naver.maps.map.NCP_KEY_ID"
+            android:value="c9zz9h5fcz" />
     </application>
+
+
 
 </manifest>

@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingTop="32dp"
     android:paddingStart="16dp"
+    android:paddingTop="32dp"
     android:paddingEnd="16dp">
 
     <!-- 동그란 배경 -->
@@ -24,28 +23,28 @@
         android:id="@+id/dogIcon"
         android:layout_width="40dp"
         android:layout_height="40dp"
-        android:src="@drawable/ic_dog_icon"
         android:scaleType="centerCrop"
-        app:layout_constraintTop_toTopOf="@id/circleBackground"
+        android:src="@drawable/ic_dog_icon"
         app:layout_constraintBottom_toBottomOf="@id/circleBackground"
+        app:layout_constraintEnd_toEndOf="@id/circleBackground"
         app:layout_constraintStart_toStartOf="@id/circleBackground"
-        app:layout_constraintEnd_toEndOf="@id/circleBackground" />
+        app:layout_constraintTop_toTopOf="@id/circleBackground" />
 
 
     <LinearLayout
         android:id="@+id/nameWithArrow"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:minHeight="48dp"
-        android:minWidth="48dp"
-        android:padding="8dp"
-        android:orientation="horizontal"
-        android:gravity="center_vertical"
         android:clickable="true"
         android:focusable="true"
+        android:gravity="center_vertical"
+        android:minWidth="48dp"
+        android:minHeight="48dp"
+        android:orientation="horizontal"
+        android:padding="8dp"
+        app:layout_constraintBottom_toBottomOf="@id/circleBackground"
         app:layout_constraintStart_toEndOf="@id/circleBackground"
-        app:layout_constraintTop_toTopOf="@id/circleBackground"
-        app:layout_constraintBottom_toBottomOf="@id/circleBackground">
+        app:layout_constraintTop_toTopOf="@id/circleBackground">
 
         <TextView
             android:id="@+id/nameText"
@@ -63,7 +62,6 @@
             android:layout_marginStart="6dp"
             android:src="@drawable/ic_arrow_down" />
     </LinearLayout>
-
 
 
     <!-- 오른쪽 상단 계정 아이콘 -->
@@ -85,9 +83,9 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="56dp"
         android:text="건강수첩"
+        android:textColor="#000000"
         android:textSize="25sp"
         android:textStyle="bold"
-        android:textColor="#000000"
         app:layout_constraintStart_toStartOf="@id/circleBackground"
         app:layout_constraintTop_toBottomOf="@id/circleBackground" />
 
@@ -100,23 +98,23 @@
         android:background="@drawable/bg_btn_smart_check"
         android:clickable="true"
         android:focusable="true"
-        app:layout_constraintTop_toBottomOf="@id/healthLogbook"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toStartOf="@id/btnGeneticNote"
-        app:layout_constraintHorizontal_chainStyle="spread_inside">
+        app:layout_constraintHorizontal_chainStyle="spread_inside"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/healthLogbook">
 
         <TextView
             android:id="@+id/smartCheckText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="top|start"
-            android:layout_marginTop="16dp"
             android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:lineSpacingExtra="2dp"
             android:text="AI 스마트\n간편 검진"
             android:textColor="@android:color/white"
             android:textSize="25sp"
-            android:textStyle="bold"
-            android:lineSpacingExtra="2dp" />
+            android:textStyle="bold" />
 
         <ImageView
             android:id="@+id/smartCheckIcon"
@@ -137,8 +135,8 @@
         android:background="@drawable/bg_btn_genetic_note"
         android:clickable="true"
         android:focusable="true"
-        app:layout_constraintStart_toEndOf="@id/btnSmartCheck"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/btnSmartCheck"
         app:layout_constraintTop_toBottomOf="@id/healthLogbook">
 
         <TextView
@@ -146,13 +144,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="top|start"
-            android:layout_marginTop="16dp"
             android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:lineSpacingExtra="2dp"
             android:text="유전자 노트"
             android:textColor="@android:color/white"
             android:textSize="25sp"
-            android:textStyle="bold"
-            android:lineSpacingExtra="2dp" />
+            android:textStyle="bold" />
 
         <ImageView
             android:id="@+id/geneticNoteIcon"
@@ -172,29 +170,44 @@
         android:background="@drawable/bg_btn_walk_log"
         android:clickable="true"
         android:focusable="true"
-        app:layout_constraintTop_toBottomOf="@id/btnSmartCheck"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
+        app:layout_constraintTop_toBottomOf="@id/btnSmartCheck">
 
         <TextView
             android:id="@+id/walkLogText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="16dp"
             android:layout_gravity="top|start"
+            android:layout_margin="16dp"
+            android:maxLines="2"
             android:text="멍멍이 이름의 산책 일지"
-            android:textSize="20sp"
-            android:textStyle="bold"
             android:textColor="@android:color/white"
-            android:maxLines="2" />
+            android:textSize="20sp"
+            android:textStyle="bold" />
 
         <ImageView
             android:id="@+id/walkLogIcon"
             android:layout_width="40dp"
             android:layout_height="40dp"
+            android:layout_gravity="bottom|end"
             android:layout_margin="16dp"
-            android:src="@drawable/ic_walk_log_icon"
-            android:layout_gravity="bottom|end" />
+            android:src="@drawable/ic_walk_log_icon" />
     </FrameLayout>
+
+    <Button
+        android:id="@+id/btnFindHospital"
+        android:layout_width="0dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="16dp"
+        android:background="#03A9F4"
+        android:backgroundTint="#4CAF50"
+        android:text="근처 동물병원 찾기"
+        android:textColor="@color/black"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/btnWalkLog" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,8 +1,15 @@
 package com.petdoc.main;
 
 import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.content.pm.Signature;
 import android.os.Bundle;
+import android.util.Base64;
 import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -22,6 +29,15 @@ import com.petdoc.genetic.GeneticNoteActivity;
 import com.petdoc.login.CurrentPetManager;
 import com.petdoc.login.LoginActivity;
 import com.petdoc.walklog.CalendarActivity;
+import com.petdoc.login.NameInputActivity;
+import com.petdoc.login.PetListAdapter;
+import com.petdoc.login.model.DogBasicInfo;
+import com.petdoc.login.model.Pet;
+import com.petdoc.map.MapActivity;
+
+import java.security.MessageDigest;
+import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -33,6 +49,8 @@ public class MainActivity extends AppCompatActivity {
     private ImageView dogIcon;        // 이름 왼쪽 동그란 프로필 이미지
     private String uid;
     private DatabaseReference dbRef;
+    private LinearLayout nameWithArrow; // 멍멍이 이름 드롭
+    private Button btnFindHospital;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,6 +76,19 @@ public class MainActivity extends AppCompatActivity {
         btnSmartCheck = findViewById(R.id.btnSmartCheck);
         accountIcon = findViewById(R.id.accountIcon);
         dogIcon = findViewById(R.id.dogIcon);
+        nameWithArrow = findViewById(R.id.nameWithArrow);
+        btnFindHospital = findViewById(R.id.btnFindHospital);
+
+        //멍멍이 이름 클릭시 리스트 드롭
+        nameWithArrow.setOnClickListener(v -> {
+            showPetSelectorDialog(); // 우리가 만든 메서드 호출
+        });
+
+        //병원찾기버튼
+        btnFindHospital.setOnClickListener(v -> {
+            Intent intent = new Intent(this, MapActivity.class);
+            startActivity(intent);
+        });
 
         // 오른쪽 계정(프로필) 아이콘 클릭 시 로그아웃
         accountIcon.setOnClickListener(v -> {
@@ -152,4 +183,69 @@ public class MainActivity extends AppCompatActivity {
                 });
     }
 
+    private void showPetSelectorDialog() {
+        String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        DatabaseReference userRef = FirebaseDatabase.getInstance().getReference("Users").child(uid);
+
+        userRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                List<String> petIdList = new ArrayList<>();
+                List<Pet> petList = new ArrayList<>();
+
+                for (DataSnapshot petSnapshot : snapshot.getChildren()) {
+                    Log.d("DEBUG", "petId: " + petSnapshot.getKey());
+                    Log.d("DEBUG", "전체 petSnapshot: " + petSnapshot.toString());
+                    Log.d("DEBUG", "basicInfo: " + petSnapshot.child("basicInfo").toString());
+                    Log.d("DEBUG", "name 값: " + petSnapshot.child("basicInfo").child("name").getValue());
+
+                    DogBasicInfo info = petSnapshot.child("basicInfo").getValue(DogBasicInfo.class);
+
+                    if (info != null) {
+                        Pet pet = new Pet();
+                        pet.basicInfo = info;
+
+                        petIdList.add(petSnapshot.getKey());
+                        petList.add(pet);
+
+                        Log.d("DEBUG", "추가된 pet: " + info.name);
+                    }
+                }
+
+                Log.d("DEBUG", "최종 petList 크기: " + petList.size());
+                openPetBottomSheetDialog(petIdList, petList);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Toast.makeText(MainActivity.this, "반려견 데이터를 불러오지 못했습니다.", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+
+    //드롭다운 다이얼로그 열기
+    private void openPetBottomSheetDialog(List<String> petIdList, List<Pet> petList) {
+        BottomSheetDialog dialog = new BottomSheetDialog(this);
+        View view = LayoutInflater.from(this).inflate(R.layout.layout_pet_selector, null);
+
+        RecyclerView recyclerView = view.findViewById(R.id.petListRecyclerView);
+        TextView addNewPet = view.findViewById(R.id.addNewPet);
+
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setAdapter(new PetListAdapter(this, petIdList, petList,
+                CurrentPetManager.getInstance().getCurrentPetId(), selectedPetId -> {
+            CurrentPetManager.getInstance().setCurrentPetId(selectedPetId);
+            dialog.dismiss();
+            recreate(); // MainActivity 갱신
+        }));
+
+        addNewPet.setOnClickListener(v -> {
+            dialog.dismiss();
+            startActivity(new Intent(this, NameInputActivity.class));
+        });
+
+        dialog.setContentView(view);
+        dialog.show();
+    }
 }
