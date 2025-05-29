@@ -33,7 +33,7 @@ public class WalkRecordActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_walking_record);
 
-        WalkLogRepository walkLogRepo = new WalkLogRepository(this);
+        WalkLogRepository walkLogRepo = new WalkLogRepository(this, "Dog1");
 
         endWalkBtn = findViewById(R.id.endWalkBtn);
         timeText = findViewById(R.id.walkTimeText);

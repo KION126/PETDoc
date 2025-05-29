@@ -21,6 +21,7 @@ import com.petdoc.genetic.GeneticInfoActivity;
 import com.petdoc.genetic.GeneticNoteActivity;
 import com.petdoc.login.CurrentPetManager;
 import com.petdoc.login.LoginActivity;
+import com.petdoc.walklog.CalendarActivity;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -114,6 +115,11 @@ public class MainActivity extends AppCompatActivity {
         // [2] AI 스마트 간편 검진 버튼
         btnSmartCheck.setOnClickListener(v -> {
             startActivity(new Intent(MainActivity.this, AICheckActivity.class));
+        });
+
+        // [3] 반려견 산책일지 버튼
+        walkLogText.setOnClickListener(v -> {
+            startActivity(new Intent(MainActivity.this, CalendarActivity.class));
         });
     }
 
