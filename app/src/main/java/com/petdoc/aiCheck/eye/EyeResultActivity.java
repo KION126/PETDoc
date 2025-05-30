@@ -13,7 +13,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.bumptech.glide.Glide;
 import com.petdoc.R;
-import com.petdoc.aiCheck.AICheckActivity;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -39,13 +38,11 @@ public class EyeResultActivity extends AppCompatActivity {
         setContentView(R.layout.activity_eye_result);
 
         findViewById(R.id.back_button).setOnClickListener(v -> {
-            Intent intent = new Intent(EyeResultActivity.this, AICheckActivity.class);
+            Intent intent = new Intent(this, com.petdoc.aiCheck.AICheckActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
             startActivity(intent);
             finish();
         });
-
-
 
         TextView dateView = findViewById(R.id.result_date);
         dateView.setText(getNow("yyyy.MM.dd(E) HH:mm"));
@@ -154,6 +151,5 @@ public class EyeResultActivity extends AppCompatActivity {
     private String getNow(String format) {
         return new SimpleDateFormat(format, Locale.KOREAN).format(new Date());
     }
-
 
 }
