@@ -1,26 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#FFFFFF"
-    android:padding="16dp">
+    tools:context=".aiCheck.eye.EyeResultActivity">
 
-    <!-- 뒤로가기 버튼 -->
+    <!-- 상단 바 -->
+
     <ImageView
         android:id="@+id/back_button"
         android:layout_width="24dp"
         android:layout_height="24dp"
-        android:layout_marginTop="12dp"
-        android:layout_marginStart="8dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="44dp"
         android:contentDescription="뒤로 가기"
         android:src="@drawable/ic_arrow_back"
-        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/top_title"
-        app:layout_constraintHorizontal_bias="0.126" />
+        app:layout_constraintTop_toTopOf="parent" />
 
-    <!-- 상단 타이틀 -->
     <TextView
         android:id="@+id/top_title"
         android:layout_width="wrap_content"
@@ -29,114 +29,93 @@
         android:textSize="18sp"
         android:textStyle="bold"
         android:textColor="#000000"
-        android:textAlignment="center"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="32dp"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintStart_toEndOf="@id/back_button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5" />
 
-    <!-- 메인 결과 타이틀 -->
-    <TextView
-        android:id="@+id/main_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="안구 스마트 검진 결과"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        android:textColor="#000000"
-        android:textAlignment="center"
-        android:layout_marginTop="12dp"
+    <!-- 결과 내용 -->
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:fillViewport="true"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp"
         app:layout_constraintTop_toBottomOf="@id/top_title"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
-
-    <!-- 날짜 -->
-    <TextView
-        android:id="@+id/result_date"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="2025.04.21(월) 21:00"
-        android:textColor="#888888"
-        android:textSize="14sp"
-        android:textAlignment="center"
-        android:layout_marginTop="4dp"
-        app:layout_constraintTop_toBottomOf="@id/main_title"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
-
-    <!-- 종합 건강도 카드 -->
-    <FrameLayout
-        android:id="@+id/summary_block_wrapper"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:background="@drawable/rounded_white_background"
-        android:elevation="4dp"
-        android:padding="16dp"
-        android:minHeight="180dp"
-        android:layout_marginTop="16dp"
-        app:layout_constraintTop_toBottomOf="@id/result_date"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
 
-        <include
-            layout="@layout/item_eye_result_block"
-            android:id="@+id/summary_block" />
-    </FrameLayout>
-
-    <!-- 상태 색상 안내 -->
-    <LinearLayout
-        android:id="@+id/status_legend"
-        android:layout_width="0dp"
-        android:layout_height="40dp"
-        android:orientation="horizontal"
-        android:gravity="center"
-        android:background="@drawable/rounded_white_background"
-        android:padding="4dp"
-        android:layout_marginTop="12dp"
-        app:layout_constraintTop_toBottomOf="@id/summary_block_wrapper"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
-
-        <TextView
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:id="@+id/result_card_container"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="● 안심"
-            android:textColor="#377DFF"
-            android:textSize="12sp"
-            android:layout_marginEnd="12dp" />
+            android:orientation="vertical"
+            android:padding="16dp">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="● 주의"
-            android:textColor="#4CAF50"
-            android:textSize="12sp"
-            android:layout_marginEnd="12dp" />
+            <!-- 제목 -->
+            <TextView
+                android:id="@+id/main_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="안구 스마트 검진 결과"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:textColor="#000000"
+                android:layout_gravity="center_horizontal" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="● 의심"
-            android:textColor="#D32F2F"
-            android:textSize="12sp" />
-    </LinearLayout>
+            <TextView
+                android:id="@+id/result_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="2025.04.21(월) 21:00"
+                android:textColor="#888888"
+                android:textSize="14sp"
+                android:layout_marginTop="4dp"
+                android:layout_gravity="center_horizontal" />
 
-    <!-- 검진 항목 결과 -->
-    <FrameLayout
-        android:id="@+id/result_container"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:background="@drawable/rounded_white_background"
-        android:elevation="4dp"
-        android:padding="16dp"
-        android:layout_marginTop="16dp"
-        app:layout_constraintTop_toBottomOf="@id/status_legend"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
+            <!-- 종합 건강도 카드 -->
+            <include
+                android:id="@+id/summary_block_wrapper"
+                layout="@layout/item_eye_result_summary_card" />
 
-        <include
-            layout="@layout/item_eye_result_block"
-            android:id="@+id/result_item_1" />
-    </FrameLayout>
+            <!-- 범례 -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center"
+                android:background="@drawable/rounded_white_background"
+                android:padding="8dp"
+                android:layout_marginVertical="8dp"
+                android:elevation="4dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="● 안심"
+                    android:textColor="#377DFF"
+                    android:textSize="12sp"
+                    android:layout_marginEnd="12dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="● 주의"
+                    android:textColor="#4CAF50"
+                    android:textSize="12sp"
+                    android:layout_marginEnd="12dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="● 의심"
+                    android:textColor="#D32F2F"
+                    android:textSize="12sp" />
+            </LinearLayout>
+
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

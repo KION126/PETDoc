@@ -9,13 +9,20 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.FileProvider;
 
 import com.petdoc.R;
+import com.petdoc.login.CurrentPetManager;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 
 /**
  * 안구 이미지 입력 페이지
@@ -54,7 +61,6 @@ public class EyeCamActivity extends AppCompatActivity {
                 if (result.getResultCode() == RESULT_OK && result.getData() != null) {
                     Bitmap photo = (Bitmap) result.getData().getExtras().get("data");
                     if (photo != null) {
-                        // 카메라는 임시 URI가 없기 때문에 직접 처리 필요 (예: 저장 후 URI 생성)
                         onCameraCaptured(photo);
                     }
                 }
@@ -99,28 +105,47 @@ public class EyeCamActivity extends AppCompatActivity {
         });
 
         btnCheck.setOnClickListener(v -> {
-            Uri selectedUri = isLeftSelected ? leftEyeUri : rightEyeUri;
-            if (selectedUri != null) {
-                Intent intent = new Intent(this, EyeLoadingActivity.class);
-                intent.putExtra("eye_side", isLeftSelected ? "left" : "right");
-                intent.putExtra("image_uri", selectedUri.toString());
-                startActivity(intent);
+            boolean hasLeft = leftEyeUri != null;
+            boolean hasRight = rightEyeUri != null;
+
+            if (!hasLeft && !hasRight) {
+                Toast.makeText(this, "왼쪽 또는 오른쪽 이미지를 선택해 주세요.", Toast.LENGTH_SHORT).show();
+                return;
             }
+
+            Intent intent = new Intent(this, EyeLoadingActivity.class);
+            if (hasLeft) {
+                intent.putExtra("left_image_uri", leftEyeUri.toString());
+            }
+            if (hasRight) {
+                intent.putExtra("right_image_uri", rightEyeUri.toString());
+            }
+
+            // pet_id 전달
+            String petId = CurrentPetManager.getInstance().getCurrentPetId();
+            if (petId != null) {
+                intent.putExtra("pet_id", petId);
+            }
+
+            startActivity(intent);
         });
+
+        updateCheckButtonState();
     }
 
     private void onImageSelected(Uri uri) {
         if (isLeftSelected) {
             leftEyeUri = uri;
+            leftEyeBitmap = null;
         } else {
             rightEyeUri = uri;
+            rightEyeBitmap = null;
         }
         updatePreview();
-        btnCheck.setEnabled(true);
+        updateCheckButtonState();
     }
 
     private void onCameraCaptured(Bitmap bitmap) {
-        // 미리보기만 업데이트하고 URI는 설정하지 않음
         if (isLeftSelected) {
             leftEyeBitmap = bitmap;
             leftEyeUri = saveBitmapAndGetUri(bitmap);
@@ -129,7 +154,7 @@ public class EyeCamActivity extends AppCompatActivity {
             rightEyeUri = saveBitmapAndGetUri(bitmap);
         }
         updatePreview();
-        btnCheck.setEnabled(true);
+        updateCheckButtonState();
     }
 
     private void updatePreview() {
@@ -138,6 +163,10 @@ public class EyeCamActivity extends AppCompatActivity {
 
         if (currentUri != null) {
             previewImage.setImageURI(currentUri);
+            previewImage.setVisibility(View.VISIBLE);
+            placeholderIcon.setVisibility(View.GONE);
+        } else if (currentBitmap != null) {
+            previewImage.setImageBitmap(currentBitmap);
             previewImage.setVisibility(View.VISIBLE);
             placeholderIcon.setVisibility(View.GONE);
         } else {
@@ -151,8 +180,20 @@ public class EyeCamActivity extends AppCompatActivity {
         rightEyeIcon.setImageResource(isLeftSelected ? R.drawable.ic_eye_gray : R.drawable.ic_eye_black);
     }
 
+    private void updateCheckButtonState() {
+        btnCheck.setEnabled(leftEyeUri != null || rightEyeUri != null);
+    }
+
     private Uri saveBitmapAndGetUri(Bitmap bitmap) {
-        // 실제 구현 필요: 비트맵을 파일로 저장한 후 URI 반환
-        return null; // TODO: 구현할 것
+        try {
+            File file = new File(getCacheDir(), "eye_" + System.currentTimeMillis() + ".jpg");
+            try (FileOutputStream out = new FileOutputStream(file)) {
+                bitmap.compress(Bitmap.CompressFormat.JPEG, 90, out);
+            }
+            return FileProvider.getUriForFile(this, getPackageName() + ".fileprovider", file);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 }
