@@ -1,30 +1,31 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/eye_result_block"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:layout_marginBottom="16dp"
     android:background="@drawable/rounded_white_background"
-    android:elevation="6dp"
-    android:padding="16dp">
+    android:elevation="4dp"
+    android:padding="16dp"
+    android:layout_marginTop="8dp">
 
+    <!-- 항목 제목 -->
     <TextView
-        android:id="@+id/eye_result_title"
+        android:id="@+id/eye_part_label"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="항목 제목"
+        android:text="안검염"
         android:textStyle="bold"
         android:textSize="14sp"
-        android:textColor="#000000"
-        android:layout_marginBottom="10dp" />
+        android:textColor="#000000" />
 
+    <!-- 좌우 결과 블록 -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:gravity="center">
+        android:gravity="center_vertical"
+        android:layout_marginTop="8dp">
 
-        <!-- 왼쪽 눈 -->
+        <!-- 왼쪽 -->
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -34,33 +35,32 @@
 
             <ImageView
                 android:id="@+id/left_eye_image"
-                android:layout_width="56dp"
-                android:layout_height="56dp"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_marginBottom="4dp"
                 android:scaleType="centerCrop"
-                android:background="@drawable/square_gray_bg"
-                android:clipToOutline="true"
-                android:contentDescription="왼쪽 눈 이미지" />
+                android:src="@drawable/ic_eye_placeholder"
+                android:background="@drawable/image_round_rect"
+                android:contentDescription="왼쪽 눈" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="왼쪽"
-                android:textSize="11sp"
-                android:textColor="#666666"
-                android:layout_marginTop="4dp" />
+                android:textSize="12sp"
+                android:textColor="#888888" />
 
             <TextView
-                android:id="@+id/left_eye_score"
+                android:id="@+id/left_eye_value"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="0%"
-                android:textStyle="bold"
-                android:textSize="13sp"
-                android:textColor="#2196F3"
-                android:layout_marginTop="2dp" />
+                android:text="37%"
+                android:textSize="14sp"
+                android:textColor="#377DFF"
+                android:textStyle="bold" />
         </LinearLayout>
 
-        <!-- 오른쪽 눈 -->
+        <!-- 오른쪽 -->
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -70,30 +70,29 @@
 
             <ImageView
                 android:id="@+id/right_eye_image"
-                android:layout_width="56dp"
-                android:layout_height="56dp"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_marginBottom="4dp"
                 android:scaleType="centerCrop"
-                android:background="@drawable/square_gray_bg"
-                android:clipToOutline="true"
-                android:contentDescription="오른쪽 눈 이미지" />
+                android:src="@drawable/ic_eye_placeholder"
+                android:background="@drawable/image_round_rect"
+                android:contentDescription="오른쪽 눈" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="오른쪽"
-                android:textSize="11sp"
-                android:textColor="#666666"
-                android:layout_marginTop="4dp" />
+                android:textSize="12sp"
+                android:textColor="#888888" />
 
             <TextView
-                android:id="@+id/right_eye_score"
+                android:id="@+id/right_eye_value"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="선택안함"
-                android:textStyle="bold"
-                android:textSize="13sp"
+                android:textSize="14sp"
                 android:textColor="#888888"
-                android:layout_marginTop="2dp" />
+                android:textStyle="bold" />
         </LinearLayout>
     </LinearLayout>
 </LinearLayout>

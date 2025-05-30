@@ -1,5 +1,3 @@
-// ✅ EyeLoadingActivity.java (종합 건강도 평균 계산 및 로그 포함)
-
 package com.petdoc.aiCheck.eye;
 
 import android.content.Intent;
@@ -32,6 +30,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class EyeLoadingActivity extends AppCompatActivity {
+
     private EyeDiseasePredictor eyeDiseasePredictor;
     private Handler handler;
     private Runnable dotAnimator;
@@ -46,6 +45,7 @@ public class EyeLoadingActivity extends AppCompatActivity {
         ImageView backButton = findViewById(R.id.backButton);
         backButton.setOnClickListener(v -> finish());
 
+        // 점 애니메이션 초기화 (로딩 텍스트)
         handler = new Handler(Looper.getMainLooper());
         dotAnimator = new Runnable() {
             int dotCount = 0;
@@ -60,15 +60,18 @@ public class EyeLoadingActivity extends AppCompatActivity {
         handler.post(dotAnimator);
 
         try {
+            // TFLite 모델 로드
             eyeDiseasePredictor = new EyeDiseasePredictor(getAssets(), "eye-010-0.7412.tflite");
         } catch (IOException e) {
             showErrorAndFinish("AI 모델 로드 실패");
             return;
         }
 
+        // 이미지 URI 및 반려동물 정보 수신
         String leftUriStr = getIntent().getStringExtra("left_image_uri");
         String rightUriStr = getIntent().getStringExtra("right_image_uri");
         String petKey = getIntent().getStringExtra("pet_id");
+
         if (petKey == null) petKey = CurrentPetManager.getInstance().getCurrentPetId();
         if (petKey == null) {
             showErrorAndFinish("반려동물을 선택해 주세요.");
@@ -77,6 +80,7 @@ public class EyeLoadingActivity extends AppCompatActivity {
 
         Bitmap leftBitmap = loadBitmap(leftUriStr);
         Bitmap rightBitmap = loadBitmap(rightUriStr);
+
         processAndSaveBothEyes(leftBitmap, leftUriStr, rightBitmap, rightUriStr, petKey);
     }
 
@@ -106,11 +110,13 @@ public class EyeLoadingActivity extends AppCompatActivity {
         boolean hasLeft = leftBitmap != null;
         boolean hasRight = rightBitmap != null;
         int total = (hasLeft ? 1 : 0) + (hasRight ? 1 : 0);
+
         if (total == 0) {
             showErrorAndFinish("이미지를 선택해 주세요.");
             return;
         }
 
+        // 왼쪽 이미지 예측
         if (hasLeft) {
             new Thread(() -> {
                 float[] result = eyeDiseasePredictor.predict(ImageUtils.preprocess(leftBitmap, 224));
@@ -120,6 +126,8 @@ public class EyeLoadingActivity extends AppCompatActivity {
                 checkDone(completed, total, leftResultHolder[0], rightResultHolder[0]);
             }).start();
         }
+
+        // 오른쪽 이미지 예측
         if (hasRight) {
             new Thread(() -> {
                 float[] result = eyeDiseasePredictor.predict(ImageUtils.preprocess(rightBitmap, 224));
@@ -136,26 +144,40 @@ public class EyeLoadingActivity extends AppCompatActivity {
         if (completed[0] == total) {
             runOnUiThread(() -> {
                 handler.removeCallbacks(dotAnimator);
+
                 Intent intent = new Intent(this, EyeResultActivity.class);
 
+                // 왼쪽 예측 결과 및 이미지 URI 전달
                 if (left != null) {
                     intent.putExtra("left_result", left);
                     intent.putExtra("left_image_uri", getIntent().getStringExtra("left_image_uri"));
                 }
+
+                // 오른쪽 예측 결과 및 이미지 URI 전달
                 if (right != null) {
                     intent.putExtra("right_result", right);
                     intent.putExtra("right_image_uri", getIntent().getStringExtra("right_image_uri"));
                 }
 
+                // 평균 결과 및 분석 요약 생성
                 float[] avg = computeAverage(left, right);
                 intent.putExtra("result", avg);
+
                 float avgScore = calculateAverageScore(avg);
                 int maxIdx = getMaxIndex(avg);
+                String mainDiseaseKo = getLabelKo(maxIdx);
+
                 EyeHistoryItem summary = new EyeHistoryItem(
-                        getNow("yyyy.MM.dd(E) HH:mm"), avgScore, (left != null && right != null) ? "both" : (left != null ? "left" : "right"), getLabelKo(maxIdx));
+                        getNow("yyyy.MM.dd(E) HH:mm"),
+                        avgScore,
+                        (left != null && right != null) ? "both" : (left != null ? "left" : "right"),
+                        mainDiseaseKo
+                );
+
                 intent.putExtra("summary_item", summary);
 
-                Log.d("EyePrediction", "✅ 종합 평균 점수: " + avgScore);
+                Log.d("EyePrediction", "종합 평균 점수: " + avgScore);
+
                 startActivity(intent);
                 finish();
             });
@@ -165,7 +187,9 @@ public class EyeLoadingActivity extends AppCompatActivity {
     private float[] computeAverage(float[] left, float[] right) {
         if (left != null && right != null) {
             float[] avg = new float[left.length];
-            for (int i = 0; i < left.length; i++) avg[i] = (left[i] + right[i]) / 2f;
+            for (int i = 0; i < left.length; i++) {
+                avg[i] = (left[i] + right[i]) / 2f;
+            }
             return avg;
         }
         return (left != null) ? left : right;
@@ -180,8 +204,10 @@ public class EyeLoadingActivity extends AppCompatActivity {
     private void saveToFirebase(Uri uri, float[] result, String side, String petKey) {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if (user == null) return;
+
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference()
-                .child("Users").child(user.getUid()).child(petKey).child("eyeAnalysis").push();
+                .child("Users").child(user.getUid()).child(petKey)
+                .child("eyeAnalysis").push();
 
         Map<String, Object> data = new HashMap<>();
         data.put("imagePath", uri.toString());
@@ -191,17 +217,18 @@ public class EyeLoadingActivity extends AppCompatActivity {
         String[] keys = {"blepharitis", "eyelid_tumor", "entropion", "epiphora",
                 "pigmentary_keratitis", "corneal_disease", "nuclear_sclerosis",
                 "conjunctivitis", "nonulcerative_keratitis", "other"};
+
         Map<String, Object> prediction = new HashMap<>();
         for (int i = 0; i < result.length; i++) {
-            int percent = Math.round(result[i] * 100);
-            prediction.put(keys[i], percent);
+            prediction.put(keys[i], Math.round(result[i] * 100));
         }
+
         data.put("prediction", prediction);
         ref.setValue(data);
     }
 
     private void logPrediction(String label, float[] result) {
-        Log.d("EyePrediction", "==== " + label + " 원본 예측 결과 ====");
+        Log.d("EyePrediction", "==== " + label + " 예측 결과 ====");
         String[] keys = {"blepharitis", "eyelid_tumor", "entropion", "epiphora",
                 "pigmentary_keratitis", "corneal_disease", "nuclear_sclerosis",
                 "conjunctivitis", "nonulcerative_keratitis", "other"};

@@ -1,5 +1,6 @@
 package com.petdoc.aiCheck.eye;
 
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
@@ -12,6 +13,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.bumptech.glide.Glide;
 import com.petdoc.R;
+import com.petdoc.aiCheck.AICheckActivity;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -36,20 +38,24 @@ public class EyeResultActivity extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_eye_result);
 
-        findViewById(R.id.back_button).setOnClickListener(v -> finish());
+        findViewById(R.id.back_button).setOnClickListener(v -> {
+            Intent intent = new Intent(EyeResultActivity.this, AICheckActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+            startActivity(intent);
+            finish();
+        });
+
+
 
         TextView dateView = findViewById(R.id.result_date);
         dateView.setText(getNow("yyyy.MM.dd(E) HH:mm"));
 
-        float[] result = (float[]) getIntent().getSerializableExtra("result");
         float[] leftResult = (float[]) getIntent().getSerializableExtra("left_result");
         float[] rightResult = (float[]) getIntent().getSerializableExtra("right_result");
-
         EyeHistoryItem summary = (EyeHistoryItem) getIntent().getSerializableExtra("summary_item");
 
         Uri leftEyeUri = null;
         Uri rightEyeUri = null;
-
         try {
             String leftStr = getIntent().getStringExtra("left_image_uri");
             String rightStr = getIntent().getStringExtra("right_image_uri");
@@ -59,54 +65,56 @@ public class EyeResultActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
-        // 종합 카드
-        View summaryBlock = findViewById(R.id.summary_block);
+        View summaryBlock = findViewById(R.id.summary_block_wrapper);
         if (summaryBlock != null && summary != null) {
-            TextView title = summaryBlock.findViewById(R.id.eye_result_title);
-            TextView leftScore = summaryBlock.findViewById(R.id.left_eye_score);
-            TextView rightScore = summaryBlock.findViewById(R.id.right_eye_score);
+            TextView summaryTitle = summaryBlock.findViewById(R.id.summary_title);
+            TextView leftScore = summaryBlock.findViewById(R.id.left_score);
+            TextView rightScore = summaryBlock.findViewById(R.id.right_score);
             ImageView leftImg = summaryBlock.findViewById(R.id.left_eye_image);
             ImageView rightImg = summaryBlock.findViewById(R.id.right_eye_image);
 
-            if (title != null) {
-                title.setText("종합 안구 건강도 (평균 기반)");
-            }
+            summaryTitle.setText("종합 안구 건강도");
 
-            int scorePercent = Math.round(summary.score * 100);
+            int avgPercent = Math.round(summary.score * 100);
             int color = getStatusColor(getStatus(summary.score));
 
             if ("left".equals(summary.side) || "both".equals(summary.side)) {
-                leftScore.setText(scorePercent + "%");
+                leftScore.setText(avgPercent + "%");
                 leftScore.setTextColor(color);
+            } else {
+                leftScore.setText("선택안함");
+                leftScore.setTextColor(getStatusColor("선택안함"));
             }
 
             if ("right".equals(summary.side) || "both".equals(summary.side)) {
-                rightScore.setText(scorePercent + "%");
+                rightScore.setText(avgPercent + "%");
                 rightScore.setTextColor(color);
+            } else {
+                rightScore.setText("선택안함");
+                rightScore.setTextColor(getStatusColor("선택안함"));
             }
 
-            if (leftEyeUri != null && leftImg != null) Glide.with(this).load(leftEyeUri).into(leftImg);
-            if (rightEyeUri != null && rightImg != null) Glide.with(this).load(rightEyeUri).into(rightImg);
+            if (leftEyeUri != null) Glide.with(this).load(leftEyeUri).into(leftImg);
+            if (rightEyeUri != null) Glide.with(this).load(rightEyeUri).into(rightImg);
         }
 
-        // 상세 결과 카드들
         LinearLayout cardContainer = findViewById(R.id.result_card_container);
-        cardContainer.removeAllViews();
 
         for (int i = 0; i < LABELS.length; i++) {
-            View card = getLayoutInflater().inflate(R.layout.item_eye_result_block, cardContainer, false);
+            View card = getLayoutInflater().inflate(R.layout.item_eye_result_card, cardContainer, false);
 
-            ((TextView) card.findViewById(R.id.eye_result_title)).setText(LABELS_KO[i]);
-
-            TextView leftScore = card.findViewById(R.id.left_eye_score);
-            TextView rightScore = card.findViewById(R.id.right_eye_score);
+            TextView label = card.findViewById(R.id.eye_part_label);
+            TextView leftScore = card.findViewById(R.id.left_eye_value);
+            TextView rightScore = card.findViewById(R.id.right_eye_value);
             ImageView leftImg = card.findViewById(R.id.left_eye_image);
             ImageView rightImg = card.findViewById(R.id.right_eye_image);
+
+            label.setText(LABELS_KO[i]);
 
             if (leftResult != null && i < leftResult.length) {
                 int percent = Math.round(leftResult[i] * 100);
                 leftScore.setText(percent + "%");
-                leftScore.setTextColor(getStatusColor(getStatus(percent / 100f)));
+                leftScore.setTextColor(getStatusColor(getStatus(leftResult[i])));
             } else {
                 leftScore.setText("선택안함");
                 leftScore.setTextColor(getStatusColor("선택안함"));
@@ -115,14 +123,14 @@ public class EyeResultActivity extends AppCompatActivity {
             if (rightResult != null && i < rightResult.length) {
                 int percent = Math.round(rightResult[i] * 100);
                 rightScore.setText(percent + "%");
-                rightScore.setTextColor(getStatusColor(getStatus(percent / 100f)));
+                rightScore.setTextColor(getStatusColor(getStatus(rightResult[i])));
             } else {
                 rightScore.setText("선택안함");
                 rightScore.setTextColor(getStatusColor("선택안함"));
             }
 
-            if (leftEyeUri != null && leftImg != null) Glide.with(this).load(leftEyeUri).into(leftImg);
-            if (rightEyeUri != null && rightImg != null) Glide.with(this).load(rightEyeUri).into(rightImg);
+            if (leftEyeUri != null) Glide.with(this).load(leftEyeUri).into(leftImg);
+            if (rightEyeUri != null) Glide.with(this).load(rightEyeUri).into(rightImg);
 
             cardContainer.addView(card);
         }
@@ -146,4 +154,6 @@ public class EyeResultActivity extends AppCompatActivity {
     private String getNow(String format) {
         return new SimpleDateFormat(format, Locale.KOREAN).format(new Date());
     }
+
+
 }
