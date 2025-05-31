@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
@@ -34,8 +35,8 @@ public class EyeCamActivity extends AppCompatActivity {
     // UI 요소
     private ImageView previewImage;
     private ImageView placeholderIcon;
-    private LinearLayout albumButton;
-    private LinearLayout cameraButton;
+    private ImageButton albumButton;
+    private ImageButton cameraButton;
     private ImageView leftEyeIcon;
     private ImageView rightEyeIcon;
     private Button btnCheck;

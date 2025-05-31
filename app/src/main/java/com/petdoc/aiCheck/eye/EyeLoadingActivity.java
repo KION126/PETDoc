@@ -47,8 +47,6 @@ public class EyeLoadingActivity extends AppCompatActivity {
         setContentView(R.layout.activity_eye_loading);
 
         TextView processingText = findViewById(R.id.text_processing);
-        ImageView backButton = findViewById(R.id.backButton);
-        backButton.setOnClickListener(v -> finish());
 
         // 로딩 텍스트에 점(.) 애니메이션 적용
         handler = new Handler(Looper.getMainLooper());

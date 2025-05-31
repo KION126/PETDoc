@@ -15,9 +15,10 @@
           android:startY="0"
           android:endX="360"
           android:endY="0">
-        <item android:offset="0.0" android:color="#F9D9B7"/>
-        <item android:offset="0.3" android:color="#C4ADEE"/>
-        <item android:offset="0.6" android:color="#9F80FF"/>
+        <item android:offset="0.0" android:color="#FDEBD0"/>
+        <item android:offset="0.25" android:color="#E4D2F4"/>
+        <item android:offset="0.5" android:color="#C0C9F8"/>
+        <item android:offset="0.75" android:color="#7FB5F3"/>
         <item android:offset="1.0" android:color="#4A90E2"/>
       </gradient>
     </aapt:attr>
@@ -26,17 +27,18 @@
   <!-- 두 번째 Path (Gradient 적용) -->
   <path
       android:pathData="M95.81,150.02C237.37,95.63 419.64,-218.6 431.11,267.48C432.17,270.58 432.79,273.04 433,274.92L431.2,279.81C416.1,284.92 312.2,183.7 190.68,230.38C49.12,284.77 -144.47,318.35 -49.98,151.52C-68.73,96.7 -45.74,204.4 95.81,150.02Z"
-      android:fillAlpha="0.8">
+      android:fillAlpha="1">
     <aapt:attr name="android:fillColor">
       <gradient
           android:type="linear"
           android:startX="0"
           android:startY="0"
           android:endX="360"
-          android:endY="0">
-        <item android:offset="0.0" android:color="#F9D9B7"/>
-        <item android:offset="0.3" android:color="#C4ADEE"/>
-        <item android:offset="0.6" android:color="#9F80FF"/>
+          android:endY="280">
+        <item android:offset="0.0" android:color="#FDEBD0"/>
+        <item android:offset="0.25" android:color="#E4D2F4"/>
+        <item android:offset="0.5" android:color="#C0C9F8"/>
+        <item android:offset="0.75" android:color="#7FB5F3"/>
         <item android:offset="1.0" android:color="#4A90E2"/>
       </gradient>
     </aapt:attr>
