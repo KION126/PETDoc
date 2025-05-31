@@ -9,15 +9,19 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.FileProvider;
 
 import com.petdoc.R;
 import com.petdoc.aiCheck.utils.ImageUtils;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 
 /**
@@ -25,29 +29,26 @@ import java.io.IOException;
  */
 public class SkinCamActivity extends AppCompatActivity {
 
-    // UI 요소
     private ImageView previewImage;
     private ImageView placeholderIcon;
     private LinearLayout albumButton;
     private LinearLayout cameraButton;
     private Button btnCheck;
 
-    // 선택된 이미지
     private Bitmap selectedBitmap;
+    private Uri selectedImageUri;
 
-    // 앨범에서 이미지 선택 처리
+    // 갤러리에서 이미지 선택 처리
     private final ActivityResultLauncher<Intent> galleryLauncher = registerForActivityResult(
             new ActivityResultContracts.StartActivityForResult(),
             result -> {
                 if (result.getResultCode() == RESULT_OK && result.getData() != null) {
-                    Uri selectedImageUri = result.getData().getData();
-                    if (selectedImageUri != null) {
-                        try {
-                            Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), selectedImageUri);
-                            onImageSelected(bitmap);
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
+                    Uri imageUri = result.getData().getData();
+                    if (imageUri != null) {
+                        selectedImageUri = imageUri;
+                        selectedBitmap = null;
+                        updatePreview();
+                        updateCheckButtonState();
                     }
                 }
             });
@@ -59,7 +60,10 @@ public class SkinCamActivity extends AppCompatActivity {
                 if (result.getResultCode() == RESULT_OK && result.getData() != null) {
                     Bitmap photo = (Bitmap) result.getData().getExtras().get("data");
                     if (photo != null) {
-                        onImageSelected(photo);
+                        selectedBitmap = photo;
+                        selectedImageUri = saveBitmapAndGetUri(photo);
+                        updatePreview();
+                        updateCheckButtonState();
                     }
                 }
             });
@@ -80,42 +84,64 @@ public class SkinCamActivity extends AppCompatActivity {
         // 뒤로 가기
         findViewById(R.id.backButton).setOnClickListener(v -> finish());
 
-        // 앨범 버튼 클릭
+        // 앨범에서 이미지 선택
         albumButton.setOnClickListener(v -> {
             Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
             galleryLauncher.launch(intent);
         });
 
-        // 카메라 버튼 클릭
+        // 카메라로 사진 촬영
         cameraButton.setOnClickListener(v -> {
             Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
             cameraLauncher.launch(intent);
         });
 
-//        // 검진하기 버튼 클릭
-//        btnCheck.setOnClickListener(v -> {
-//            if (selectedBitmap != null) {
-//                Intent intent = new Intent(this, SkinLoadingActivity.class);
-//                intent.putExtra("image_bitmap", ImageUtils.bitmapToByteArray(selectedBitmap));
-//                startActivity(intent);
-//            }
-//        });
+        // 검진하기 버튼 클릭 시 로딩 액티비티로 전환
+        btnCheck.setOnClickListener(v -> {
+            if (selectedImageUri != null) {
+                Intent intent = new Intent(this, SkinLoadingActivity.class);
+                intent.putExtra("image_uri", selectedImageUri.toString());
+                startActivity(intent);
+            } else {
+                Toast.makeText(this, "이미지를 선택해 주세요.", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        updateCheckButtonState();
     }
 
-    /**
-     * 이미지 선택 시 미리보기와 버튼 상태 갱신
-     */
-    private void onImageSelected(Bitmap bitmap) {
-        selectedBitmap = bitmap;
-        if (bitmap != null) {
-            previewImage.setImageBitmap(bitmap);
+    // 미리보기 이미지 갱신
+    private void updatePreview() {
+        if (selectedImageUri != null) {
+            previewImage.setImageURI(selectedImageUri);
             previewImage.setVisibility(View.VISIBLE);
             placeholderIcon.setVisibility(View.GONE);
-            btnCheck.setEnabled(true);
+        } else if (selectedBitmap != null) {
+            previewImage.setImageBitmap(selectedBitmap);
+            previewImage.setVisibility(View.VISIBLE);
+            placeholderIcon.setVisibility(View.GONE);
         } else {
             previewImage.setVisibility(View.INVISIBLE);
             placeholderIcon.setVisibility(View.VISIBLE);
-            btnCheck.setEnabled(false);
+        }
+    }
+
+    // 검진 버튼 활성화 여부 갱신
+    private void updateCheckButtonState() {
+        btnCheck.setEnabled(selectedImageUri != null);
+    }
+
+    // Bitmap 이미지를 파일로 저장하고 Uri 반환
+    private Uri saveBitmapAndGetUri(Bitmap bitmap) {
+        try {
+            File file = new File(getCacheDir(), "skin_" + System.currentTimeMillis() + ".jpg");
+            try (FileOutputStream out = new FileOutputStream(file)) {
+                bitmap.compress(Bitmap.CompressFormat.JPEG, 90, out);
+            }
+            return FileProvider.getUriForFile(this, getPackageName() + ".fileprovider", file);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
         }
     }
 }

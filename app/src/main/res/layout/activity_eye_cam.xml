@@ -9,18 +9,22 @@
     tools:context=".aiCheck.eye.EyeCamActivity">
 
     <!-- 🔙 뒤로 가기 버튼 -->
+
+    <!-- 메인 타이틀 -->
+
     <ImageView
         android:id="@+id/backButton"
         android:layout_width="24dp"
         android:layout_height="24dp"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="52dp"
-        android:src="@drawable/ic_arrow_back"
+        android:layout_marginTop="60dp"
         android:contentDescription="뒤로 가기"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        android:src="@drawable/ic_arrow_back"
+        app:layout_constraintEnd_toStartOf="@+id/titleText"
+        app:layout_constraintHorizontal_bias="0.216"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-    <!-- 메인 타이틀 -->
     <TextView
         android:id="@+id/titleText"
         android:layout_width="wrap_content"
