@@ -2,6 +2,15 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-feature android:name="android.hardware.camera" android:required="false" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+
+
+
+
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -12,15 +21,65 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.PETDoc"
         tools:targetApi="31">
+
         <activity
-            android:name=".MainActivity"
+            android:name=".login.SplashActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".login.LoginActivity" />
+        <activity android:name=".login.NameInputActivity" />
+        <activity android:name=".login.GenderInputActivity" />
+        <activity android:name=".login.WeightInputActivity" />
+        <activity android:name=".login.PhotoInputActivity" />
+
+        <activity android:name=".map.MapActivity" />
+
+        <activity android:name=".main.MainActivity" />
+
+        <!--유전병 예측-->
+        <activity android:name=".genetic.GeneticNoteActivity" />
+        <activity android:name=".genetic.GeneticLoadingActivity" />
+        <activity android:name=".genetic.GeneticInfoActivity" />
+        <activity android:name=".genetic.GeneticAllInfoActivity" />
+
+        <activity android:name=".aiCheck.AICheckActivity"/>
+        <activity android:name=".aiCheck.eye.EyeCamActivity" />
+        <activity android:name=".aiCheck.eye.EyeLoadingActivity" />
+        <activity android:name=".aiCheck.eye.EyeResultActivity" />
+
+        <activity android:name=".aiCheck.skin.SkinCamActivity" />
+        <activity android:name=".aiCheck.skin.SkinLoadingActivity" />
+        <activity android:name=".aiCheck.skin.SkinResultActivity" />
+
+        <activity android:name=".walklog.CalendarActivity" />
+        <activity android:name=".walklog.WalkRecordActivity" />
+
+        <!--구글 로그인 설정 -->
+        <meta-data
+            android:name="com.google.android.gms.auth.api.credentials.CREDENTIAL_PICKER_PRESENT"
+            android:value="true" />
+
+        <!--카메라 provider 설정-->
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="com.petdoc.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
+
+        <!-- Naver Map Client ID -->
+        <meta-data
+            android:name="com.naver.maps.map.NCP_KEY_ID"
+            android:value="c9zz9h5fcz" />
     </application>
+
+
 
 </manifest>

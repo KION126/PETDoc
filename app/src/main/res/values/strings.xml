@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">PETDoc</string>
+    <string name="desc_google_login">Google 계정으로 로그인</string>
+    <string name="default_web_client_id">912237458824-ug16b9j772irt4qr4dhif6oc1h97cvkc.apps.googleusercontent.com</string>
 </resources>

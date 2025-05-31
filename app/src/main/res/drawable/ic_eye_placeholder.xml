@@ -1,0 +1,19 @@
+<!-- res/drawable/ic_eye_placeholder.xml -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="40dp"
+    android:height="40dp"
+    android:viewportWidth="40"
+    android:viewportHeight="40">
+    <!-- 배경 동그라미 -->
+    <path
+        android:fillColor="#DDDDDD"
+        android:pathData="M20,2A18,18 0 1,0 20,38A18,18 0 1,0 20,2"/>
+    <!-- 눈 형태(아래 타원) -->
+    <path
+        android:fillColor="#B0B0B0"
+        android:pathData="M10,20 Q20,32 30,20 Q20,8 10,20Z"/>
+    <!-- 눈동자(작은 원) -->
+    <path
+        android:fillColor="#AAAAAA"
+        android:pathData="M20,20a4,4 0 1,0 0.00001,0"/>
+</vector>
