@@ -119,9 +119,16 @@ public class GeneticLoadingActivity extends AppCompatActivity {
 
         Map<String, Object> breedMap = new LinkedHashMap<>();
 
+        float sum = 0f;
+        for (int idx : topIndices) {
+            sum += result[idx];
+        }
+
+        // 예측도 정규화
         for (int idx : topIndices) {
             String breedName = breedLabels[idx];
-            int score = Math.round(result[idx] * 100);
+            float normalized = (result[idx] / sum) * 100f;
+            int score = Math.round(normalized);
             breedMap.put(breedName, score);
         }
 
