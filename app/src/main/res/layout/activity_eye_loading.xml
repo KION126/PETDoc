@@ -8,14 +8,16 @@
 
     <!-- 🔙 뒤로 가기 버튼 -->
     <!-- 상단 벡터 배경 -->
+
     <ImageView
         android:id="@+id/backButton"
         android:layout_width="24dp"
         android:layout_height="24dp"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="52dp"
+        android:layout_marginTop="60dp"
         android:contentDescription="뒤로 가기"
         android:src="@drawable/ic_arrow_back"
+        app:layout_constraintHorizontal_bias="0.216"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 

@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="100dp"
+    android:orientation="horizontal"
+    android:background="@drawable/rounded_white_background"
+    android:padding="16dp"
+    android:elevation="4dp"
+    android:layout_marginBottom="20dp"
+    android:gravity="center_vertical">
+
+    <!-- 왼쪽 썸네일 또는 아이콘 -->
+    <ImageView
+        android:id="@+id/condition_image"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:background="@drawable/rounded_gray_background"
+        android:scaleType="centerCrop"
+        android:layout_marginEnd="16dp"
+        android:contentDescription="피부 이미지" />
+
+    <!-- 중앙 텍스트 (제목) -->
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/condition_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="증상 이름"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:textColor="#000000" />
+    </LinearLayout>
+
+    <!-- 오른쪽 점수 -->
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="center_vertical|end">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="의심도"
+            android:textSize="12sp"
+            android:textColor="#999999"
+            android:layout_gravity="end" />
+
+        <TextView
+            android:id="@+id/condition_score"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="37%"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:textColor="#377DFF"
+            android:layout_gravity="end" />
+    </LinearLayout>
+
+</LinearLayout>
