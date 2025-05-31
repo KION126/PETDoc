@@ -1,11 +1,13 @@
 package com.petdoc.genetic;
 
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -191,10 +193,21 @@ public class GeneticInfoActivity extends AppCompatActivity {
                     JSONObject breedInfo = jsonObject.getJSONObject(breedScore.getBreed());
                     String title = breedInfo.getString("title");
                     String desc = breedInfo.getString("desc");
+                    String breedKey = breedScore.getBreed().toLowerCase().replace(" ", "_");
 
                     View itemView = getLayoutInflater().inflate(R.layout.item_info_genetic, linearLayout, false);
                     TextView titleText = itemView.findViewById(R.id.tv_title);
                     TextView descText = itemView.findViewById(R.id.tv_des);
+                    ImageView infoImg = itemView.findViewById(R.id.img_info);
+
+                    try {
+                        InputStream is = getAssets().open("breed_images/" + breedKey + ".png");
+                        Drawable drawable = Drawable.createFromStream(is, null);
+                        infoImg.setImageDrawable(drawable);
+                        is.close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                     titleText.setText(title);
                     descText.setText(desc);
                     linearLayout.addView(itemView);

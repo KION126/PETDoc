@@ -156,7 +156,10 @@ public class GeneticLoadingActivity extends AppCompatActivity {
             Log.e("GeneticLoadingActivity", "현재의 반려견 ID 없음");
         }
 
-        String timestamp = new SimpleDateFormat("yyyyMMddHHmmss", Locale.getDefault()).format(new Date());
+        String timestamp;
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss", Locale.getDefault());
+        sdf.setTimeZone(TimeZone.getTimeZone("Asia/Seoul"));
+        timestamp = sdf.format(new Date());
 
         String imagePath = "ai_genetic_images/" + uid + "/" + currentPetId + "/" + timestamp + ".jpg";
         StorageReference storageRef = FirebaseStorage.getInstance().getReference(imagePath);
