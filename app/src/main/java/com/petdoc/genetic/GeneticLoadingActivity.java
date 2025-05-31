@@ -19,8 +19,8 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.petdoc.R;
-import com.petdoc.aiCheck.utils.ImageUtils;
 import com.petdoc.genetic.model.BreedDiseasePredictor;
+import com.petdoc.genetic.model.ImageUtils;
 import com.petdoc.login.CurrentPetManager;
 
 import java.io.ByteArrayOutputStream;
@@ -59,7 +59,7 @@ public class GeneticLoadingActivity extends AppCompatActivity {
 
         // 견종 예측 모델 정의
         try {
-            breedDiseasePredictor = new BreedDiseasePredictor(getAssets(), "breed-010-0.3489.tflite", 18);
+            breedDiseasePredictor = new BreedDiseasePredictor(getAssets(), "breed-010-0.8489.tflite", 18);
         } catch (IOException e) {
             Log.e("GeneticLoadingActivity", "모델 초기화 실패", e);
             return;
