@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -24,10 +25,7 @@ public class NameInputActivity extends AppCompatActivity {
 
     private EditText edtPetName;
     private ImageView hintText;
-    private ImageButton btnNext;
-    private ImageButton btnPrev;
-
-
+    private Button btnNext, btnPrev;
 
     private DatabaseReference dbRef;
     private String uid;
@@ -52,7 +50,6 @@ public class NameInputActivity extends AppCompatActivity {
             edtPetName.setVisibility(EditText.VISIBLE);
             edtPetName.setText(petNameFromBack);
             btnNext.setEnabled(true);
-            btnNext.setImageResource(R.drawable.ic_arrow_forward2);
         }
 
         // Firebase 초기화
@@ -68,7 +65,6 @@ public class NameInputActivity extends AppCompatActivity {
         dbRef = FirebaseDatabase.getInstance().getReference();
 
         btnNext.setEnabled(false);
-        btnNext.setImageResource(R.drawable.ic_arrow_forward);
 
         hintText.setOnClickListener(v -> {
             hintText.setVisibility(ImageView.GONE);
@@ -86,9 +82,6 @@ public class NameInputActivity extends AppCompatActivity {
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 boolean hasText = s.toString().trim().length() > 0;
                 btnNext.setEnabled(hasText);
-                btnNext.setImageResource(hasText
-                        ? R.drawable.ic_arrow_forward2
-                        : R.drawable.ic_arrow_forward);
             }
         });
 
@@ -99,8 +92,8 @@ public class NameInputActivity extends AppCompatActivity {
 
             // 이름만 intent로 전달하고, 저장은 하지 않음
             Intent intent = new Intent(NameInputActivity.this, GenderInputActivity.class);
-            intent.putExtra("petName", petName);           // 현재 이름 값
             intent.putExtras(getIntent());                 // 혹시 이전 intent 값이 있으면 함께 넘김
+            intent.putExtra("petName", petName);           // 현재 이름 값
             startActivity(intent);
             finish();
         });

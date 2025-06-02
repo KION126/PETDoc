@@ -2,6 +2,7 @@ package com.petdoc.login;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -19,9 +20,10 @@ import com.petdoc.login.utils.PetInfoUtils;
 import com.petdoc.main.MainActivity;
 
 public class GenderInputActivity extends AppCompatActivity {
-    private ImageButton btnMale, btnFemale, btnNeutered, btnNext, btnPrev;
+    private Button btnNext, btnPrev;
+    private ImageButton btnMale, btnFemale, btnNeutered;
     private ImageView imgMale, imgFemale, labelMale, labelFemale, labelNeutered;
-    private TextView tvPetName, tvPetNameTitle;
+    private TextView tvPetNameTitle;
 
     // 데이터 변수
     private String selectedGender = null; // "수컷" or "암컷"
@@ -61,22 +63,18 @@ public class GenderInputActivity extends AppCompatActivity {
         labelFemale = findViewById(R.id.labelFemaleUnselected);
         labelNeutered = findViewById(R.id.labelNeutered);
 
-        tvPetName = findViewById(R.id.tvPetName);
         tvPetNameTitle = findViewById(R.id.tvPetNameTitle);
 
         String petName = getIntent().getStringExtra("petName");
 
         // 상단 이름 표시
         if (petName != null && !petName.isEmpty()) {
-            tvPetName.setText(petName);
-            tvPetNameTitle.setText(petName + "의 성별을 선택해 주세요");
+            tvPetNameTitle.setText(petName + "의 성별을\n선택해 주세요");
         } else {
-            tvPetName.setText("멍멍이 이름");
             tvPetNameTitle.setText("멍멍이의 성별을 선택해 주세요");
         }
 
         btnNext.setEnabled(false);
-        btnNext.setImageResource(R.drawable.ic_arrow_forward);
 
         findViewById(R.id.imgRegisterLater).setOnClickListener(v -> {
             dbRef.child("Users").child(uid).get().addOnSuccessListener(snapshot -> {
@@ -148,6 +146,5 @@ public class GenderInputActivity extends AppCompatActivity {
     // 다음 버튼 활성화
     private void activateNextButton() {
         btnNext.setEnabled(true);
-        btnNext.setImageResource(R.drawable.ic_arrow_forward2);
     }
 }

@@ -1,11 +1,10 @@
-// ✅ PhotoInputActivity.java (최종 저장 및 업로드 액티비티)
 package com.petdoc.login;
 
-// 📌 기존 import 유지 + 추가된 유틸 클래스 import
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -38,10 +37,10 @@ import java.util.Date;
 public class PhotoInputActivity extends AppCompatActivity {
 
     //  사진 등록 UI 요소
-    private ImageView previewImage, placeholderIcon;
+    private ImageView previewImage;
     private LinearLayout albumBtn, cameraBtn;
-    private ImageButton btnNext, btnPrev;
-    private TextView tvPetName, tvPetPhotoTitle;
+    private Button btnNext, btnPrev;
+    private TextView tvPetPhotoTitle;
 
     //  사진 및 Firebase 관련 변수
     private Uri selectedImageUri = null;
@@ -78,17 +77,14 @@ public class PhotoInputActivity extends AppCompatActivity {
         setContentView(R.layout.activity_pet_photo);
 
         //  뷰 연결
-        tvPetName = findViewById(R.id.tvPetName);
         tvPetPhotoTitle = findViewById(R.id.tvPetPhotoTitle);
         previewImage = findViewById(R.id.previewImage);
-        placeholderIcon = findViewById(R.id.placeholderIcon);
         btnNext = findViewById(R.id.btnNext);
         btnPrev = findViewById(R.id.btnPrev);
         albumBtn = findViewById(R.id.albumButton);
         cameraBtn = findViewById(R.id.cameraButton);
 
         btnNext.setEnabled(false);
-        btnNext.setImageResource(R.drawable.ic_arrow_forward);
 
         //  Firebase 초기화
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
@@ -106,16 +102,13 @@ public class PhotoInputActivity extends AppCompatActivity {
 
         //  상단 이름 표시
         if (petName != null && !petName.isEmpty()) {
-            tvPetName.setText(petName);
-            tvPetPhotoTitle.setText(petName + "의 사진을 올려주세요");
+            tvPetPhotoTitle.setText(petName + "의 사진을\n올려주세요");
         } else {
-            tvPetName.setText("멍멍이 이름");
-            tvPetPhotoTitle.setText("반려견의 사진을 올려주세요");
+            tvPetPhotoTitle.setText("반려견의 사진을\n올려주세요");
         }
 
         // 이미지 상태 초기화
         previewImage.setVisibility(ImageView.INVISIBLE);
-        placeholderIcon.setVisibility(ImageView.VISIBLE);
 
         //  이전으로 돌아가기
         btnPrev.setOnClickListener(v -> {
@@ -199,14 +192,12 @@ public class PhotoInputActivity extends AppCompatActivity {
         if (uri != null) {
             Glide.with(this).load(uri).into(previewImage);
             previewImage.setVisibility(ImageView.VISIBLE);
-            placeholderIcon.setVisibility(ImageView.INVISIBLE);
         }
     }
 
     //  다음 버튼 활성화
     private void enableNextButton() {
         btnNext.setEnabled(true);
-        btnNext.setImageResource(R.drawable.ic_arrow_forward2);
     }
 
     //  이미지 파일 생성 (카메라용)

@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -24,9 +25,9 @@ public class WeightInputActivity extends AppCompatActivity {
 
     private EditText edtWeight;
 
-    private ImageButton btnNext, btnPrev;
+    private Button btnNext, btnPrev;
 
-    private TextView tvPetName, tvPetNameTitle;
+    private TextView tvPetNameTitle;
     private DatabaseReference dbRef;
     private String uid, petKey, petName;
 
@@ -42,7 +43,6 @@ public class WeightInputActivity extends AppCompatActivity {
 
         btnPrev = findViewById(R.id.btnPrev);
 
-        tvPetName = findViewById(R.id.tvPetName);
         tvPetNameTitle = findViewById(R.id.tvPetNameTitle);
 
 
@@ -60,16 +60,13 @@ public class WeightInputActivity extends AppCompatActivity {
 
         // 상단 이름 표시
         if (petName != null && !petName.isEmpty()) {
-            tvPetName.setText(petName);
-            tvPetNameTitle.setText(petName + "의 성별을 선택해 주세요");
+            tvPetNameTitle.setText(petName + "의 몸무게를\n입력해 주세요");
         } else {
-            tvPetName.setText("멍멍이 이름");
-            tvPetNameTitle.setText("멍멍이의 성별을 선택해 주세요");
+            tvPetNameTitle.setText("멍멍이의 몸무게를\n입력해 주세요");
         }
 
         // 초기 상태
         btnNext.setEnabled(false);
-        btnNext.setImageResource(R.drawable.ic_arrow_forward);
 
         findViewById(R.id.imgRegisterLater).setOnClickListener(v -> {
             dbRef.child("Users").child(uid).get().addOnSuccessListener(snapshot -> {
@@ -95,9 +92,6 @@ public class WeightInputActivity extends AppCompatActivity {
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 boolean valid = s.toString().trim().length() > 0;
                 btnNext.setEnabled(valid);
-                btnNext.setImageResource(valid
-                        ? R.drawable.ic_arrow_forward2
-                        : R.drawable.ic_arrow_forward);
             }
         });
 

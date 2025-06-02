@@ -6,23 +6,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
-    android:padding="24dp">
+    android:padding="20dp">
 
-    <!-- 🐾 반려견 이름 텍스트 (이전 화면에서 받아온 값 표시용) -->
-    <TextView
-        android:id="@+id/tvPetName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="멍멍이 이름"
-        android:textColor="#000000"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-
-    <!-- 🔘 나중에 등록하기 버튼 (상단 오른쪽) -->
+    <!-- 나중에 등록하기 버튼 (상단 오른쪽) -->
     <ImageView
         android:id="@+id/imgRegisterLater"
         android:layout_width="100dp"
@@ -37,13 +23,13 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
-    <!-- 🔁 진행 표시 -->
+    <!-- 진행 표시 -->
     <FrameLayout
         android:id="@+id/progressContainer"
         android:layout_width="100dp"
         android:layout_height="4dp"
-        android:layout_marginTop="16dp"
-        app:layout_constraintTop_toBottomOf="@id/tvPetName"
+        android:layout_marginTop="78dp"
+        app:layout_constraintTop_toBottomOf="@id/imgRegisterLater"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
 
@@ -51,21 +37,22 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:src="@drawable/ic_step_progress_bar1" />
+
         <ImageView
             android:id="@+id/progressFill"
-            android:layout_width="40dp"
+            android:layout_width="44dp"
             android:layout_height="match_parent"
             android:src="@drawable/ic_progress_filled2" />
     </FrameLayout>
 
 
-    <!-- 🧾 입력 타이틀 (TextView로 변경, 반려견 이름 포함) -->
+    <!-- 입력 타이틀 (TextView로 변경, 반려견 이름 포함) -->
     <TextView
         android:id="@+id/tvPetNameTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        android:text="멍멍이 이름의 성별을 선택해 주세요"
+        android:layout_marginTop="12dp"
+        android:text="멍멍이 이름의 성별을\n선택해 주세요"
         android:textColor="#000000"
         android:textSize="27sp"
         android:textStyle="bold"
@@ -74,12 +61,12 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
-    <!-- 👦👧 성별 선택 -->
+    <!-- 성별 선택 -->
     <LinearLayout
         android:id="@+id/genderSelectionGroup"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="52dp"
         android:gravity="center"
         android:orientation="horizontal"
         app:layout_constraintTop_toBottomOf="@id/tvPetNameTitle"
@@ -91,7 +78,7 @@
             android:id="@+id/layoutMale"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="32dp"
+            android:layout_marginEnd="58dp"
             android:gravity="center_horizontal"
             android:orientation="vertical">
 
@@ -165,8 +152,9 @@
         android:id="@+id/neuteredGroup"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="28dp"
         android:orientation="horizontal"
+        android:gravity="center"
         app:layout_constraintTop_toBottomOf="@id/genderSelectionGroup"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
@@ -183,34 +171,44 @@
             android:layout_width="89dp"
             android:layout_height="39dp"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="2dp"
             android:src="@drawable/ic_neutering_off_label"
             android:contentDescription="중성화 라벨" />
     </LinearLayout>
 
     <!-- 하단 버튼 -->
-    <ImageButton
-        android:id="@+id/btnPrev"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:id="@+id/layoutBottomBtn"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="24dp"
-        android:background="@null"
-        android:src="@drawable/ic_arrow_back2"
-        android:contentDescription="이전"
+        android:orientation="horizontal"
+        android:layout_marginBottom="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/btnNext" />
+        app:layout_constraintEnd_toEndOf="parent">
 
-    <ImageButton
-        android:id="@+id/btnNext"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="24dp"
-        android:background="@null"
-        android:src="@drawable/ic_arrow_forward"
-        android:contentDescription="다음"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/btnPrev"
-        app:layout_constraintEnd_toEndOf="parent" />
+        <Button
+            android:id="@+id/btnPrev"
+            android:layout_width="wrap_content"
+            android:layout_height="74dp"
+            android:layout_weight="0.2"
+            android:layout_marginEnd="20dp"
+            android:background="@drawable/btn_next_disabled"
+            android:textColor="@color/black"
+            android:text="이전"
+            android:textSize="20sp"
+            android:stateListAnimator="@null"/>
+
+        <Button
+            android:id="@+id/btnNext"
+            android:layout_width="wrap_content"
+            android:layout_height="74dp"
+            android:layout_weight="1"
+            android:background="@drawable/btn_basic"
+            android:textColor="@color/btn_next_text_selector"
+            android:enabled="false"
+            android:text="다음"
+            android:textSize="20sp"
+            android:stateListAnimator="@null"/>
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
