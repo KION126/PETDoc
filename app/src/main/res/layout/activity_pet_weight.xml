@@ -6,20 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
-    android:padding="24dp">
-
-    <!-- 상단 반려견 이름 -->
-    <TextView
-        android:id="@+id/tvPetName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="멍멍이 이름"
-        android:textColor="#000000"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    android:padding="20dp">
 
     <!-- 나중에 등록하기 버튼 -->
     <ImageButton
@@ -41,7 +28,7 @@
         android:id="@+id/progressContainer"
         android:layout_width="100dp"
         android:layout_height="4dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="78dp"
         app:layout_constraintTop_toBottomOf="@id/imgRegisterLater"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
@@ -53,7 +40,7 @@
 
         <ImageView
             android:id="@+id/progressFill"
-            android:layout_width="40dp"
+            android:layout_width="66dp"
             android:layout_height="match_parent"
             android:src="@drawable/ic_progress_filled3" />
     </FrameLayout>
@@ -63,8 +50,8 @@
         android:id="@+id/tvPetNameTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        android:text="멍멍이 이름의 몸무게를 입력해 주세요"
+        android:layout_marginTop="12dp"
+        android:text="멍멍이 이름의 몸무게를\n입력해 주세요"
         android:textColor="#000000"
         android:textSize="25sp"
         android:textStyle="bold"
@@ -79,6 +66,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="64dp"
+        android:layout_marginHorizontal="32dp"
         app:layout_constraintTop_toBottomOf="@id/tvPetNameTitle"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
@@ -88,13 +76,14 @@
             android:id="@+id/edtWeight"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
             android:layout_marginEnd="8dp"
-            android:hint="몸무게를 입력하세요 (예: 5.3)"
+            android:hint="5.3"
             android:inputType="numberDecimal"
             android:textColor="#000000"
             android:textSize="18sp"
             android:maxLines="1"
-            android:gravity="end"
+            android:gravity="center"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toStartOf="@id/labelKg"
             app:layout_constraintTop_toTopOf="parent" />
@@ -114,30 +103,40 @@
             android:layout_marginStart="8dp"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <!-- 이전 버튼 -->
-    <ImageButton
-        android:id="@+id/btnPrev"
-        android:layout_width="wrap_content"
+    <!-- 하단 버튼 -->
+    <LinearLayout
+        android:id="@+id/layoutBottomBtn"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="24dp"
-        android:src="@drawable/ic_arrow_back2"
-        android:background="@null"
-        android:contentDescription="이전"
+        android:orientation="horizontal"
+        android:layout_marginBottom="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/btnNext" />
+        app:layout_constraintEnd_toEndOf="parent">
 
-    <!-- 다음 버튼 -->
-    <ImageButton
-        android:id="@+id/btnNext"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="24dp"
-        android:src="@drawable/ic_arrow_forward"
-        android:background="@null"
-        android:contentDescription="다음"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/btnPrev"
-        app:layout_constraintEnd_toEndOf="parent" />
+        <Button
+            android:id="@+id/btnPrev"
+            android:layout_width="wrap_content"
+            android:layout_height="74dp"
+            android:layout_weight="0.2"
+            android:layout_marginEnd="20dp"
+            android:background="@drawable/btn_next_disabled"
+            android:textColor="@color/black"
+            android:text="이전"
+            android:textSize="20sp"
+            android:stateListAnimator="@null"/>
+
+        <Button
+            android:id="@+id/btnNext"
+            android:layout_width="wrap_content"
+            android:layout_height="74dp"
+            android:layout_weight="1"
+            android:background="@drawable/btn_basic"
+            android:textColor="@color/btn_next_text_selector"
+            android:enabled="false"
+            android:text="다음"
+            android:textSize="20sp"
+            android:stateListAnimator="@null"/>
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

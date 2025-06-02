@@ -21,8 +21,8 @@
     <!-- 강아지 아이콘(프로필 이미지) -->
     <ImageView
         android:id="@+id/dogIcon"
-        android:layout_width="32dp"
-        android:layout_height="32dp"
+        android:layout_width="44dp"
+        android:layout_height="44dp"
         android:scaleType="centerCrop"
         android:src="@drawable/ic_dog_icon"
         app:layout_constraintBottom_toBottomOf="@id/circleBackground"
@@ -81,10 +81,10 @@
         android:id="@+id/healthLogbook"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="46dp"
+        android:layout_marginTop="26dp"
         android:text="건강 수첩"
         android:textColor="#000000"
-        android:textSize="24sp"
+        android:textSize="22sp"
         android:layout_marginStart="8dp"
         android:includeFontPadding="false"
         app:layout_constraintStart_toStartOf="@id/circleBackground"
@@ -94,7 +94,7 @@
     <FrameLayout
         android:id="@+id/btnSmartCheck"
         android:layout_width="0dp"
-        android:layout_height="216dp"
+        android:layout_height="210dp"
         android:background="@drawable/bg_btn_smart_check"
         android:clickable="true"
         android:focusable="true"
@@ -131,7 +131,7 @@
     <FrameLayout
         android:id="@+id/btnGeneticNote"
         android:layout_width="0dp"
-        android:layout_height="216dp"
+        android:layout_height="210dp"
         android:layout_marginStart="14dp"
         android:background="@drawable/bg_btn_genetic_note"
         android:clickable="true"
@@ -209,7 +209,7 @@
         android:includeFontPadding="false"
         android:text="건강 정보"
         android:textColor="#000000"
-        android:textSize="24sp"
+        android:textSize="22sp"
         android:layout_marginStart="8dp"
         app:layout_constraintStart_toStartOf="@+id/btnWalkLog"
         app:layout_constraintTop_toBottomOf="@+id/btnWalkLog" />
