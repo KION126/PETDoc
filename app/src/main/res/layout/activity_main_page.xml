@@ -195,19 +195,39 @@
             android:src="@drawable/ic_walk_log_icon" />
     </FrameLayout>
 
-    <Button
+    <!-- 동물병원 찾기 버튼 (산책 일지 버튼과 동일한 구조) -->
+    <FrameLayout
         android:id="@+id/btnFindHospital"
         android:layout_width="0dp"
-        android:layout_height="48dp"
+        android:layout_height="140dp"
         android:layout_marginTop="16dp"
-        android:background="#03A9F4"
-        android:backgroundTint="#4CAF50"
-        android:text="근처 동물병원 찾기"
-        android:textColor="@color/black"
-        android:textSize="16sp"
-        android:textStyle="bold"
+        android:background="@drawable/bg_btn_hospital"
+        android:clickable="true"
+        android:focusable="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/btnWalkLog" />
+        app:layout_constraintTop_toBottomOf="@id/btnWalkLog">
+
+        <TextView
+            android:id="@+id/findHospitalText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top|start"
+            android:layout_margin="16dp"
+            android:maxLines="2"
+            android:text="근처 동물병원 찾기"
+            android:textColor="@android:color/white"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <ImageView
+            android:id="@+id/findHospitalIcon"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_gravity="bottom|end"
+            android:layout_margin="16dp"
+            android:src="@drawable/ic_hospital_cross_white" />
+    </FrameLayout>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

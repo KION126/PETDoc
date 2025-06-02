@@ -96,30 +96,15 @@ public class NameInputActivity extends AppCompatActivity {
             if (!btnNext.isEnabled()) return;
 
             String petName = edtPetName.getText().toString().trim();
-            DatabaseReference userRef = dbRef.child("Users").child(uid);
 
-            // 현재 반려견 수를 가져와서 자동 키 생성
-            userRef.get().addOnSuccessListener(snapshot -> {
-                int petCount = (int) snapshot.getChildrenCount();
-                String newPetKey = "Dog" + (petCount + 1);
-
-                userRef.child(newPetKey)
-                        .child("basicInfo")
-                        .child("name")
-                        .setValue(petName)
-                        .addOnSuccessListener(unused -> {
-                            // 다음 액티비티로 이동하면서 petKey도 같이 전달
-                            Intent intent = new Intent(NameInputActivity.this, GenderInputActivity.class);
-                            intent.putExtra("petKey", newPetKey);     // 예: "반려견1"
-                            intent.putExtra("petName", petName);     // 실제 입력한 이름
-                            startActivity(intent);
-                            finish();
-                        })
-                        .addOnFailureListener(e ->
-                                Toast.makeText(this, "저장 실패: " + e.getMessage(), Toast.LENGTH_SHORT).show()
-                        );
-            });
+            // 이름만 intent로 전달하고, 저장은 하지 않음
+            Intent intent = new Intent(NameInputActivity.this, GenderInputActivity.class);
+            intent.putExtra("petName", petName);           // 현재 이름 값
+            intent.putExtras(getIntent());                 // 혹시 이전 intent 값이 있으면 함께 넘김
+            startActivity(intent);
+            finish();
         });
+
 
         btnPrev.setOnClickListener(v -> {
             FirebaseAuth.getInstance().signOut();  // 로그아웃 처리
