@@ -58,7 +58,7 @@ public class EyeLoadingActivity extends BaseActivity {
                 dotCount = (dotCount + 1) % 4;
                 String dots = new String(new char[dotCount]).replace("\0", ".");
                 processingText.setText("안구 분석 중" + dots);
-                handler.postDelayed(this, 100);
+                handler.postDelayed(this, 500);
             }
         };
         handler.post(dotAnimator);
