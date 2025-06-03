@@ -1,6 +1,7 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:fillViewport="true"
     android:background="@android:color/white">
 
@@ -11,31 +12,39 @@
         android:padding="16dp">
 
         <!-- 상단: 뒤로가기 + 제목 -->
-        <LinearLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center_vertical"
-            android:orientation="horizontal">
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="8dp">
 
             <ImageButton
                 android:id="@+id/btn_back"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:background="?attr/selectableItemBackgroundBorderless"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="19dp"
+                android:background="@android:color/transparent"
+                android:contentDescription="뒤로 가기"
                 android:src="@drawable/ic_arrow_back"
-                android:contentDescription="뒤로 가기" />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:layout_width="0dp"
+                android:id="@+id/titleText"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
+                android:layout_marginTop="8dp"
                 android:text="산책일지"
-                android:textStyle="bold"
+                android:textColor="#000000"
                 android:textSize="18sp"
-                android:gravity="center" />
-        </LinearLayout>
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <!-- 월 이동 -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -44,8 +53,8 @@
 
             <ImageView
                 android:id="@+id/prevMonth"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
+                android:layout_width="8dp"
+                android:layout_height="8dp"
                 android:src="@drawable/ic_left" />
 
             <TextView
@@ -59,8 +68,8 @@
 
             <ImageView
                 android:id="@+id/nextMonth"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
+                android:layout_width="8dp"
+                android:layout_height="8dp"
                 android:src="@drawable/ic_right" />
         </LinearLayout>
 
@@ -89,88 +98,213 @@
         </LinearLayout>
 
         <!-- 달력 셀 -->
+
         <GridView
             android:id="@+id/calendarGridView"
             android:layout_width="match_parent"
-            android:layout_height="500dp"
-            android:layout_marginTop="8dp"
-            android:horizontalSpacing="8dp"
+            android:layout_height="330dp"
+            android:layout_marginTop="0dp"
+            android:horizontalSpacing="0dp"
             android:numColumns="7"
             android:stretchMode="columnWidth"
-            android:verticalSpacing="8dp" />
+            android:verticalSpacing="0dp" />
 
-        <!-- 월간 통계 -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="월간 통계"
+            android:textStyle="bold"
+            android:textSize="16sp"
+            android:layout_marginTop="0dp"
+            android:layout_marginBottom="8dp" />
+
         <LinearLayout
-            android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="24dp">
+            android:orientation="vertical"
+            android:layout_marginBottom="16dp">
 
-            <!-- 걸음 -->
+            <!-- 걸음 카드 -->
             <LinearLayout
-                android:layout_weight="1"
-                android:orientation="vertical"
-                android:gravity="center"
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
+                android:layout_height="117dp"
+                android:background="@drawable/bg_calendar_card"
+                android:padding="16dp"
+                android:layout_marginBottom="8dp"
+                android:orientation="vertical">
+
+            <!-- 상단 아이콘 + 제목 -->
+            <LinearLayout
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:padding="12dp">
+                android:orientation="horizontal"
+                android:layout_marginTop="-13dp"
+                android:gravity="center_vertical">
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@drawable/ic_calendar_walk" /> <!-- 초록색 -->
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="🐾 걸음"
+                    android:text="걸음"
                     android:textStyle="bold"
-                    android:textSize="14sp"/>
-
-                <TextView
-                    android:id="@+id/totalSteps"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="46,212"
-                    android:textSize="20sp"
-                    android:textStyle="bold"/>
-
-                <TextView
-                    android:id="@+id/avgSteps"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="1,540"
-                    android:textSize="14sp"/>
+                    android:textColor="#4CAF50"
+                    android:layout_marginStart="6dp"/>
             </LinearLayout>
 
-            <!-- 시간 -->
+            <!-- 숫자 -->
             <LinearLayout
-                android:layout_weight="1"
-                android:orientation="vertical"
-                android:gravity="center"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:padding="12dp">
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="-15dp"
+                android:layout_marginStart="50dp"
+                android:orientation="horizontal"
+                android:gravity="center">
 
-                <TextView
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:text="🕒 시간"
-                    android:textStyle="bold"
-                    android:textSize="14sp"/>
+                    android:orientation="vertical"
+                    android:gravity="center">
 
-                <TextView
-                    android:id="@+id/totalTime"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="1207"
-                    android:textSize="20sp"
-                    android:textStyle="bold"/>
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/totalSteps"
+                        android:text="46,212"
+                        android:textSize="18sp"
+                        android:textStyle="bold"
+                        android:textColor="#000000" />
 
-                <TextView
-                    android:id="@+id/avgTime"
-                    android:layout_width="wrap_content"
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="총 걸음 수"
+                        android:layout_marginTop="-20dp"
+                        android:textSize="12sp"
+                        android:textColor="#888888" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:text="00:49"
-                    android:textSize="14sp"/>
+                    android:orientation="vertical"
+                    android:gravity="center">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/avgSteps"
+                        android:text="1,540"
+                        android:textSize="18sp"
+                        android:textStyle="bold"
+                        android:textColor="#000000" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="하루 평균 걸음 수"
+                        android:layout_marginTop="-20dp"
+                        android:textSize="12sp"
+                        android:textColor="#888888" />
+                </LinearLayout>
             </LinearLayout>
         </LinearLayout>
+
+        <!-- 시간 카드 (동일하게 구성, 색상만 파랑 계열로 변경) -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="117dp"
+            android:background="@drawable/bg_calendar_card"
+            android:padding="16dp"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="-13dp"
+                android:gravity="center_vertical">
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@drawable/ic_calendar_time" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="시간"
+                    android:textStyle="bold"
+                    android:textColor="#2196F3"
+                    android:layout_marginStart="6dp"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="-20dp"
+                android:layout_marginStart="50dp"
+                android:orientation="horizontal"
+                android:gravity="center">
+
+                <LinearLayout
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:gravity="center">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/totalTime"
+                        android:text="1207"
+                        android:textSize="18sp"
+                        android:textStyle="bold"
+                        android:textColor="#000000" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="총 산책 시간"
+                        android:layout_marginTop="-20dp"
+                        android:textSize="12sp"
+                        android:textColor="#888888" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:gravity="center">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/avgTime"
+                        android:text="00:49"
+                        android:textSize="18sp"
+                        android:textStyle="bold"
+                        android:textColor="#000000" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="하루 평균 산책 시간"
+                        android:layout_marginTop="-20dp"
+                        android:textSize="12sp"
+                        android:textColor="#888888" />
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
 
         <!-- 산책 버튼 -->
         <Button

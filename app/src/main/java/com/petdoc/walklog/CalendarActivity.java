@@ -198,4 +198,10 @@ public class CalendarActivity extends AppCompatActivity {
     public interface OnCalendarDataLoaded {
         void onDataReady(List<CalendarDayData> data);
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        updateCalendar();
+    }
 }
