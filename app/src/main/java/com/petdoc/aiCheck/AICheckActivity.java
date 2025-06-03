@@ -21,12 +21,13 @@ import com.petdoc.aiCheck.eye.EyeCamActivity;
 import com.petdoc.aiCheck.skin.SkinCamActivity;
 import com.petdoc.aiCheck.skin.SkinResultActivity;
 import com.petdoc.login.CurrentPetManager;
+import com.petdoc.main.BaseActivity;
 import com.petdoc.main.MainActivity;
 
 import java.text.SimpleDateFormat;
 import java.util.*;
 
-public class AICheckActivity extends AppCompatActivity {
+public class AICheckActivity extends BaseActivity {
 
     private LinearLayout historySection;
     private TextView tabEye, tabSkin;

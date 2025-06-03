@@ -6,19 +6,42 @@
     android:background="#FFFFFF"
     tools:context=".aiCheck.AICheckActivity">
 
-    <!-- 뒤로 가기 버튼 -->
-    <ImageView
-        android:id="@+id/backButton"
-        android:layout_width="24dp"
-        android:layout_height="24dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="64dp"
-        android:contentDescription="뒤로 가기"
-        android:src="@drawable/ic_arrow_back"
-        app:layout_constraintEnd_toStartOf="@+id/titleText"
-        app:layout_constraintHorizontal_bias="0.106"
+    <!-- 상단 내비게이션 -->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/layout_top_nav"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginHorizontal="20dp"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <ImageButton
+            android:id="@+id/backButton"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_margin="8dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:src="@drawable/ic_arrow_back"
+            android:contentDescription="뒤로 가기"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent" />
+
+
+        <TextView
+            android:id="@+id/titleText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="AI 스마트 간편 검진"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <!-- 상단 배경 -->
     <View
@@ -30,37 +53,22 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.358" />
+        app:layout_constraintVertical_bias="0.34" />
 
-    <TextView
-        android:id="@+id/titleText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="AI 스마트 간편 검진"
-        android:textColor="#000000"
-        android:textStyle="bold"
-        android:textSize="20sp"
-        android:fontFamily="@font/notosanskr_medium"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="48dp" />
 
     <!-- 설명 -->
     <TextView
-        android:id="@+id/descriptionText"
+        android:id="@+id/tv_dec"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="AI 카메라로 내 아이를\n직접 체크해보세요!"
-        android:textColor="#000000"
-        android:textStyle="bold"
-        android:textSize="22sp"
+        android:layout_marginTop="12dp"
         android:gravity="center"
-        android:fontFamily="@font/notosanskr_medium"
-        app:layout_constraintTop_toBottomOf="@id/titleText"
-        app:layout_constraintStart_toStartOf="parent"
+        android:text="AI 카메라로 내 아이를\n직접 체크해보세요!"
+        android:textSize="28sp"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="8dp" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/layout_top_nav" />
 
     <TextView
         android:id="@+id/subText"
@@ -74,60 +82,15 @@
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/descriptionText" />
+        app:layout_constraintTop_toBottomOf="@id/tv_dec" />
 
-    <!-- 버튼 -->
-    <FrameLayout
-        android:id="@+id/eye_button"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginTop="40dp"
-        android:layout_marginEnd="16dp"
-        android:background="@drawable/ai_check_button"
-        app:layout_constraintDimensionRatio="1:1"
-        app:layout_constraintEnd_toStartOf="@id/skin_button"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/subText"
-        app:layout_constraintWidth_percent="0.4">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="top|center_horizontal"
-            android:layout_marginTop="12dp"
-            android:gravity="center"
-            android:orientation="vertical">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="안구 AI 카메라"
-                android:textColor="#FFFFFF"
-                android:textSize="16sp"
-                android:textStyle="bold" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="10가지의 질병 검진"
-                android:textColor="#FFFFFF"
-                android:textSize="14sp" />
-        </LinearLayout>
-
-        <ImageView
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:layout_gravity="bottom|center_horizontal"
-            android:layout_marginBottom="12dp"
-            android:src="@drawable/ic_eye" />
-    </FrameLayout>
-
+    <!-- 버튼 영역 -->
     <FrameLayout
         android:id="@+id/skin_button"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginStart="16dp"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
         android:layout_marginTop="40dp"
+        android:padding="22dp"
         android:background="@drawable/ai_check_button"
         app:layout_constraintDimensionRatio="1:1"
         app:layout_constraintEnd_toEndOf="parent"
@@ -139,8 +102,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="top|center_horizontal"
-            android:layout_marginTop="12dp"
-            android:gravity="center"
+            android:gravity="left"
             android:orientation="vertical">
 
             <TextView
@@ -148,103 +110,156 @@
                 android:layout_height="wrap_content"
                 android:text="피부 AI 카메라"
                 android:textColor="#FFFFFF"
-                android:textSize="16sp"
-                android:textStyle="bold" />
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:includeFontPadding="false"/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="7가지의 질병 검진"
                 android:textColor="#FFFFFF"
-                android:textSize="14sp" />
+                android:textSize="15sp"
+                android:layout_marginTop="6dp"
+                android:includeFontPadding="false"/>
         </LinearLayout>
 
         <ImageView
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:layout_gravity="bottom|center_horizontal"
-            android:layout_marginBottom="12dp"
+            android:layout_width="72dp"
+            android:layout_height="72dp"
+            android:layout_gravity="bottom|right"
             android:src="@drawable/ic_skin" />
     </FrameLayout>
 
-    <!-- 🔒 고정된 탭 헤더 -->
-    <LinearLayout
-        android:id="@+id/historyHeader"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_marginHorizontal="16dp"
-        app:layout_constraintTop_toBottomOf="@id/skin_button"
+    <FrameLayout
+        android:id="@+id/eye_button"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:layout_marginTop="40dp"
+        android:padding="22dp"
+        android:background="@drawable/ai_check_button"
+        app:layout_constraintDimensionRatio="1:1"
+        app:layout_constraintEnd_toStartOf="@id/skin_button"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
-
-        <TextView
-            android:id="@+id/historyTitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            android:text="전체 기록"
-            android:textColor="#000000"
-            android:textSize="20sp"
-            android:textStyle="bold" />
+        app:layout_constraintTop_toBottomOf="@id/subText"
+        app:layout_constraintWidth_percent="0.4">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="4dp"
-            android:gravity="center"
-            android:orientation="horizontal">
+            android:layout_gravity="top|center_horizontal"
+            android:gravity="left"
+            android:orientation="vertical">
 
             <TextView
-                android:id="@+id/tabEye"
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:background="@drawable/tab_selected_bg"
-                android:gravity="center"
-                android:text="안구"
-                android:textColor="#222222"
-                android:textSize="16sp"
-                android:textStyle="bold" />
+                android:text="안구 AI 카메라"
+                android:textColor="#FFFFFF"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:includeFontPadding="false"/>
 
             <TextView
-                android:id="@+id/tabSkin"
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:background="@drawable/tab_unselected_bg"
-                android:gravity="center"
-                android:text="피부"
-                android:textColor="#888888"
-                android:textSize="16sp"
-                android:textStyle="bold" />
+                android:text="10가지의 질병 검진"
+                android:textColor="#FFFFFF"
+                android:textSize="15sp"
+                android:layout_marginTop="6dp"
+                android:includeFontPadding="false"/>
         </LinearLayout>
 
-        <View
-            android:id="@+id/divider"
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginVertical="8dp"
-            android:background="#CCCCCC" />
+        <ImageView
+            android:layout_width="72dp"
+            android:layout_height="72dp"
+            android:layout_gravity="bottom|right"
+            android:src="@drawable/ic_eye" />
+    </FrameLayout>
+
+    <TextView
+        android:id="@+id/historyTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="64dp"
+        android:text="전체 기록"
+        android:textColor="#000000"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.05"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/eye_button" />
+
+    <LinearLayout
+        android:id="@+id/layout_tab"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="4dp"
+        android:layout_marginHorizontal="20dp"
+        android:gravity="center"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/historyTitle">
+
+        <TextView
+            android:id="@+id/tabEye"
+            android:layout_width="0dp"
+            android:layout_height="46dp"
+            android:layout_weight="1"
+            android:background="@drawable/tab_selected_bg"
+            android:gravity="center"
+            android:text="안구"
+            android:textColor="#222222"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:includeFontPadding="false"/>
+
+        <TextView
+            android:id="@+id/tabSkin"
+            android:layout_width="0dp"
+            android:layout_height="46dp"
+            android:layout_weight="1"
+            android:background="@drawable/tab_unselected_bg"
+            android:gravity="center"
+            android:text="피부"
+            android:textColor="#888888"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:includeFontPadding="false"/>
     </LinearLayout>
 
-    <!-- 🔃 스크롤 가능한 카드 영역 -->
+    <View
+        android:id="@+id/divider"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginVertical="8dp"
+        android:layout_marginHorizontal="20dp"
+        android:background="#CCCCCC"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/layout_tab"/>
+
+    <!-- 전체 기록 영역: 스크롤 가능 -->
     <androidx.core.widget.NestedScrollView
         android:id="@+id/historyScrollView"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:fillViewport="true"
-        android:layout_marginHorizontal="16dp"
-        app:layout_constraintTop_toBottomOf="@id/historyHeader"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginHorizontal="10dp"
+        android:layout_marginTop="10dp"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
+        app:layout_constraintTop_toBottomOf="@id/divider"
+        app:layout_constraintBottom_toBottomOf="parent">
 
         <LinearLayout
             android:id="@+id/historySection"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical" />
+            android:orientation="vertical">
+
+        </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

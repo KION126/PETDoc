@@ -15,6 +15,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.petdoc.R;
 import com.petdoc.login.CurrentPetManager;
+import com.petdoc.main.BaseActivity;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -22,7 +23,7 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
-public class SkinLoadingActivity extends AppCompatActivity {
+public class SkinLoadingActivity extends BaseActivity {
 
     private Handler handler;
 

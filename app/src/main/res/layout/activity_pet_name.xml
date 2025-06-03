@@ -2,37 +2,22 @@
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
-    android:padding="24dp">
-
-    <!-- 나중에 등록하기 버튼 (상단 오른쪽 살짝 아래로 이동) -->
-    <ImageView
-        android:id="@+id/imgRegisterLater"
-        android:layout_width="100dp"
-        android:layout_height="48dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="8dp"
-        android:background="?attr/selectableItemBackgroundBorderless"
-        android:clickable="true"
-        android:focusable="true"
-        android:paddingTop="6dp"
-        android:paddingBottom="6dp"
-        android:src="@drawable/ic_register_later"
-        android:contentDescription="나중에 등록하기"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+    android:padding="20dp">
 
     <!-- 진행 바 -->
     <FrameLayout
         android:id="@+id/progressContainer"
         android:layout_width="100dp"
         android:layout_height="4dp"
-        android:layout_marginTop="60dp"
-        app:layout_constraintTop_toBottomOf="@id/imgRegisterLater"
+        android:layout_marginTop="138dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
+        tools:layout_editor_absoluteY="162dp">
 
         <ImageView
             android:id="@+id/progressBg"
@@ -51,13 +36,17 @@
     </FrameLayout>
 
     <!-- 입력 타이틀 -->
-    <ImageView
+
+    <TextView
         android:id="@+id/imgPetNameTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        android:src="@drawable/enter_pet_name_label"
-        android:contentDescription="아이 이름 입력 타이틀"
+        android:layout_marginTop="12dp"
+        android:text="아이의 이름을\n입력해주세요"
+        android:textColor="#000000"
+        android:textSize="27sp"
+        android:textStyle="bold"
+        android:gravity="center"
         app:layout_constraintTop_toBottomOf="@id/progressContainer"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
@@ -67,19 +56,11 @@
         android:id="@+id/nameInputContainer"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="64dp"
+        android:layout_marginHorizontal="48dp"
         app:layout_constraintTop_toBottomOf="@id/imgPetNameTitle"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
-
-        <ImageView
-            android:id="@+id/hintText"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:src="@drawable/hint_enter_name"
-            android:visibility="visible"
-            android:contentDescription="아이 이름 힌트" />
 
         <EditText
             android:id="@+id/edtPetName"
@@ -87,51 +68,50 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:hint="이름을 입력하세요"
-            android:background="@null"
             android:textColor="#000000"
-            android:textSize="16sp"
+            android:textSize="18sp"
             android:gravity="center"
+            android:backgroundTint="#CECECE"
             android:maxLines="1"
             android:inputType="textPersonName"
-            android:visibility="invisible"
-            android:paddingTop="2dp"
-            android:paddingBottom="2dp" />
+            android:paddingVertical="10dp" />
 
-        <ImageView
-            android:id="@+id/underline"
-            android:layout_width="match_parent"
-            android:layout_height="4dp"
-            android:layout_marginTop="32dp"
-            android:layout_gravity="bottom"
-            android:src="@drawable/bg_input_underline" />
     </FrameLayout>
 
     <!-- 하단 버튼 -->
-
-    <!-- 다음 버튼 -->
-    <ImageButton
-        android:id="@+id/btnPrev"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:id="@+id/layoutBottomBtn"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="20dp"
-        android:background="@null"
-        android:contentDescription="이전"
-        android:src="@drawable/ic_arrow_back2"
+        android:orientation="horizontal"
+        android:layout_marginBottom="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/btnNext"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
 
-    <ImageButton
-        android:id="@+id/btnNext"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="20dp"
-        android:background="@null"
-        android:contentDescription="다음"
-        android:src="@drawable/ic_arrow_forward"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.944"
-        app:layout_constraintStart_toStartOf="parent" />
+        <Button
+            android:id="@+id/btnPrev"
+            android:layout_width="wrap_content"
+            android:layout_height="74dp"
+            android:layout_weight="0.2"
+            android:layout_marginEnd="20dp"
+            android:background="@drawable/rounded_gray_background"
+            android:textColor="@color/black"
+            android:text="이전"
+            android:textSize="20sp"
+            android:stateListAnimator="@null"/>
+
+        <Button
+            android:id="@+id/btnNext"
+            android:layout_width="wrap_content"
+            android:layout_height="74dp"
+            android:layout_weight="1"
+            android:background="@drawable/btn_basic"
+            android:textColor="@color/btn_next_text_selector"
+            android:enabled="false"
+            android:text="다음"
+            android:textSize="20sp"
+            android:stateListAnimator="@null"/>
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

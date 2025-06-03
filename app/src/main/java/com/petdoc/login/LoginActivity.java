@@ -21,9 +21,10 @@ import com.google.android.gms.common.api.ApiException;
 import com.google.firebase.auth.*;
 import com.google.firebase.database.*;
 
+import com.petdoc.main.BaseActivity;
 import com.petdoc.main.MainActivity;
 
-public class LoginActivity extends AppCompatActivity {
+public class LoginActivity extends BaseActivity {
 
     private FirebaseAuth mAuth;
     private GoogleSignInClient mGoogleSignInClient;
@@ -152,6 +153,10 @@ public class LoginActivity extends AppCompatActivity {
                 for (DataSnapshot pet : snapshot.getChildren()) {
                     if (pet.child("basicInfo").child("name").exists()) {
                         hasName = true;
+
+                        // 첫 번째로 이름이 존재하는 반려동물의 petKey 저장
+                        String firstPetKey = pet.getKey();
+                        CurrentPetManager.getInstance().setCurrentPetId(firstPetKey);
                         break;
                     }
                 }

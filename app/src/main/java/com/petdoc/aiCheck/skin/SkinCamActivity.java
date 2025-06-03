@@ -19,6 +19,7 @@ import androidx.core.content.FileProvider;
 
 import com.petdoc.R;
 import com.petdoc.aiCheck.utils.ImageUtils;
+import com.petdoc.main.BaseActivity;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -27,7 +28,7 @@ import java.io.IOException;
 /**
  * 피부 이미지 입력 페이지
  */
-public class SkinCamActivity extends AppCompatActivity {
+public class SkinCamActivity extends BaseActivity {
 
     private ImageView previewImage;
     private ImageView placeholderIcon;

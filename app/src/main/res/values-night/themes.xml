@@ -3,5 +3,7 @@
     <style name="Base.Theme.PETDoc" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your dark theme here. -->
         <!-- <item name="colorPrimary">@color/my_dark_primary</item> -->
+        <!-- 기본 배경 색 흰색 적용 -->
+        <item name="android:windowBackground">@color/white</item>
     </style>
 </resources>

@@ -23,6 +23,7 @@ import com.petdoc.R;
 import com.petdoc.aiCheck.eye.model.EyeDiseasePredictor;
 import com.petdoc.aiCheck.utils.ImageUtils;
 import com.petdoc.login.CurrentPetManager;
+import com.petdoc.main.BaseActivity;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -34,7 +35,7 @@ import java.util.Map;
  * - 안구 이미지 분석 로딩 화면
  * - 이미지 예측 및 Firebase 저장 후 결과 화면으로 이동
  */
-public class EyeLoadingActivity extends AppCompatActivity {
+public class EyeLoadingActivity extends BaseActivity {
 
     private EyeDiseasePredictor eyeDiseasePredictor;
     private Handler handler;
@@ -47,8 +48,6 @@ public class EyeLoadingActivity extends AppCompatActivity {
         setContentView(R.layout.activity_eye_loading);
 
         TextView processingText = findViewById(R.id.text_processing);
-        ImageView backButton = findViewById(R.id.backButton);
-        backButton.setOnClickListener(v -> finish());
 
         // 로딩 텍스트에 점(.) 애니메이션 적용
         handler = new Handler(Looper.getMainLooper());
@@ -59,7 +58,7 @@ public class EyeLoadingActivity extends AppCompatActivity {
                 dotCount = (dotCount + 1) % 4;
                 String dots = new String(new char[dotCount]).replace("\0", ".");
                 processingText.setText("안구 분석 중" + dots);
-                handler.postDelayed(this, 100);
+                handler.postDelayed(this, 500);
             }
         };
         handler.post(dotAnimator);

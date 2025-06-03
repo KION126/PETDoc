@@ -44,7 +44,7 @@ import java.security.MessageDigest;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends BaseActivity {
 
     private FrameLayout btnGeneticNote;
     private FrameLayout btnSmartCheck;
@@ -55,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
     private String uid;
     private DatabaseReference dbRef;
     private LinearLayout nameWithArrow; // 멍멍이 이름 드롭
-    private Button btnFindHospital;
+    private FrameLayout btnFindHospital;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -103,45 +103,53 @@ public class MainActivity extends AppCompatActivity {
             finish();
         });
 
-        // ✅ 강아지 이름/산책일지/프로필 사진 불러오기 (첫 번째 반려견 기준)
-        dbRef.child("Users").child(uid).get().addOnSuccessListener(snapshot -> {
-            boolean found = false;
-            for (DataSnapshot petSnapshot : snapshot.getChildren()) {
-                if (petSnapshot.hasChild("기본정보")) {
-                    String petKey = petSnapshot.getKey();
-                    String name = petSnapshot.child("기본정보").child("이름").getValue(String.class);
-                    String profileUrl = petSnapshot.child("기본정보").child("이미지파일경로로").getValue(String.class);
+        // 현재 선택된 반려견 ID 가져오기
+        String selectedPetKey = CurrentPetManager.getInstance().getCurrentPetId();
 
-                    if (name != null) {
-                        nameText.setText(name);
-                        walkLogText.setText(name + "의 산책 일지");
-                    }
-                    // Glide로 dogIcon에 프로필 세팅 (없으면 기본 아이콘)
-                    if (profileUrl != null && !profileUrl.isEmpty()) {
-                        Glide.with(this)
-                                .load(profileUrl)
-                                .placeholder(R.drawable.ic_dog_icon) // 기본 강아지 아이콘
-                                .error(R.drawable.ic_dog_icon)
-                                .circleCrop()
-                                .into(dogIcon);
-                    } else {
+        if (selectedPetKey != null && !selectedPetKey.isEmpty()) {
+            dbRef.child("Users").child(uid).child(selectedPetKey).child("basicInfo").get()
+                    .addOnSuccessListener(snapshot -> {
+                        if (snapshot.exists()) {
+                            String name = snapshot.child("name").getValue(String.class);
+                            String profileUrl = snapshot.child("imagePath").getValue(String.class);
+
+                            if (name != null) {
+                                nameText.setText(name);
+                                walkLogText.setText(name + "의 산책 일지");
+                            } else {
+                                nameText.setText("멍멍이 이름");
+                                walkLogText.setText("멍멍이 이름의 산책 일지");
+                            }
+
+                            if (profileUrl != null && !profileUrl.isEmpty()) {
+                                Glide.with(this)
+                                        .load(profileUrl)
+                                        .placeholder(R.drawable.ic_dog_icon)
+                                        .error(R.drawable.ic_dog_icon)
+                                        .circleCrop()
+                                        .into(dogIcon);
+                            } else {
+                                dogIcon.setImageResource(R.drawable.ic_dog_icon);
+                            }
+                        } else {
+                            nameText.setText("멍멍이 이름");
+                            walkLogText.setText("멍멍이 이름의 산책 일지");
+                            dogIcon.setImageResource(R.drawable.ic_dog_icon);
+                        }
+                    })
+                    .addOnFailureListener(e -> {
+                        Toast.makeText(this, "강아지 정보를 불러오지 못했습니다", Toast.LENGTH_SHORT).show();
+                        nameText.setText("멍멍이 이름");
+                        walkLogText.setText("멍멍이 이름의 산책 일지");
                         dogIcon.setImageResource(R.drawable.ic_dog_icon);
-                    }
-                    found = true;
-                    break;
-                }
-            }
-            if (!found) {
-                nameText.setText("멍멍이 이름");
-                walkLogText.setText("멍멍이 이름의 산책 일지");
-                dogIcon.setImageResource(R.drawable.ic_dog_icon);
-            }
-        }).addOnFailureListener(e -> {
-            Toast.makeText(this, "강아지 정보를 불러오지 못했습니다", Toast.LENGTH_SHORT).show();
+                    });
+        } else {
+            // 선택된 반려견 ID가 없을 경우 기본값 처리
             nameText.setText("멍멍이 이름");
             walkLogText.setText("멍멍이 이름의 산책 일지");
             dogIcon.setImageResource(R.drawable.ic_dog_icon);
-        });
+        }
+
 
         // [1] 유전병 진단 노트 버튼
         btnGeneticNote.setOnClickListener(v -> {
