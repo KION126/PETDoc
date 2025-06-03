@@ -311,7 +311,7 @@
             android:id="@+id/startWalkingBtn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="오늘 두번째 산책 시작!"
+            android:text="오늘 첫번째 산책 시작!"
             android:textStyle="bold"
             android:layout_marginTop="24dp"
             android:backgroundTint="#4DB6F5"

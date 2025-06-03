@@ -13,20 +13,26 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.petdoc.R;
 import com.petdoc.main.BaseActivity;
 
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.YearMonth;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -83,6 +89,11 @@ public class CalendarActivity extends BaseActivity {
                 ActivityCompat.requestPermissions(this,
                         new String[]{Manifest.permission.ACTIVITY_RECOGNITION},
                         PERMISSION_REQUEST_ACTIVITY_RECOGNITION);
+            } else {
+                String dogId = getIntent().getStringExtra("dogId");
+                Intent intent = new Intent(CalendarActivity.this, WalkRecordActivity.class);
+                intent.putExtra("dogId", dogId);
+                startActivity(intent);
             }
         });
 
@@ -103,10 +114,10 @@ public class CalendarActivity extends BaseActivity {
             days.add(new CalendarDayData(0, "")); // 0은 비어있는 칸
         }
 
-        // 실제 날짜 추가 (예: 4월은 30일)
+        // 실제 날짜 추가
         int lastDay = firstDay.lengthOfMonth();
         for (int i = 1; i <= lastDay; i++) {
-            days.add(new CalendarDayData(i, "00:21")); // 임의 시간 데이터
+            days.add(new CalendarDayData(i, "00:00"));
         }
 
         return days;
@@ -130,12 +141,13 @@ public class CalendarActivity extends BaseActivity {
         int offset = firstDay.getDayOfWeek().getValue() % 7;
 
         for (int i = 0; i < offset; i++) {
-            days.add(new CalendarDayData(0, "", 0));  // 비어있는 칸, 걸음수 0
+            days.add(new CalendarDayData(0, "", 0));
         }
 
         int lastDay = ym.lengthOfMonth();
         String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
-        String dogId = "Dog1"; // 이후에 유동적으로 변경
+        String dogId = getIntent().getStringExtra("dogId");
+
         DatabaseReference ref = FirebaseDatabase.getInstance()
                 .getReference("Users").child(uid).child(dogId).child("WalkLog");
 
@@ -143,26 +155,44 @@ public class CalendarActivity extends BaseActivity {
             for (int day = 1; day <= lastDay; day++) {
                 String dateKey = String.format(Locale.getDefault(), "%04d-%02d-%02d", year, month, day);
 
-                String walkTime = "";
-                int steps = 0;
+                int totalSteps = 0;
+                long totalSeconds = 0;
+                boolean hasData = false;
 
                 if (snapshot.hasChild(dateKey)) {
-                    String rawTime = snapshot.child(dateKey).child("walkTime").getValue(String.class);
-                    Integer stepsVal = snapshot.child(dateKey).child("steps").getValue(Integer.class);
+                    hasData = true;
 
-                    if (rawTime != null && !rawTime.equals("00:00") && !rawTime.equals("00:00:00")) {
-                        walkTime = rawTime;
-                    }
-                    if (stepsVal != null) {
-                        steps = stepsVal;
+                    for (DataSnapshot logSnap : snapshot.child(dateKey).getChildren()) {
+                        String time = logSnap.child("walkTime").getValue(String.class);
+                        Integer steps = logSnap.child("steps").getValue(Integer.class);
+
+                        if (steps != null) {
+                            totalSteps += steps;
+                        }
+
+                        if (time != null) {
+                            String[] parts = time.split(":");
+                            try {
+                                int h = Integer.parseInt(parts[0]);
+                                int m = Integer.parseInt(parts[1]);
+                                int s = parts.length >= 3 ? Integer.parseInt(parts[2]) : 0;
+                                totalSeconds += h * 3600L + m * 60L + s;
+                            } catch (NumberFormatException ignored) {
+                            }
+                        }
                     }
                 }
 
-                // ✅ walkTime과 steps를 포함한 객체 생성
-                days.add(new CalendarDayData(day, walkTime, steps));
+                if (hasData) {
+                    String totalTimeFormatted = String.format(Locale.getDefault(), "%02d:%02d",
+                            totalSeconds / 3600, (totalSeconds % 3600) / 60);
+                    days.add(new CalendarDayData(day, totalTimeFormatted, totalSteps));
+                } else {
+                    // 아무 기록이 없는 경우, 시간은 표시하지 않음
+                    days.add(new CalendarDayData(day, "", 0));
+                }
             }
 
-            // 콜백으로 넘김
             callback.onDataReady(days);
         });
     }
@@ -175,7 +205,6 @@ public class CalendarActivity extends BaseActivity {
         for (CalendarDayData data : dayDataList) {
             if (data.day == 0 || data.walkTime == null || data.walkTime.isEmpty()) continue;
 
-            // walkTime이 "hh:mm" 형식일 경우
             String[] parts = data.walkTime.split(":");
             if (parts.length >= 2) {
                 try {
@@ -183,7 +212,8 @@ public class CalendarActivity extends BaseActivity {
                     int minute = Integer.parseInt(parts[1]);
                     totalSeconds += hour * 3600 + minute * 60;
                     daysWithData++;
-                } catch (NumberFormatException ignored) {}
+                } catch (NumberFormatException ignored) {
+                }
             }
 
             if (data.steps > 0) {
@@ -197,7 +227,6 @@ public class CalendarActivity extends BaseActivity {
 
         int avgMinutes = (avgSeconds % 3600) / 60;
 
-        // UI 반영
         TextView totalStepsView = findViewById(R.id.totalSteps);
         TextView avgStepsView = findViewById(R.id.avgSteps);
         TextView totalTimeView = findViewById(R.id.totalTime);
@@ -205,7 +234,7 @@ public class CalendarActivity extends BaseActivity {
 
         totalStepsView.setText(String.format(Locale.getDefault(), "%,d", totalSteps));
         avgStepsView.setText(String.format(Locale.getDefault(), "%,d", avgSteps));
-        totalTimeView.setText(String.valueOf(totalSeconds / 60)); // 총 시간(분 단위)
+        totalTimeView.setText(String.valueOf(totalSeconds / 60)); // 시간 단위로 하고 싶으면 / 3600으로
         avgTimeView.setText(String.format(Locale.getDefault(), "%02d:%02d", avgSeconds / 3600, avgMinutes));
     }
 
@@ -217,7 +246,10 @@ public class CalendarActivity extends BaseActivity {
     protected void onResume() {
         super.onResume();
         updateCalendar();
+        String dogId = getIntent().getStringExtra("dogId");
+        updateWalkButtonText(dogId);
     }
+
     // 걸음 센서 권한 요청 받기
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
@@ -226,10 +258,35 @@ public class CalendarActivity extends BaseActivity {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 Toast.makeText(this, "걸음 수 인식 권한이 허용되었습니다.", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(CalendarActivity.this, WalkRecordActivity.class);
+                intent.putExtra("dogId", getIntent().getStringExtra("dogId"));
                 startActivity(intent);
             } else {
                 Toast.makeText(this, "산책 일지 기능을 사용하기 위해서는\n걸음 수 인식 권한이 필요합니다.", Toast.LENGTH_LONG).show();
             }
         }
+    }
+
+    private void updateWalkButtonText(String dogId) {
+        String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        String todayKey = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date());
+
+        DatabaseReference ref = FirebaseDatabase.getInstance()
+                .getReference("Users").child(uid).child(dogId).child("WalkLog").child(todayKey);
+
+        ref.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.exists() && snapshot.getChildrenCount() > 0) {
+                    startWalkingBtn.setText("한번 더 산책하기!");
+                } else {
+                    startWalkingBtn.setText("오늘 첫번째 산책 시작!");
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
     }
 }

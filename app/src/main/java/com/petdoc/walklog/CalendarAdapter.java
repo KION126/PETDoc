@@ -68,7 +68,6 @@ public class CalendarAdapter extends BaseAdapter {
                 int sec = parts.length > 2 ? Integer.parseInt(parts[2]) : 0;
                 int totalSeconds = hour * 3600 + min * 60 + sec;
 
-                // ✅ 단계별 배경색 설정
                 int bgColor;
                 if (totalSeconds <= 60) {
                     bgColor = Color.parseColor("#E0F7FA");
@@ -81,7 +80,6 @@ public class CalendarAdapter extends BaseAdapter {
                 }
                 container.setBackgroundColor(bgColor);
 
-                // ✅ hh:mm만 표시
                 walkTimeText.setText(day.walkTime.substring(0, 5));
             } else {
                 walkTimeText.setText("");
