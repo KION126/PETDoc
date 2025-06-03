@@ -5,6 +5,9 @@
         <item name="fontFamily">@font/notosanskr_medium</item>
         <item name="android:textColor">@color/black</item>
 
+        <!-- 기본 배경 색 흰색 적용 -->
+        <item name="android:windowBackground">@color/white</item>
+
         <!-- 버튼 기본 배경 색 제거-->
         <item name="materialButtonStyle">@style/CustomButton</item>
     </style>
@@ -18,5 +21,6 @@
         <item name="android:minHeight">0dp</item>
         <item name="android:minWidth">0dp</item>
     </style>
+
 
 </resources>
