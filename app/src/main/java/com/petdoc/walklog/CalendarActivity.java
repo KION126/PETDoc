@@ -213,6 +213,11 @@ public class CalendarActivity extends BaseActivity {
         void onDataReady(List<CalendarDayData> data);
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        updateCalendar();
+    }
     // 걸음 센서 권한 요청 받기
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {

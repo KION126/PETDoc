@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
@@ -43,6 +44,10 @@ public class CalendarAdapter extends BaseAdapter {
 
         if (convertView == null) {
             convertView = LayoutInflater.from(context).inflate(R.layout.item_calendar_day, parent, false);
+
+            // ✅ 정사각형 셀 크기 설정
+            int cellSize = parent.getWidth() / 7;
+            convertView.setLayoutParams(new AbsListView.LayoutParams(cellSize, cellSize));
         }
 
         TextView dayText = convertView.findViewById(R.id.dayText);
@@ -52,7 +57,7 @@ public class CalendarAdapter extends BaseAdapter {
         if (day.day == 0) {
             dayText.setText("");
             walkTimeText.setText("");
-            container.setBackgroundColor(Color.TRANSPARENT); // 빈칸은 배경 없음
+            container.setBackgroundColor(Color.TRANSPARENT);
         } else {
             dayText.setText(String.valueOf(day.day));
 
@@ -63,19 +68,21 @@ public class CalendarAdapter extends BaseAdapter {
                 int sec = parts.length > 2 ? Integer.parseInt(parts[2]) : 0;
                 int totalSeconds = hour * 3600 + min * 60 + sec;
 
-                // 배경 단계별 설정
+                // ✅ 단계별 배경색 설정
                 int bgColor;
                 if (totalSeconds <= 60) {
-                    bgColor = Color.parseColor("#E0F7FA"); // 아주 연한 파랑
+                    bgColor = Color.parseColor("#E0F7FA");
                 } else if (totalSeconds <= 1800) {
-                    bgColor = Color.parseColor("#80DEEA"); // 연한 파랑
+                    bgColor = Color.parseColor("#80DEEA");
                 } else if (totalSeconds <= 3600) {
-                    bgColor = Color.parseColor("#26C6DA"); // 중간 파랑
+                    bgColor = Color.parseColor("#26C6DA");
                 } else {
-                    bgColor = Color.parseColor("#0097A7"); // 진한 파랑
+                    bgColor = Color.parseColor("#0097A7");
                 }
                 container.setBackgroundColor(bgColor);
-                walkTimeText.setText(day.walkTime.substring(0, 5)); // hh:mm만 표시
+
+                // ✅ hh:mm만 표시
+                walkTimeText.setText(day.walkTime.substring(0, 5));
             } else {
                 walkTimeText.setText("");
                 container.setBackgroundColor(Color.TRANSPARENT);
