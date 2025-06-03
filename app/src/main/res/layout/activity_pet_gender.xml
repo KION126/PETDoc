@@ -106,7 +106,7 @@
                 android:layout_width="16dp"
                 android:layout_height="17dp"
                 android:layout_marginTop="8dp"
-                android:src="@drawable/ic_male_on_label"
+                android:src="@drawable/ic_male_off_label"
                 android:contentDescription="수컷 라벨" />
         </LinearLayout>
 
