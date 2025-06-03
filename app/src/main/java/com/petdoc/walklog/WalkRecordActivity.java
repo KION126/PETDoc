@@ -37,7 +37,8 @@ public class WalkRecordActivity extends BaseActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_walking_record);
 
-        WalkLogRepository walkLogRepo = new WalkLogRepository(this, "Dog1");
+        String dogId = getIntent().getStringExtra("dogId");
+        WalkLogRepository walkLogRepo = new WalkLogRepository(this, dogId);
 
         endWalkBtn = findViewById(R.id.endWalkBtn);
         timeText = findViewById(R.id.walkTimeText);
@@ -56,7 +57,7 @@ public class WalkRecordActivity extends BaseActivity {
                 int minutes = (int) ((secondsElapsed % 3600) / 60);
                 int seconds = (int) (secondsElapsed % 60);
                 timeText.setText(String.format("%02d:%02d:%02d", hours, minutes, seconds));
-                timerHandler.postDelayed(this, 1000); // 1초마다 반복
+                timerHandler.postDelayed(this, 1000);
             }
         };
         timerHandler.post(timerRunnable);
@@ -69,7 +70,7 @@ public class WalkRecordActivity extends BaseActivity {
         }
 
         endWalkBtn.setOnClickListener(v -> {
-            timerHandler.removeCallbacks(timerRunnable); // 타이머 정지
+            timerHandler.removeCallbacks(timerRunnable);
             if (isWalking) {
                 sensorManager.unregisterListener(stepListener);
             }
@@ -84,12 +85,11 @@ public class WalkRecordActivity extends BaseActivity {
             walkLogRepo.saveWalkLog(formattedTime, totalSteps, new WalkLogRepository.WalkLogCallback() {
                 @Override
                 public void onSuccess() {
-                    finish(); // 저장 성공 시 종료
+                    finish();
                 }
 
                 @Override
                 public void onFailure(Exception e) {
-                    // 실패 시 처리 (예: 토스트 출력)
                     Toast.makeText(WalkRecordActivity.this, "저장 실패: " + e.getMessage(), Toast.LENGTH_SHORT).show();
                 }
             });

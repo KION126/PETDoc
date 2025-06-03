@@ -33,6 +33,7 @@ public class WalkLogRepository {
 
     public void saveWalkLog(String walkTimeStr, int steps, WalkLogCallback callback) {
         String dateKey = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date());
+        WalkLog log = new WalkLog(walkTimeStr, steps);
 
         walkLogRef.child(dateKey).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -56,18 +57,15 @@ public class WalkLogRepository {
                     }
                 }
 
-                // 새 walkTime도 초로 변환
                 String[] newParts = walkTimeStr.split(":");
                 int h = Integer.parseInt(newParts[0]);
                 int m = Integer.parseInt(newParts[1]);
                 int s = Integer.parseInt(newParts[2]);
                 long newTimeSec = h * 3600L + m * 60L + s;
 
-                // 누적 결과 계산
                 int totalSteps = prevSteps + steps;
                 long totalSeconds = prevTimeSec + newTimeSec;
 
-                // 다시 HH:mm:ss 포맷으로
                 String totalTimeFormatted = String.format(Locale.getDefault(), "%02d:%02d:%02d",
                         totalSeconds / 3600,
                         (totalSeconds % 3600) / 60,
@@ -77,8 +75,8 @@ public class WalkLogRepository {
                 walkData.put("walkTime", totalTimeFormatted);
                 walkData.put("steps", totalSteps);
 
-                walkLogRef.child(dateKey).setValue(walkData)
-                        .addOnSuccessListener(aVoid -> callback.onSuccess())
+                walkLogRef.child(dateKey).push().setValue(log)
+                        .addOnSuccessListener(unused -> callback.onSuccess())
                         .addOnFailureListener(callback::onFailure);
             }
 

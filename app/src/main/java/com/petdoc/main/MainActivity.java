@@ -163,7 +163,13 @@ public class MainActivity extends BaseActivity {
 
         // [3] 반려견 산책일지 버튼
         walkLogText.setOnClickListener(v -> {
-            startActivity(new Intent(MainActivity.this, CalendarActivity.class));
+            String dogId = CurrentPetManager.getInstance().getCurrentPetId();
+            String dogName = nameText.getText().toString();
+
+            Intent intent = new Intent(MainActivity.this, CalendarActivity.class);
+            intent.putExtra("dogId", dogId);
+            intent.putExtra("dogName", dogName);
+            startActivity(intent);
         });
     }
 
