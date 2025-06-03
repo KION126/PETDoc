@@ -15,6 +15,7 @@ import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.petdoc.R;
+import com.petdoc.main.BaseActivity;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -23,7 +24,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Iterator;
 
-public class GeneticAllInfoActivity extends AppCompatActivity {
+public class GeneticAllInfoActivity extends BaseActivity {
 
     private LinearLayout linearLayout;
 

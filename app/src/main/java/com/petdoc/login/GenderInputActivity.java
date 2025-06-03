@@ -17,9 +17,10 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.petdoc.R;
 import com.petdoc.login.utils.PetInfoUtils;
+import com.petdoc.main.BaseActivity;
 import com.petdoc.main.MainActivity;
 
-public class GenderInputActivity extends AppCompatActivity {
+public class GenderInputActivity extends BaseActivity {
     private Button btnNext, btnPrev;
     private ImageButton btnMale, btnFemale, btnNeutered;
     private ImageView imgMale, imgFemale, labelMale, labelFemale, labelNeutered;

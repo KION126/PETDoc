@@ -23,6 +23,7 @@ import com.petdoc.R;
 import com.petdoc.genetic.model.BreedDiseasePredictor;
 import com.petdoc.genetic.model.ImageUtils;
 import com.petdoc.login.CurrentPetManager;
+import com.petdoc.main.BaseActivity;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -30,7 +31,7 @@ import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
-public class GeneticLoadingActivity extends AppCompatActivity {
+public class GeneticLoadingActivity extends BaseActivity {
 
     private BreedDiseasePredictor breedDiseasePredictor;
     private TextView tvProcessing;

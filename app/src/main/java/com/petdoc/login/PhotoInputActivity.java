@@ -26,6 +26,7 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.petdoc.R;
 import com.petdoc.login.utils.PetInfoUtils;
+import com.petdoc.main.BaseActivity;
 import com.petdoc.main.MainActivity;
 
 
@@ -34,7 +35,7 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class PhotoInputActivity extends AppCompatActivity {
+public class PhotoInputActivity extends BaseActivity {
 
     //  사진 등록 UI 요소
     private ImageView previewImage;

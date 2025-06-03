@@ -15,6 +15,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.bumptech.glide.Glide;
 import com.petdoc.R;
 import com.petdoc.aiCheck.AICheckActivity;
+import com.petdoc.main.BaseActivity;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -22,7 +23,7 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
-public class SkinResultActivity extends AppCompatActivity {
+public class SkinResultActivity extends BaseActivity {
 
     private static final String[] LABELS = {
             "papules_plaques",

@@ -12,10 +12,11 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.*;
 
+import com.petdoc.main.BaseActivity;
 import com.petdoc.main.MainActivity;
 import com.petdoc.R;
 
-public class SplashActivity extends AppCompatActivity {
+public class SplashActivity extends BaseActivity {
     private static final int SPLASH_DELAY = 1000; // 1.5초 (취향에 따라 조정)
 
     @Override

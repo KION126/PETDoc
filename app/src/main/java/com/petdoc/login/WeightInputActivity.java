@@ -19,9 +19,10 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.petdoc.R;
 import com.petdoc.login.utils.PetInfoUtils;
+import com.petdoc.main.BaseActivity;
 import com.petdoc.main.MainActivity;
 
-public class WeightInputActivity extends AppCompatActivity {
+public class WeightInputActivity extends BaseActivity {
 
     private EditText edtWeight;
 

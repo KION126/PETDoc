@@ -13,6 +13,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.bumptech.glide.Glide;
 import com.petdoc.R;
+import com.petdoc.main.BaseActivity;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -23,7 +24,7 @@ import java.util.Locale;
  * - 안구 진단 결과를 시각적으로 보여주는 화면
  * - 전체 건강도 요약, 질병별 확률, 이미지 미리보기 등을 표시
  */
-public class EyeResultActivity extends AppCompatActivity {
+public class EyeResultActivity extends BaseActivity {
 
     // 영문 질병 라벨 (모델 키)
     private static final String[] LABELS = {
