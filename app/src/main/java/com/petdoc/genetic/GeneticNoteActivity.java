@@ -21,6 +21,7 @@ import com.bumptech.glide.Glide;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.petdoc.R;
+import com.petdoc.main.BaseActivity;
 import com.petdoc.main.MainActivity;
 
 import java.io.File;
@@ -28,7 +29,7 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class GeneticNoteActivity extends AppCompatActivity {
+public class GeneticNoteActivity extends BaseActivity {
 
     private Button btnNext;
     private ImageButton btnBack;

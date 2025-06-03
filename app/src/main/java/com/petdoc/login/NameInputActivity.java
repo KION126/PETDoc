@@ -20,8 +20,9 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.petdoc.main.BaseActivity;
 
-public class NameInputActivity extends AppCompatActivity {
+public class NameInputActivity extends BaseActivity {
 
     private EditText edtPetName;
     private ImageView hintText;

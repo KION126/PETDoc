@@ -15,10 +15,12 @@ import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.petdoc.main.BaseActivity;
 import com.petdoc.walklog.WalkLogRepository;
 import com.petdoc.R;
 
-public class WalkRecordActivity extends AppCompatActivity {
+public class WalkRecordActivity extends BaseActivity {
     private Button endWalkBtn;
     private TextView timeText, stepCountText;
     private long secondsElapsed = 0;

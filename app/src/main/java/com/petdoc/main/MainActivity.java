@@ -44,7 +44,7 @@ import java.security.MessageDigest;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends BaseActivity {
 
     private FrameLayout btnGeneticNote;
     private FrameLayout btnSmartCheck;

@@ -22,6 +22,7 @@ import com.google.firebase.database.*;
 
 import com.petdoc.R;
 import com.petdoc.login.CurrentPetManager;
+import com.petdoc.main.BaseActivity;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -31,7 +32,7 @@ import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
-public class GeneticInfoActivity extends AppCompatActivity {
+public class GeneticInfoActivity extends BaseActivity {
 
     private Button btnNext;
     private ImageButton btnBack;
