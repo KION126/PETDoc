@@ -78,8 +78,8 @@
 
         <ImageView
             android:id="@+id/previewImage"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
             android:scaleType="centerCrop"
             android:contentDescription="미리보기 이미지"
             android:visibility="invisible" />
@@ -152,23 +152,26 @@
         android:id="@+id/layoutBottomBtn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
         android:layout_marginBottom="16dp"
+        android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
+        app:layout_constraintTop_toBottomOf="@+id/petPhotoOptions"
+        app:layout_constraintVertical_bias="1.0">
 
         <Button
             android:id="@+id/btnPrev"
             android:layout_width="wrap_content"
             android:layout_height="74dp"
-            android:layout_weight="0.2"
             android:layout_marginEnd="20dp"
+            android:layout_weight="0.2"
             android:background="@drawable/btn_next_disabled"
-            android:textColor="@color/black"
+            android:stateListAnimator="@null"
             android:text="이전"
-            android:textSize="20sp"
-            android:stateListAnimator="@null"/>
+            android:textColor="@color/black"
+            android:textSize="20sp" />
 
         <Button
             android:id="@+id/btnNext"
@@ -176,11 +179,11 @@
             android:layout_height="74dp"
             android:layout_weight="1"
             android:background="@drawable/btn_basic"
-            android:textColor="@color/btn_next_text_selector"
             android:enabled="false"
+            android:stateListAnimator="@null"
             android:text="다음"
-            android:textSize="20sp"
-            android:stateListAnimator="@null"/>
+            android:textColor="@color/btn_next_text_selector"
+            android:textSize="20sp" />
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

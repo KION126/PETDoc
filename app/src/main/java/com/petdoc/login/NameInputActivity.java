@@ -25,7 +25,6 @@ import com.petdoc.main.BaseActivity;
 public class NameInputActivity extends BaseActivity {
 
     private EditText edtPetName;
-    private ImageView hintText;
     private Button btnNext, btnPrev;
 
     private DatabaseReference dbRef;
@@ -38,7 +37,6 @@ public class NameInputActivity extends BaseActivity {
         setContentView(R.layout.activity_pet_name);
 
         edtPetName = findViewById(R.id.edtPetName);
-        hintText = findViewById(R.id.hintText);
         btnNext = findViewById(R.id.btnNext);
         btnPrev = findViewById(R.id.btnPrev);
 
@@ -47,7 +45,6 @@ public class NameInputActivity extends BaseActivity {
         String petNameFromBack = getIntent().getStringExtra("petName");
 
         if (petNameFromBack != null) {
-            hintText.setVisibility(ImageView.GONE);
             edtPetName.setVisibility(EditText.VISIBLE);
             edtPetName.setText(petNameFromBack);
             btnNext.setEnabled(true);
@@ -66,14 +63,6 @@ public class NameInputActivity extends BaseActivity {
         dbRef = FirebaseDatabase.getInstance().getReference();
 
         btnNext.setEnabled(false);
-
-        hintText.setOnClickListener(v -> {
-            hintText.setVisibility(ImageView.GONE);
-            edtPetName.setVisibility(EditText.VISIBLE);
-            edtPetName.requestFocus();
-            InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-            imm.showSoftInput(edtPetName, InputMethodManager.SHOW_IMPLICIT);
-        });
 
         edtPetName.addTextChangedListener(new TextWatcher() {
             @Override public void beforeTextChanged(CharSequence s, int start, int count, int after) {}

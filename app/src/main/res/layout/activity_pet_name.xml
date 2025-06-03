@@ -2,37 +2,22 @@
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
     android:padding="20dp">
-
-    <!-- 나중에 등록하기 버튼 (상단 오른쪽 살짝 아래로 이동) -->
-    <ImageView
-        android:id="@+id/imgRegisterLater"
-        android:layout_width="100dp"
-        android:layout_height="48dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="8dp"
-        android:background="?attr/selectableItemBackgroundBorderless"
-        android:clickable="true"
-        android:focusable="true"
-        android:paddingTop="6dp"
-        android:paddingBottom="6dp"
-        android:src="@drawable/ic_register_later"
-        android:contentDescription="나중에 등록하기"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
 
     <!-- 진행 바 -->
     <FrameLayout
         android:id="@+id/progressContainer"
         android:layout_width="100dp"
         android:layout_height="4dp"
-        android:layout_marginTop="78dp"
-        app:layout_constraintTop_toBottomOf="@id/imgRegisterLater"
+        android:layout_marginTop="138dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
+        tools:layout_editor_absoluteY="162dp">
 
         <ImageView
             android:id="@+id/progressBg"
@@ -72,18 +57,10 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="64dp"
+        android:layout_marginHorizontal="48dp"
         app:layout_constraintTop_toBottomOf="@id/imgPetNameTitle"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
-
-        <ImageView
-            android:id="@+id/hintText"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:src="@drawable/hint_enter_name"
-            android:visibility="visible"
-            android:contentDescription="아이 이름 힌트" />
 
         <EditText
             android:id="@+id/edtPetName"
@@ -91,24 +68,14 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:hint="이름을 입력하세요"
-            android:background="@null"
             android:textColor="#000000"
-            android:textSize="16sp"
+            android:textSize="18sp"
             android:gravity="center"
+            android:backgroundTint="#CECECE"
             android:maxLines="1"
             android:inputType="textPersonName"
-            android:visibility="invisible"
-            android:paddingTop="2dp"
-            android:paddingBottom="2dp" />
+            android:paddingVertical="10dp" />
 
-        <ImageView
-            android:id="@+id/underline"
-            android:layout_width="match_parent"
-            android:layout_height="2dp"
-            android:layout_marginTop="32dp"
-            android:layout_marginHorizontal="32dp"
-            android:layout_gravity="bottom"
-            android:src="@drawable/bg_input_underline" />
     </FrameLayout>
 
     <!-- 하단 버튼 -->
@@ -128,7 +95,7 @@
             android:layout_height="74dp"
             android:layout_weight="0.2"
             android:layout_marginEnd="20dp"
-            android:background="@drawable/btn_next_disabled"
+            android:background="@drawable/rounded_gray_background"
             android:textColor="@color/black"
             android:text="이전"
             android:textSize="20sp"
