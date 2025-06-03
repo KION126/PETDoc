@@ -1,6 +1,8 @@
 package com.petdoc.walklog;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.widget.Button;
@@ -8,9 +10,12 @@ import android.widget.GridView;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
@@ -32,6 +37,9 @@ public class CalendarActivity extends BaseActivity {
     private ImageView prevMonth, nextMonth;
     private YearMonth currentMonth;
     private Button startWalkingBtn;
+
+    // 센서 권한 요청 식별자 정의
+    private static final int PERMISSION_REQUEST_ACTIVITY_RECOGNITION = 1001;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,8 +77,13 @@ public class CalendarActivity extends BaseActivity {
         calendarGridView.setAdapter(adapter);
 
         startWalkingBtn.setOnClickListener(v -> {
-            Intent intent = new Intent(CalendarActivity.this, WalkRecordActivity.class);
-            startActivity(intent);
+            // 걸음 센서 권한 요청
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACTIVITY_RECOGNITION)
+                    != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(this,
+                        new String[]{Manifest.permission.ACTIVITY_RECOGNITION},
+                        PERMISSION_REQUEST_ACTIVITY_RECOGNITION);
+            }
         });
 
         //뒤로가기
@@ -198,5 +211,20 @@ public class CalendarActivity extends BaseActivity {
 
     public interface OnCalendarDataLoaded {
         void onDataReady(List<CalendarDayData> data);
+    }
+
+    // 걸음 센서 권한 요청 받기
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == PERMISSION_REQUEST_ACTIVITY_RECOGNITION) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                Toast.makeText(this, "걸음 수 인식 권한이 허용되었습니다.", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(CalendarActivity.this, WalkRecordActivity.class);
+                startActivity(intent);
+            } else {
+                Toast.makeText(this, "산책 일지 기능을 사용하기 위해서는\n걸음 수 인식 권한이 필요합니다.", Toast.LENGTH_LONG).show();
+            }
+        }
     }
 }
