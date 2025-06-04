@@ -7,12 +7,16 @@ import android.os.Handler;
 import android.os.Looper;
 
 import androidx.activity.EdgeToEdge;
-import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 import com.petdoc.R;
 import com.petdoc.login.CurrentPetManager;
 import com.petdoc.main.BaseActivity;
@@ -23,6 +27,9 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
+/**
+ * 피부 이미지 분석 로딩 화면 (뒤로가기 제거됨)
+ */
 public class SkinLoadingActivity extends BaseActivity {
 
     private Handler handler;
@@ -44,17 +51,19 @@ public class SkinLoadingActivity extends BaseActivity {
 
         handler = new Handler(Looper.getMainLooper());
 
-        // Get image URI
+        // 이미지 URI 전달 받기
         String uriStr = getIntent().getStringExtra("image_uri");
+        if (uriStr == null) return;
 
-        // Simulate prediction
-        simulatePrediction(uriStr);
+        Uri imageUri = Uri.parse(uriStr);
+
+        // 예측 시뮬레이션 + Storage 업로드
+        simulatePrediction(imageUri);
     }
 
-    private void simulatePrediction(String imageUri) {
+    private void simulatePrediction(Uri imageUri) {
         handler.postDelayed(() -> {
             Map<String, Integer> resultMap = new HashMap<>();
-
             resultMap.put("papules_plaques", 37);
             resultMap.put("dandruff_scaling_epidermal_collarette", 57);
             resultMap.put("lichenification_hyperpigmentation", 87);
@@ -62,21 +71,31 @@ public class SkinLoadingActivity extends BaseActivity {
             resultMap.put("erosion_ulceration", 44);
             resultMap.put("nodules_mass", 66);
 
-            // Save to Firebase
-            saveToFirebase(resultMap, imageUri);
-
-            // Navigate to result screen
-            Intent intent = new Intent(this, SkinResultActivity.class);
-            intent.putExtra("result_map", new HashMap<>(resultMap));
-            if (imageUri != null) {
-                intent.putExtra("image_uri", imageUri);
-            }
-            startActivity(intent);
-            finish();
+            uploadImageAndSave(imageUri, resultMap);
         }, 1000);
     }
 
-    private void saveToFirebase(Map<String, Integer> resultMap, String imageUri) {
+    private void uploadImageAndSave(Uri imageUri, Map<String, Integer> resultMap) {
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if (user == null) return;
+
+        String uid = user.getUid();
+        String petId = CurrentPetManager.getInstance().getCurrentPetId();
+        if (petId == null) return;
+
+        String fileName = "skin_" + System.currentTimeMillis() + ".jpg";
+        StorageReference storageRef = FirebaseStorage.getInstance().getReference("skin_images/" + uid + "/" + fileName);
+
+        storageRef.putFile(imageUri)
+                .addOnSuccessListener(taskSnapshot -> storageRef.getDownloadUrl().addOnSuccessListener(uri -> {
+                    String downloadUrl = uri.toString();
+                    saveToFirebase(resultMap, downloadUrl);
+                    moveToResult(resultMap, downloadUrl);
+                }))
+                .addOnFailureListener(Throwable::printStackTrace);
+    }
+
+    private void saveToFirebase(Map<String, Integer> resultMap, String imageUrl) {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if (user == null) return;
 
@@ -95,14 +114,17 @@ public class SkinLoadingActivity extends BaseActivity {
 
         Map<String, Object> record = new HashMap<>();
         record.put("createdAt", timestamp);
-        record.put("imagePath", imageUri);
+        record.put("imagePath", imageUrl); // Firebase Storage download URL
         record.put("prediction", resultMap);
 
         ref.setValue(record);
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
+    private void moveToResult(Map<String, Integer> resultMap, String imageUrl) {
+        Intent intent = new Intent(this, SkinResultActivity.class);
+        intent.putExtra("result_map", new HashMap<>(resultMap));
+        intent.putExtra("image_uri", imageUrl); // 그대로 Glide 등에서 사용 가능
+        startActivity(intent);
+        finish();
     }
 }

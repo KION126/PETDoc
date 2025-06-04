@@ -1,13 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.petdoc">
 
-    <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-feature android:name="android.hardware.camera" android:required="false" />
+    <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACTIVITY_RECOGNITION" />
+
+    <uses-feature android:name="android.hardware.camera" android:required="false" />
 
     <application
         android:allowBackup="true"
@@ -20,6 +22,7 @@
         android:theme="@style/Theme.PETDoc"
         tools:targetApi="31">
 
+        <!-- 초기 진입 -->
         <activity
             android:name=".login.SplashActivity"
             android:exported="true">
@@ -28,56 +31,59 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <!-- 로그인 -->
         <activity android:name=".login.LoginActivity" />
         <activity android:name=".login.NameInputActivity" />
         <activity android:name=".login.GenderInputActivity" />
         <activity android:name=".login.WeightInputActivity" />
         <activity android:name=".login.PhotoInputActivity" />
 
-        <activity android:name=".map.MapActivity" />
-
+        <!-- 메인 -->
         <activity android:name=".main.MainActivity" />
 
-        <!--유전병 예측-->
+        <!-- 지도 -->
+        <activity android:name=".map.MapActivity" />
+
+        <!-- 유전병 -->
         <activity android:name=".genetic.GeneticNoteActivity" />
         <activity android:name=".genetic.GeneticLoadingActivity" />
         <activity android:name=".genetic.GeneticInfoActivity" />
         <activity android:name=".genetic.GeneticAllInfoActivity" />
 
-        <activity android:name=".aiCheck.AICheckActivity"/>
+        <!-- AI 체크 -->
+        <activity android:name=".aiCheck.AICheckActivity" />
         <activity android:name=".aiCheck.eye.EyeCamActivity" />
         <activity android:name=".aiCheck.eye.EyeLoadingActivity" />
         <activity android:name=".aiCheck.eye.EyeResultActivity" />
-
         <activity android:name=".aiCheck.skin.SkinCamActivity" />
         <activity android:name=".aiCheck.skin.SkinLoadingActivity" />
         <activity android:name=".aiCheck.skin.SkinResultActivity" />
 
+        <!-- 산책 -->
         <activity android:name=".walklog.CalendarActivity" />
         <activity android:name=".walklog.WalkRecordActivity" />
 
-        <!--구글 로그인 설정 -->
+        <!-- Google 설정 -->
         <meta-data
             android:name="com.google.android.gms.auth.api.credentials.CREDENTIAL_PICKER_PRESENT"
             android:value="true" />
 
-        <!--카메라 provider 설정-->
+        <!-- Naver Map -->
+        <meta-data
+            android:name="com.naver.maps.map.NCP_KEY_ID"
+            android:value="c9zz9h5fcz" />
+
+        <!-- FileProvider -->
         <provider
             android:name="androidx.core.content.FileProvider"
-            android:authorities="com.petdoc.fileprovider"
+            android:authorities="${applicationId}.fileprovider"
             android:exported="false"
             android:grantUriPermissions="true">
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths" />
         </provider>
-
-        <!-- Naver Map Client ID -->
-        <meta-data
-            android:name="com.naver.maps.map.NCP_KEY_ID"
-            android:value="c9zz9h5fcz" />
     </application>
-
-
 
 </manifest>

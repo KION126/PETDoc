@@ -1,16 +1,15 @@
 package com.petdoc.aiCheck.skin;
 
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.ImageButton;
 
 import androidx.activity.EdgeToEdge;
-import androidx.appcompat.app.AppCompatActivity;
 
 import com.bumptech.glide.Glide;
 import com.petdoc.R;
@@ -50,26 +49,28 @@ public class SkinResultActivity extends BaseActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_skin_result);
 
-        // 뒤로가기 버튼 클릭 시 AICheckActivity로 이동
-        findViewById(R.id.backButton).setOnClickListener(v -> {
-            Intent intent = new Intent(this, AICheckActivity.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-            startActivity(intent);
-            finish();
-        });
+        //  뒤로 가기 버튼
+        ImageButton backButton = findViewById(R.id.back_button);
+        if (backButton != null) {
+            backButton.setOnClickListener(v -> {
+                Intent intent = new Intent(this, AICheckActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                startActivity(intent);
+                finish();
+            });
+        }
 
         // 날짜 표시
         TextView dateText = findViewById(R.id.result_date);
         String now = new SimpleDateFormat("yyyy.MM.dd(E) HH:mm", Locale.KOREAN).format(new Date());
         dateText.setText(now);
 
-        // 결과 수신
+        // 결과 및 이미지 URI 수신
         Map<String, Integer> resultMap = (HashMap<String, Integer>) getIntent().getSerializableExtra("result_map");
         if (resultMap == null) return;
         String imageUriStr = getIntent().getStringExtra("image_uri");
-        Uri imageUri = imageUriStr != null ? Uri.parse(imageUriStr) : null;
 
-        // 종합 점수
+        // 종합 점수 계산
         int total = 0;
         for (int score : resultMap.values()) total += score;
         int average = resultMap.size() > 0 ? total / resultMap.size() : 0;
@@ -78,17 +79,17 @@ public class SkinResultActivity extends BaseActivity {
         TextView summaryScore = findViewById(R.id.summaryScore);
         if (summaryScore != null) summaryScore.setText(average + "%");
 
-        // 종합 이미지
+        //  종합 이미지 표시
         ImageView summaryImage = findViewById(R.id.summary_image);
         if (summaryImage != null) {
-            if (imageUri != null) {
-                Glide.with(this).load(imageUri).into(summaryImage);
+            if (imageUriStr != null) {
+                Glide.with(this).load(imageUriStr).into(summaryImage);
             } else {
                 summaryImage.setImageResource(R.drawable.ic_camera_placeholder);
             }
         }
 
-        // 상세 결과 카드 추가
+        // 결과 카드 목록 구성
         LinearLayout resultContainer = findViewById(R.id.skin_result_card_container);
         LayoutInflater inflater = LayoutInflater.from(this);
 
@@ -109,13 +110,14 @@ public class SkinResultActivity extends BaseActivity {
 
             View card = inflater.inflate(R.layout.item_skin_result_card, resultContainer, false);
             ((TextView) card.findViewById(R.id.condition_title)).setText(displayLabel);
+
             TextView scoreView = card.findViewById(R.id.condition_score);
             scoreView.setText(score + "%");
             scoreView.setTextColor(color);
 
             ImageView imageView = card.findViewById(R.id.condition_image);
-            if (imageUri != null) {
-                Glide.with(this).load(imageUri).into(imageView);
+            if (imageUriStr != null) {
+                Glide.with(this).load(imageUriStr).into(imageView);
             } else {
                 imageView.setImageResource(R.drawable.ic_camera_placeholder);
             }
