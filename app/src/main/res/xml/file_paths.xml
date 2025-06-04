@@ -1,9 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <paths xmlns:android="http://schemas.android.com/apk/res/android">
-    <external-files-path
-        name="my_images"
-        path="." />
+    <!-- 앱 캐시 디렉토리 -->
     <cache-path
         name="cache"
+        path="." />
+
+    <!-- 외부 파일 디렉토리 -->
+    <external-files-path
+        name="external_files"
+        path="." />
+
+    <!-- 내부 파일 디렉토리 (선택사항) -->
+    <files-path
+        name="internal_files"
         path="." />
 </paths>
