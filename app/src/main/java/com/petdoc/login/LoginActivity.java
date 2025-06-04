@@ -50,14 +50,22 @@ public class LoginActivity extends BaseActivity {
         // 사용자 터치 막기 (스크롤 비활성)
         viewPager.setUserInputEnabled(false);
 
+        // 수직 방향으로 슬라이드 설정
+        viewPager.setOrientation(ViewPager2.ORIENTATION_VERTICAL);
+
         // 자동 슬라이드 (3초 간격)
         final Handler sliderHandler = new Handler();
         Runnable sliderRunnable = new Runnable() {
             int currentPage = 0;
             @Override
             public void run() {
-                currentPage = (currentPage + 1) % icons.length;
-                viewPager.setCurrentItem(currentPage, true);
+                int nextPage = (viewPager.getCurrentItem() + 1) % icons.length;
+
+                // 마지막 → 첫 페이지일 때 애니메이션 없이 점프
+                boolean animate = nextPage != 0;
+
+                viewPager.setCurrentItem(nextPage, animate);
+
                 sliderHandler.postDelayed(this, 3000);
             }
         };
