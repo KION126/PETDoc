@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
@@ -19,6 +20,7 @@ import androidx.core.content.FileProvider;
 
 import com.petdoc.R;
 import com.petdoc.login.CurrentPetManager;
+import com.petdoc.main.BaseActivity;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -29,13 +31,13 @@ import java.io.IOException;
  * 사용자로부터 왼쪽/오른쪽 눈 이미지를 선택(앨범/카메라) 받고
  * 이후 진단을 시작하는 액티비티
  */
-public class EyeCamActivity extends AppCompatActivity {
+public class EyeCamActivity extends BaseActivity {
 
     // UI 요소
     private ImageView previewImage;
     private ImageView placeholderIcon;
-    private LinearLayout albumButton;
-    private LinearLayout cameraButton;
+    private ImageButton albumButton;
+    private ImageButton cameraButton;
     private ImageView leftEyeIcon;
     private ImageView rightEyeIcon;
     private Button btnCheck;

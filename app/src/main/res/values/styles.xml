@@ -16,6 +16,8 @@
 
         <item name="android:fontFamily">@font/notosanskr_regular</item>
     </style>
-
-
+    <style name="ImageViewRounded" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">12dp</item>
+    </style>
 </resources>

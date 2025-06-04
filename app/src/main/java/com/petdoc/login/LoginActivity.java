@@ -7,6 +7,7 @@ import android.util.Log;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
+import androidx.activity.EdgeToEdge;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
@@ -20,9 +21,10 @@ import com.google.android.gms.common.api.ApiException;
 import com.google.firebase.auth.*;
 import com.google.firebase.database.*;
 
+import com.petdoc.main.BaseActivity;
 import com.petdoc.main.MainActivity;
 
-public class LoginActivity extends AppCompatActivity {
+public class LoginActivity extends BaseActivity {
 
     private FirebaseAuth mAuth;
     private GoogleSignInClient mGoogleSignInClient;
@@ -33,6 +35,7 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        EdgeToEdge.enable(this);
         setContentView(R.layout.activity_login);
 
         ViewPager2 viewPager = findViewById(R.id.iconSlider);
@@ -47,14 +50,22 @@ public class LoginActivity extends AppCompatActivity {
         // 사용자 터치 막기 (스크롤 비활성)
         viewPager.setUserInputEnabled(false);
 
+        // 수직 방향으로 슬라이드 설정
+        viewPager.setOrientation(ViewPager2.ORIENTATION_VERTICAL);
+
         // 자동 슬라이드 (3초 간격)
         final Handler sliderHandler = new Handler();
         Runnable sliderRunnable = new Runnable() {
             int currentPage = 0;
             @Override
             public void run() {
-                currentPage = (currentPage + 1) % icons.length;
-                viewPager.setCurrentItem(currentPage, true);
+                int nextPage = (viewPager.getCurrentItem() + 1) % icons.length;
+
+                // 마지막 → 첫 페이지일 때 애니메이션 없이 점프
+                boolean animate = nextPage != 0;
+
+                viewPager.setCurrentItem(nextPage, animate);
+
                 sliderHandler.postDelayed(this, 3000);
             }
         };
@@ -148,8 +159,12 @@ public class LoginActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 boolean hasName = false;
                 for (DataSnapshot pet : snapshot.getChildren()) {
-                    if (pet.child("BasicInfo").child("Name").exists()) {
+                    if (pet.child("basicInfo").child("name").exists()) {
                         hasName = true;
+
+                        // 첫 번째로 이름이 존재하는 반려동물의 petKey 저장
+                        String firstPetKey = pet.getKey();
+                        CurrentPetManager.getInstance().setCurrentPetId(firstPetKey);
                         break;
                     }
                 }

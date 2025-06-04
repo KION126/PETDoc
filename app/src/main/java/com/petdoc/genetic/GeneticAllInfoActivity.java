@@ -1,17 +1,21 @@
 package com.petdoc.genetic;
 
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.petdoc.R;
+import com.petdoc.main.BaseActivity;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -20,7 +24,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Iterator;
 
-public class GeneticAllInfoActivity extends AppCompatActivity {
+public class GeneticAllInfoActivity extends BaseActivity {
 
     private LinearLayout linearLayout;
 
@@ -30,6 +34,7 @@ public class GeneticAllInfoActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        EdgeToEdge.enable(this);
         setContentView(R.layout.activity_all_info_genetic);
 
         // 뷰 연결
@@ -56,7 +61,16 @@ public class GeneticAllInfoActivity extends AppCompatActivity {
 
                     TextView titleText = itemView.findViewById(R.id.tv_title);
                     TextView descText = itemView.findViewById(R.id.tv_des);
+                    ImageView infoImg = itemView.findViewById(R.id.img_info);
 
+                    try {
+                        InputStream is = getAssets().open("breed_images/" + breedKey + ".png");
+                        Drawable drawable = Drawable.createFromStream(is, null);
+                        infoImg.setImageDrawable(drawable);
+                        is.close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                     titleText.setText(title);
                     descText.setText(desc);
 

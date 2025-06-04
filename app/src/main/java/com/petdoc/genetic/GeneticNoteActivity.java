@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 
+import androidx.activity.EdgeToEdge;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
@@ -20,6 +21,7 @@ import com.bumptech.glide.Glide;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.petdoc.R;
+import com.petdoc.main.BaseActivity;
 import com.petdoc.main.MainActivity;
 
 import java.io.File;
@@ -27,7 +29,7 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class GeneticNoteActivity extends AppCompatActivity {
+public class GeneticNoteActivity extends BaseActivity {
 
     private Button btnNext;
     private ImageButton btnBack;
@@ -40,6 +42,7 @@ public class GeneticNoteActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        EdgeToEdge.enable(this);
         setContentView(R.layout.activity_ai_genetic);
 
         // 뷰 연결

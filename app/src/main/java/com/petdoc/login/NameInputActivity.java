@@ -6,11 +6,13 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.petdoc.R;
@@ -18,15 +20,12 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.petdoc.main.BaseActivity;
 
-public class NameInputActivity extends AppCompatActivity {
+public class NameInputActivity extends BaseActivity {
 
     private EditText edtPetName;
-    private ImageView hintText;
-    private ImageButton btnNext;
-    private ImageButton btnPrev;
-
-
+    private Button btnNext, btnPrev;
 
     private DatabaseReference dbRef;
     private String uid;
@@ -34,10 +33,10 @@ public class NameInputActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        EdgeToEdge.enable(this);
         setContentView(R.layout.activity_pet_name);
 
         edtPetName = findViewById(R.id.edtPetName);
-        hintText = findViewById(R.id.hintText);
         btnNext = findViewById(R.id.btnNext);
         btnPrev = findViewById(R.id.btnPrev);
 
@@ -46,11 +45,9 @@ public class NameInputActivity extends AppCompatActivity {
         String petNameFromBack = getIntent().getStringExtra("petName");
 
         if (petNameFromBack != null) {
-            hintText.setVisibility(ImageView.GONE);
             edtPetName.setVisibility(EditText.VISIBLE);
             edtPetName.setText(petNameFromBack);
             btnNext.setEnabled(true);
-            btnNext.setImageResource(R.drawable.ic_arrow_forward2);
         }
 
         // Firebase 초기화
@@ -66,15 +63,6 @@ public class NameInputActivity extends AppCompatActivity {
         dbRef = FirebaseDatabase.getInstance().getReference();
 
         btnNext.setEnabled(false);
-        btnNext.setImageResource(R.drawable.ic_arrow_forward);
-
-        hintText.setOnClickListener(v -> {
-            hintText.setVisibility(ImageView.GONE);
-            edtPetName.setVisibility(EditText.VISIBLE);
-            edtPetName.requestFocus();
-            InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-            imm.showSoftInput(edtPetName, InputMethodManager.SHOW_IMPLICIT);
-        });
 
         edtPetName.addTextChangedListener(new TextWatcher() {
             @Override public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
@@ -84,9 +72,6 @@ public class NameInputActivity extends AppCompatActivity {
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 boolean hasText = s.toString().trim().length() > 0;
                 btnNext.setEnabled(hasText);
-                btnNext.setImageResource(hasText
-                        ? R.drawable.ic_arrow_forward2
-                        : R.drawable.ic_arrow_forward);
             }
         });
 
@@ -94,30 +79,15 @@ public class NameInputActivity extends AppCompatActivity {
             if (!btnNext.isEnabled()) return;
 
             String petName = edtPetName.getText().toString().trim();
-            DatabaseReference userRef = dbRef.child("Users").child(uid);
 
-            // 현재 반려견 수를 가져와서 자동 키 생성
-            userRef.get().addOnSuccessListener(snapshot -> {
-                int petCount = (int) snapshot.getChildrenCount();
-                String newPetKey = "Dog" + (petCount + 1);
-
-                userRef.child(newPetKey)
-                        .child("basicInfo")
-                        .child("name")
-                        .setValue(petName)
-                        .addOnSuccessListener(unused -> {
-                            // 다음 액티비티로 이동하면서 petKey도 같이 전달
-                            Intent intent = new Intent(NameInputActivity.this, GenderInputActivity.class);
-                            intent.putExtra("petKey", newPetKey);     // 예: "반려견1"
-                            intent.putExtra("petName", petName);     // 실제 입력한 이름
-                            startActivity(intent);
-                            finish();
-                        })
-                        .addOnFailureListener(e ->
-                                Toast.makeText(this, "저장 실패: " + e.getMessage(), Toast.LENGTH_SHORT).show()
-                        );
-            });
+            // 이름만 intent로 전달하고, 저장은 하지 않음
+            Intent intent = new Intent(NameInputActivity.this, GenderInputActivity.class);
+            intent.putExtras(getIntent());                 // 혹시 이전 intent 값이 있으면 함께 넘김
+            intent.putExtra("petName", petName);           // 현재 이름 값
+            startActivity(intent);
+            finish();
         });
+
 
         btnPrev.setOnClickListener(v -> {
             FirebaseAuth.getInstance().signOut();  // 로그아웃 처리

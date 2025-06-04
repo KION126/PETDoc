@@ -18,24 +18,27 @@ import com.petdoc.R;
 import com.petdoc.aiCheck.eye.EyeHistoryItem;
 import com.petdoc.aiCheck.eye.EyeResultActivity;
 import com.petdoc.aiCheck.eye.EyeCamActivity;
+import com.petdoc.aiCheck.skin.SkinCamActivity;
+import com.petdoc.aiCheck.skin.SkinResultActivity;
 import com.petdoc.login.CurrentPetManager;
+import com.petdoc.main.BaseActivity;
 import com.petdoc.main.MainActivity;
 
 import java.text.SimpleDateFormat;
 import java.util.*;
 
-public class AICheckActivity extends AppCompatActivity {
+public class AICheckActivity extends BaseActivity {
 
-    // UI 요소
     private LinearLayout historySection;
     private TextView tabEye, tabSkin;
     private View divider;
 
-    // Firebase 데이터 참조 및 리스너
     private DatabaseReference eyeHistoryRef;
     private ValueEventListener eyeHistoryListener;
 
-    // 라벨 정의 (모델 키 & 한글)
+    private DatabaseReference skinHistoryRef;
+    private ValueEventListener skinHistoryListener;
+
     private static final String[] LABELS = {
             "blepharitis", "eyelid_tumor", "entropion", "epiphora",
             "pigmentary_keratitis", "corneal_disease", "nuclear_sclerosis",
@@ -52,13 +55,11 @@ public class AICheckActivity extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_ai_check);
 
-        // UI 초기화
         historySection = findViewById(R.id.historySection);
         tabEye = findViewById(R.id.tabEye);
         tabSkin = findViewById(R.id.tabSkin);
         divider = findViewById(R.id.divider);
 
-        // 뒤로가기 → 메인화면으로 이동
         findViewById(R.id.backButton).setOnClickListener(v -> {
             Intent intent = new Intent(this, MainActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
@@ -66,30 +67,30 @@ public class AICheckActivity extends AppCompatActivity {
             finish();
         });
 
-        // 탭 클릭 이벤트 설정
         tabEye.setOnClickListener(v -> {
             selectTab(true);
             startEyeHistoryRealtimeListener();
         });
+
         tabSkin.setOnClickListener(v -> {
             selectTab(false);
             clearHistoryList();
-            removeEyeHistoryListener(); // 현재는 스킨 기능 미구현
+            removeEyeHistoryListener();
+            startSkinHistoryRealtimeListener();
         });
 
-        // 기본으로 안구 탭 선택
         selectTab(true);
         startEyeHistoryRealtimeListener();
 
-        // 검사 시작 버튼 클릭 시
         findViewById(R.id.eye_button).setOnClickListener(v -> {
             startActivity(new Intent(this, EyeCamActivity.class));
         });
+
+        findViewById(R.id.skin_button).setOnClickListener(v -> {
+            startActivity(new Intent(this, SkinCamActivity.class));
+        });
     }
 
-    /**
-     * 실시간 안구 분석 이력 리스너 시작
-     */
     private void startEyeHistoryRealtimeListener() {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if (user == null) return;
@@ -97,7 +98,7 @@ public class AICheckActivity extends AppCompatActivity {
         String petKey = CurrentPetManager.getInstance().getCurrentPetId();
         if (petKey == null) return;
 
-        removeEyeHistoryListener(); // 중복 리스너 방지
+        removeEyeHistoryListener();
 
         eyeHistoryRef = FirebaseDatabase.getInstance()
                 .getReference("Users").child(uid).child(petKey).child("eyeAnalysis");
@@ -105,20 +106,18 @@ public class AICheckActivity extends AppCompatActivity {
         eyeHistoryListener = new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
-                clearHistoryList(); // 기존 이력 제거
+                clearHistoryList();
                 LayoutInflater inflater = LayoutInflater.from(AICheckActivity.this);
 
-                // 각 기록 카드 생성
                 for (DataSnapshot record : snapshot.getChildren()) {
                     DataSnapshot predSnap = record.child("prediction");
                     if (!predSnap.exists()) continue;
 
                     float[] leftResult = new float[LABELS.length];
-                    float[] rightResult = new float[LABELS.length]; // 기본은 null (현재는 한쪽만 저장됨)
+                    float[] rightResult = new float[LABELS.length];
                     float sum = 0f;
                     int count = 0;
 
-                    // Firebase 예측 결과를 배열로 변환
                     for (int i = 0; i < LABELS.length; i++) {
                         Float value = predSnap.child(LABELS[i]).getValue(Float.class);
                         if (value != null) {
@@ -136,18 +135,20 @@ public class AICheckActivity extends AppCompatActivity {
 
                     EyeHistoryItem item = new EyeHistoryItem(date, avg, side, "");
 
-                    // 카드 레이아웃 구성
                     View card = inflater.inflate(R.layout.item_eye_history_card, historySection, false);
-                    ((TextView) card.findViewById(R.id.historyDate)).setText(item.dateTime);
-                    ((TextView) card.findViewById(R.id.historyTitle)).setText("종합 건강도");
-                    ((TextView) card.findViewById(R.id.historyScore)).setText(String.format("%.0f%%", item.score * 100));
+                    TextView dateView = card.findViewById(R.id.historyDate);
+                    TextView titleView = card.findViewById(R.id.historyTitle);
+                    TextView scoreView = card.findViewById(R.id.historyScore);
 
-                    // 카드 클릭 시 결과 화면으로 이동
+                    if (dateView != null) dateView.setText(item.dateTime);
+                    if (titleView != null) titleView.setText("종합 안구 건강도");
+                    if (scoreView != null) scoreView.setText(String.format("%.0f%%", item.score * 100));
+
                     card.setOnClickListener(view -> {
                         Intent intent = new Intent(AICheckActivity.this, EyeResultActivity.class);
                         intent.putExtra("summary_item", item);
                         intent.putExtra("left_result", leftResult);
-                        intent.putExtra("right_result", rightResult); // 현재는 null
+                        intent.putExtra("right_result", rightResult);
                         intent.putExtra("left_image_uri", leftUri);
                         intent.putExtra("right_image_uri", (String) null);
                         startActivity(intent);
@@ -164,9 +165,71 @@ public class AICheckActivity extends AppCompatActivity {
         eyeHistoryRef.addValueEventListener(eyeHistoryListener);
     }
 
-    /**
-     * 리스너 제거
-     */
+    private void startSkinHistoryRealtimeListener() {
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if (user == null) return;
+        String uid = user.getUid();
+        String petKey = CurrentPetManager.getInstance().getCurrentPetId();
+        if (petKey == null) return;
+
+        skinHistoryRef = FirebaseDatabase.getInstance()
+                .getReference("Users").child(uid).child(petKey).child("skinAnalysis");
+
+        skinHistoryListener = new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot snapshot) {
+                clearHistoryList();
+                LayoutInflater inflater = LayoutInflater.from(AICheckActivity.this);
+
+                for (DataSnapshot record : snapshot.getChildren()) {
+                    Map<String, Object> rawPrediction = (Map<String, Object>) record.child("prediction").getValue();
+                    if (rawPrediction == null) continue;
+
+                    Map<String, Integer> prediction = new HashMap<>();
+                    int sum = 0;
+                    int count = 0;
+                    for (Map.Entry<String, Object> entry : rawPrediction.entrySet()) {
+                        Object value = entry.getValue();
+                        int intVal = 0;
+                        if (value instanceof Long) intVal = ((Long) value).intValue();
+                        else if (value instanceof Integer) intVal = (Integer) value;
+                        prediction.put(entry.getKey(), intVal);
+                        sum += intVal;
+                        count++;
+                    }
+
+                    int avg = count > 0 ? sum / count : 0;
+
+                    String date = record.child("createdAt").getValue(String.class);
+                    if (date == null) date = getNow("yyyy.MM.dd(EE) HH:mm");
+
+                    View card = inflater.inflate(R.layout.item_skin_history_card, historySection, false);
+                    TextView dateView = card.findViewById(R.id.historyDate);
+                    TextView titleView = card.findViewById(R.id.historyTitle);
+                    TextView scoreView = card.findViewById(R.id.historyScore);
+
+                    if (dateView != null) dateView.setText(date);
+                    if (titleView != null) titleView.setText("종합 피부 건강도");
+                    if (scoreView != null) scoreView.setText(avg + "%");
+
+                    card.setOnClickListener(view -> {
+                        Intent intent = new Intent(AICheckActivity.this, SkinResultActivity.class);
+                        intent.putExtra("result_map", new HashMap<>(prediction));
+                        intent.putExtra("image_uri", record.child("imagePath").getValue(String.class));
+                        startActivity(intent);
+                    });
+
+                    historySection.addView(card);
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError error) {}
+        };
+
+        skinHistoryRef.addValueEventListener(skinHistoryListener);
+    }
+
     private void removeEyeHistoryListener() {
         if (eyeHistoryRef != null && eyeHistoryListener != null) {
             eyeHistoryRef.removeEventListener(eyeHistoryListener);
@@ -180,9 +243,6 @@ public class AICheckActivity extends AppCompatActivity {
         removeEyeHistoryListener();
     }
 
-    /**
-     * 탭 UI 상태 변경
-     */
     private void selectTab(boolean isEye) {
         tabEye.setTypeface(null, isEye ? Typeface.BOLD : Typeface.NORMAL);
         tabSkin.setTypeface(null, isEye ? Typeface.NORMAL : Typeface.BOLD);
@@ -192,18 +252,12 @@ public class AICheckActivity extends AppCompatActivity {
         tabSkin.setBackgroundResource(!isEye ? R.drawable.tab_selected_bg : R.drawable.tab_unselected_bg);
     }
 
-    /**
-     * 히스토리 카드 제거 (기본 UI 요소 제외)
-     */
     private void clearHistoryList() {
-        int base = 3; // 기본 UI 요소 이후부터 제거
+        int base = 3;
         while (historySection.getChildCount() > base)
             historySection.removeViewAt(base);
     }
 
-    /**
-     * 현재 시간 반환
-     */
     private String getNow(String format) {
         return new SimpleDateFormat(format, Locale.KOREAN).format(new Date());
     }

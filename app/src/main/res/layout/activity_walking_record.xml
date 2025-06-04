@@ -2,35 +2,37 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:padding="24dp"
     android:background="@android:color/white">
 
     <!-- 상단 바: 뒤로가기 + 제목 -->
-    <LinearLayout
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center_vertical">
+        android:layout_height="wrap_content">
 
+        <!-- 가운데 제목 -->
+        <TextView
+            android:id="@+id/titleText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="산책일지"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:paddingVertical="12dp" />
+
+        <!-- 왼쪽 뒤로가기 버튼 -->
         <ImageButton
             android:id="@+id/btn_back"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:background="?attr/selectableItemBackgroundBorderless"
+            android:layout_gravity="start|center_vertical"
+            android:background="@android:color/transparent"
             android:src="@drawable/ic_arrow_back"
             android:contentDescription="뒤로 가기" />
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="산책일지"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            android:gravity="center" />
-    </LinearLayout>
-
+    </FrameLayout>
     <!-- 산책 시간 -->
     <TextView
         android:layout_width="wrap_content"
@@ -63,7 +65,7 @@
         android:id="@+id/stepCountText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="221"
+        android:text="0"
         android:textSize="32sp"
         android:textStyle="bold"
         android:layout_marginTop="8dp"
@@ -84,7 +86,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="산책 종료 !"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="170dp"
         android:backgroundTint="#4DB6F5"
         android:textColor="#FFFFFF"
         android:textStyle="bold"

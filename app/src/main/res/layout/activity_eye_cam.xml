@@ -8,64 +8,75 @@
     android:background="#FFFFFF"
     tools:context=".aiCheck.eye.EyeCamActivity">
 
-    <!-- 🔙 뒤로 가기 버튼 -->
-    <ImageView
-        android:id="@+id/backButton"
-        android:layout_width="24dp"
-        android:layout_height="24dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="52dp"
-        android:src="@drawable/ic_arrow_back"
-        android:contentDescription="뒤로 가기"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <!-- 메인 타이틀 -->
-    <TextView
-        android:id="@+id/titleText"
-        android:layout_width="wrap_content"
+    <!-- 상단 내비게이션 -->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/layout_top_nav"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="AI 스마트 간편 검진"
-        android:textColor="#000000"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        android:layout_marginTop="44dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginHorizontal="20dp"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <ImageButton
+            android:id="@+id/backButton"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_margin="8dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:src="@drawable/ic_arrow_back"
+            android:contentDescription="뒤로 가기"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent" />
+
+
+        <TextView
+            android:id="@+id/titleText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="AI 스마트 간편 검진"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <!-- 부제목 -->
     <TextView
         android:id="@+id/cameraTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:gravity="center"
         android:text="안구 AI 카메라"
-        android:textSize="22sp"
+        android:textSize="28sp"
         android:textStyle="bold"
-        android:textColor="#000000"
-        android:layout_marginTop="24dp"
-        app:layout_constraintTop_toBottomOf="@id/titleText"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        app:layout_constraintTop_toBottomOf="@id/layout_top_nav" />
 
     <!-- 눈 토글 -->
     <LinearLayout
         android:id="@+id/eyeToggle"
         android:layout_width="wrap_content"
-        android:layout_height="56dp"
+        android:layout_height="60dp"
         android:background="@drawable/bg_toggle_container"
         android:orientation="horizontal"
-        android:padding="10dp"
+        android:paddingHorizontal="28dp"
         android:gravity="center"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="14dp"
         app:layout_constraintTop_toBottomOf="@id/cameraTitle"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
 
         <ImageView
             android:id="@+id/leftEyeIcon"
-            android:layout_width="32dp"
-            android:layout_height="32dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:src="@drawable/ic_eye_black"
             android:contentDescription="왼쪽 눈"
             android:clickable="true"
@@ -73,8 +84,8 @@
 
         <ImageView
             android:id="@+id/rightEyeIcon"
-            android:layout_width="32dp"
-            android:layout_height="32dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:layout_marginStart="20dp"
             android:src="@drawable/ic_eye_gray"
             android:contentDescription="오른쪽 눈"
@@ -82,106 +93,130 @@
             android:focusable="true"/>
     </LinearLayout>
 
-    <!-- 📷 프리뷰 영역 -->
+    <!-- 이미지 박스 -->
     <FrameLayout
         android:id="@+id/previewArea"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginTop="24dp"
-        android:layout_marginHorizontal="32dp"
-        android:background="@drawable/rounded_bg"
-        android:elevation="6dp"
-        app:layout_constraintTop_toBottomOf="@id/eyeToggle"
-        app:layout_constraintStart_toStartOf="parent"
+        android:layout_width="match_parent"
+        android:layout_marginTop="-30dp"
+        android:layout_height="wrap_content"
+        android:scaleType="fitCenter"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintDimensionRatio="1:1">
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/eyeToggle">
 
-        <!-- 빈 상태용 아이콘 -->
+        <!-- 배경 프레임 -->
         <ImageView
-            android:id="@+id/placeholderIcon"
-            android:layout_width="64dp"
-            android:layout_height="64dp"
-            android:layout_gravity="center"
-            android:src="@drawable/ic_star_gradient"
-            android:contentDescription="플레이스홀더 아이콘"/>
-
-        <ImageView
-            android:id="@+id/previewImage"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:scaleType="centerCrop"
-            android:contentDescription="미리보기 이미지"
-            android:visibility="invisible" />
+            android:adjustViewBounds="true"
+            android:scaleType="fitCenter"
+            android:paddingBottom="160dp"
+            android:src="@drawable/bg_ai_check_wave" />
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="30dp"
+            app:cardElevation="0dp"
+            android:layout_gravity="center"
+            app:cardPreventCornerOverlap="false"
+            app:cardUseCompatPadding="true">
+
+            <ImageView
+                android:id="@+id/placeholderIcon"
+                android:layout_width="363dp"
+                android:layout_height="400dp"
+                android:adjustViewBounds="true"
+                android:scaleType="fitCenter"
+                android:src="@drawable/img_shadow" />
+
+            <ImageView
+                android:id="@+id/previewImage"
+                android:layout_width="363dp"
+                android:layout_height="400dp"
+                android:scaleType="centerCrop"
+                android:contentDescription="미리보기 이미지"
+                android:visibility="invisible" />
+
+        </androidx.cardview.widget.CardView>
+
     </FrameLayout>
 
     <!-- 앨범 & 카메라 버튼 -->
     <LinearLayout
         android:id="@+id/cameraOptions"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
         android:gravity="center"
-        android:layout_marginTop="16dp"
-        app:layout_constraintTop_toBottomOf="@id/previewArea"
+        android:orientation="horizontal"
+        android:layout_marginTop="-60dp"
+        app:layout_constraintBottom_toTopOf="@+id/btnCheck"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
+        app:layout_constraintTop_toBottomOf="@id/previewArea">
 
         <LinearLayout
-            android:id="@+id/albumButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
+            android:layout_marginEnd="24dp"
             android:gravity="center"
-            android:layout_marginEnd="32dp">
+            android:orientation="vertical">
 
-            <ImageView
-                android:layout_width="56dp"
-                android:layout_height="56dp"
-                android:src="@drawable/ic_album"/>
+            <ImageButton
+                android:id="@+id/albumButton"
+                android:layout_width="84dp"
+                android:layout_height="64dp"
+                android:background="@drawable/btn_round_background"
+                android:contentDescription="앨범 버튼"
+                android:padding="14dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/ic_album" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="앨범"
-                android:textColor="#000000"
-                android:textSize="14sp"/>
+                android:textSize="20sp" />
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/cameraButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:gravity="center">
+            android:layout_marginStart="24dp"
+            android:gravity="center"
+            android:orientation="vertical">
 
-            <ImageView
-                android:layout_width="56dp"
-                android:layout_height="56dp"
-                android:src="@drawable/ic_camera"/>
+            <ImageButton
+                android:id="@+id/cameraButton"
+                android:layout_width="84dp"
+                android:layout_height="64dp"
+                android:background="@drawable/btn_round_background"
+                android:contentDescription="카메라 버튼"
+                android:padding="12dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/ic_camera" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="카메라"
-                android:textColor="#000000"
-                android:textSize="14sp"/>
+                android:textSize="20sp" />
         </LinearLayout>
     </LinearLayout>
 
-    <!-- 검진하기 버튼 -->
     <Button
         android:id="@+id/btnCheck"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_margin="16dp"
-        android:background="@drawable/btn_check_enabled"
+        android:layout_width="match_parent"
+        android:layout_height="74dp"
         android:text="검진하기"
-        android:textColor="@color/btn_check_text"
-        android:textStyle="bold"
-        android:textSize="16sp"
-        android:enabled="false"
-        app:layout_constraintTop_toBottomOf="@id/cameraOptions"
+        android:textSize="20dp"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginBottom="36dp"
+        android:textColor="@color/btn_next_text_selector"
+        android:background="@drawable/btn_next"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        android:enabled="true" />
 </androidx.constraintlayout.widget.ConstraintLayout>

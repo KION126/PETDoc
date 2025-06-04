@@ -10,6 +10,7 @@ import android.os.Looper;
 import android.util.Log;
 import android.widget.TextView;
 
+import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -19,9 +20,10 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.petdoc.R;
-import com.petdoc.aiCheck.utils.ImageUtils;
 import com.petdoc.genetic.model.BreedDiseasePredictor;
+import com.petdoc.genetic.model.ImageUtils;
 import com.petdoc.login.CurrentPetManager;
+import com.petdoc.main.BaseActivity;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -29,7 +31,7 @@ import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
-public class GeneticLoadingActivity extends AppCompatActivity {
+public class GeneticLoadingActivity extends BaseActivity {
 
     private BreedDiseasePredictor breedDiseasePredictor;
     private TextView tvProcessing;
@@ -41,6 +43,7 @@ public class GeneticLoadingActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        EdgeToEdge.enable(this);
         setContentView(R.layout.activity_loading_genetic);
 
         // 뷰 연결
@@ -59,7 +62,7 @@ public class GeneticLoadingActivity extends AppCompatActivity {
 
         // 견종 예측 모델 정의
         try {
-            breedDiseasePredictor = new BreedDiseasePredictor(getAssets(), "breed-010-0.3489.tflite", 18);
+            breedDiseasePredictor = new BreedDiseasePredictor(getAssets(), "breed-010-0.8489.tflite", 18);
         } catch (IOException e) {
             Log.e("GeneticLoadingActivity", "모델 초기화 실패", e);
             return;
@@ -119,9 +122,16 @@ public class GeneticLoadingActivity extends AppCompatActivity {
 
         Map<String, Object> breedMap = new LinkedHashMap<>();
 
+        float sum = 0f;
+        for (int idx : topIndices) {
+            sum += result[idx];
+        }
+
+        // 예측도 정규화
         for (int idx : topIndices) {
             String breedName = breedLabels[idx];
-            int score = Math.round(result[idx] * 100);
+            float normalized = (result[idx] / sum) * 100f;
+            int score = Math.round(normalized);
             breedMap.put(breedName, score);
         }
 
@@ -147,7 +157,10 @@ public class GeneticLoadingActivity extends AppCompatActivity {
             Log.e("GeneticLoadingActivity", "현재의 반려견 ID 없음");
         }
 
-        String timestamp = new SimpleDateFormat("yyyyMMddHHmmss", Locale.getDefault()).format(new Date());
+        String timestamp;
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss", Locale.getDefault());
+        sdf.setTimeZone(TimeZone.getTimeZone("Asia/Seoul"));
+        timestamp = sdf.format(new Date());
 
         String imagePath = "ai_genetic_images/" + uid + "/" + currentPetId + "/" + timestamp + ".jpg";
         StorageReference storageRef = FirebaseStorage.getInstance().getReference(imagePath);
