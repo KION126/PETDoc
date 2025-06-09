@@ -52,8 +52,9 @@ dependencies {
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
 
-    // 캘린더 라이브러리
-    implementation ("com.kizitonwose.calendar:view:2.0.3")
+    // GIF파일 리더
+    implementation("com.github.bumptech.glide:glide:4.16.0")
+    annotationProcessor("com.github.bumptech.glide:compiler:4.16.0")
 
     // Google 로그인용 Play 서비스
     implementation("com.google.android.gms:play-services-auth:21.3.0")

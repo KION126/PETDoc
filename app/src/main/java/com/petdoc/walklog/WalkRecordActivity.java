@@ -10,12 +10,14 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.bumptech.glide.Glide;
 import com.petdoc.main.BaseActivity;
 import com.petdoc.walklog.WalkLogRepository;
 import com.petdoc.R;
@@ -30,6 +32,7 @@ public class WalkRecordActivity extends BaseActivity {
     private Sensor stepSensor;
     private int totalSteps = 0;
     private boolean isWalking = false;
+    private ImageView gifView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +43,7 @@ public class WalkRecordActivity extends BaseActivity {
         String dogId = getIntent().getStringExtra("dogId");
         WalkLogRepository walkLogRepo = new WalkLogRepository(this, dogId);
 
+        gifView = findViewById(R.id.walkingImage);
         endWalkBtn = findViewById(R.id.endWalkBtn);
         timeText = findViewById(R.id.walkTimeText);
         stepCountText = findViewById(R.id.stepCountText);
@@ -94,6 +98,8 @@ public class WalkRecordActivity extends BaseActivity {
                 }
             });
         });
+
+        Glide.with(this).asGif().load(R.drawable.gifwalk).into(gifView);
 
         //뒤로가기
         btnBack.setOnClickListener(v -> finish());
