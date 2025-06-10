@@ -1,8 +1,12 @@
 package com.petdoc.aiCheck.eye;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.view.View;
@@ -14,6 +18,8 @@ import android.widget.Toast;
 import androidx.activity.EdgeToEdge;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
 
 import com.petdoc.R;
@@ -23,6 +29,7 @@ import com.petdoc.main.BaseActivity;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 
 public class EyeCamActivity extends BaseActivity {
 
@@ -92,8 +99,10 @@ public class EyeCamActivity extends BaseActivity {
         });
 
         albumButton.setOnClickListener(v -> {
-            Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-            galleryLauncher.launch(intent);
+            if (checkStoragePermission()) {
+                Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                galleryLauncher.launch(intent);
+            }
         });
 
         cameraButton.setOnClickListener(v -> {
@@ -120,14 +129,42 @@ public class EyeCamActivity extends BaseActivity {
         updateCheckButtonState();
     }
 
-    private void onImageSelected(Uri uri) {
-        if (isLeftSelected) {
-            leftEyeUri = uri;
+    private boolean checkStoragePermission() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_MEDIA_IMAGES)
+                    != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(this,
+                        new String[]{Manifest.permission.READ_MEDIA_IMAGES}, 101);
+                return false;
+            }
         } else {
-            rightEyeUri = uri;
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE)
+                    != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(this,
+                        new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 102);
+                return false;
+            }
         }
-        updatePreview();
-        updateCheckButtonState();
+        return true;
+    }
+
+    private void onImageSelected(Uri uri) {
+        try (InputStream inputStream = getContentResolver().openInputStream(uri)) {
+            Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
+            previewImage.setImageBitmap(bitmap);
+            previewImage.setVisibility(View.VISIBLE);
+            placeholderIcon.setVisibility(View.GONE);
+
+            if (isLeftSelected) {
+                leftEyeUri = uri;
+            } else {
+                rightEyeUri = uri;
+            }
+            updateCheckButtonState();
+        } catch (IOException e) {
+            e.printStackTrace();
+            Toast.makeText(this, "선택한 파일을 가져오는데 실패했습니다.", Toast.LENGTH_SHORT).show();
+        }
     }
 
     private void updatePreview() {
