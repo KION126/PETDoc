@@ -1,0 +1,31 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="72dp"
+    android:height="72dp"
+    android:viewportWidth="72"
+    android:viewportHeight="72">
+
+    <!-- 피부 표면 (파형 선) -->
+    <path
+        android:strokeColor="#000000"
+        android:strokeWidth="2"
+        android:pathData="M10,24c4,0 4,-4 8,-4s4,4 8,4s4,-4 8,-4s4,4 8,4s4,-4 8,-4s4,4 8,4" />
+
+    <!-- 중앙 모낭 (방울 형태) -->
+    <path
+        android:strokeColor="#000000"
+        android:strokeWidth="2.5"
+        android:pathData="M36,24c0,0 0,12 -6,16s-6,8 -6,8" />
+
+    <!-- 피부층 하단 직선 -->
+    <path
+        android:strokeColor="#000000"
+        android:strokeWidth="2"
+        android:pathData="M8,56h56" />
+
+    <!-- 모공 주변 점들 (피부 질감 표현용) -->
+    <path android:fillColor="#000000" android:pathData="M14,42a2,2 0 1,0 4,0a2,2 0 1,0 -4,0" />
+    <path android:fillColor="#000000" android:pathData="M24,50a2,2 0 1,0 4,0a2,2 0 1,0 -4,0" />
+    <path android:fillColor="#000000" android:pathData="M34,45a2,2 0 1,0 4,0a2,2 0 1,0 -4,0" />
+    <path android:fillColor="#000000" android:pathData="M44,50a2,2 0 1,0 4,0a2,2 0 1,0 -4,0" />
+    <path android:fillColor="#000000" android:pathData="M52,42a2,2 0 1,0 4,0a2,2 0 1,0 -4,0" />
+</vector>

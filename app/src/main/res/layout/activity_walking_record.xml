@@ -78,7 +78,7 @@
         android:layout_height="200dp"
         android:layout_marginTop="40dp"
         android:layout_gravity="center"
-        android:src="@drawable/dog_walking_1" />
+        android:src="@drawable/gifwalk" />
 
     <!-- 산책 종료 버튼 -->
     <Button

@@ -9,8 +9,6 @@
     tools:context=".aiCheck.eye.EyeResultActivity"
     android:padding="20dp" >
 
-    <!-- 상단 바 -->
-    <!-- 상단 내비게이션 -->
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/layout_top_nav"
         android:layout_width="match_parent"
@@ -45,7 +43,6 @@
             app:layout_constraintEnd_toEndOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <!-- 설명 텍스트 -->
     <TextView
         android:id="@+id/main_title"
         android:layout_width="wrap_content"
@@ -60,7 +57,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
-    <!-- 날짜 텍스트 -->
     <TextView
         android:id="@+id/result_date"
         android:layout_width="wrap_content"
@@ -73,10 +69,9 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
-    <!-- 종합 건강도 카드 -->
     <include
-        android:id="@+id/summary_block_wrapper"
-        layout="@layout/item_eye_result_summary_card"
+        android:id="@+id/highest_disease_card"
+        layout="@layout/item_eye_result_card"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
@@ -85,7 +80,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
 
-    <!-- 범례 -->
     <LinearLayout
         android:id="@+id/layout_score_hint"
         android:layout_width="match_parent"
@@ -98,8 +92,7 @@
         android:paddingVertical="10dp"
         android:layout_marginTop="16dp"
         android:elevation="4dp"
-        app:layout_constraintTop_toBottomOf="@id/summary_block_wrapper"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/highest_disease_card" app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
 
         <TextView
